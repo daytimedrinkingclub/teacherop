@@ -19,8 +19,9 @@ const inertiaConfig = defineConfig({
    */
   ssr: {
     enabled: true,
-    entrypoint: 'inertia/app/ssr.tsx'
-  }
+    entrypoint: 'inertia/app/ssr.tsx',
+    pages: ['home', 'auth/*'],
+  },
 })
 
 export default inertiaConfig

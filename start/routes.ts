@@ -12,6 +12,8 @@ import { middleware } from './kernel.js'
 
 const authController = () => import('#controllers/auth_controller')
 
+const dashboardController = () => import('#controllers/dashboard_controller')
+
 router.on('/').renderInertia('home', { version: 6 })
 
 router
@@ -23,3 +25,5 @@ router
   })
   .use([middleware.guest()])
 router.post('/auth/logout', [authController, 'logout']).use([middleware.auth()])
+
+router.get('/dashboard', [dashboardController, 'index']).use([middleware.auth()])
