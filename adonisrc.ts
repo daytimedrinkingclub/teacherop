@@ -46,6 +46,7 @@ export default defineConfig({
     () => import('@adonisjs/redis/redis_provider'),
     () => import('@adonisjs/transmit/transmit_provider'),
     () => import('./providers/ai_provider.js'),
+    () => import('rabbitmq-adonis-v6/rabbitmq_provider'),
   ],
 
   /*
@@ -56,7 +57,14 @@ export default defineConfig({
   | List of modules to import before starting the application.
   |
   */
-  preloads: [() => import('#start/routes'), () => import('#start/kernel')],
+  preloads: [
+    () => import('#start/routes'),
+    () => import('#start/kernel'),
+    {
+      file: () => import('#start/rabbit'),
+      environment: ['web'],
+    },
+  ],
 
   /*
   |--------------------------------------------------------------------------
