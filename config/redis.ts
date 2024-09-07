@@ -25,6 +25,7 @@ const redisConfig = defineConfig({
       retryStrategy(times) {
         return times > 10 ? null : times * 50
       },
+      username: env.get('REDIS_USERNAME'),
     },
   },
 })

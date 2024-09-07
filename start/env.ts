@@ -43,4 +43,6 @@ export default await Env.create(new URL('../', import.meta.url), {
   ANTHROPIC_API_KEY: Env.schema.string(),
 
   LLM_MODEL: Env.schema.string.optional(),
+
+  REDIS_USERNAME: Env.schema.string()
 })
