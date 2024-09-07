@@ -26,11 +26,6 @@ const redisConfig = defineConfig({
       retryStrategy(times) {
         return times > 10 ? null : times * 50
       },
-
-      // only when prod
-      // ...tls,
-      // sock
-      tls: { requestCert: false },
     },
   },
 })
