@@ -1,7 +1,7 @@
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { Link } from '@inertiajs/react'
-import AuthForm from '~/lib/components/aut_form'
+import AuthForm from '~/lib/components/auth_form'
 
 export default function SignupPage() {
   return (

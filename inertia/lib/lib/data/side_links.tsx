@@ -13,6 +13,12 @@ export interface SideLink extends NavLink {
 
 export const sideLinks: SideLink[] = [
   {
+    title: 'Courses',
+    label: '',
+    href: '/courses',
+    icon: <Icons.library size={18} />,
+  },
+  {
     title: 'Dashboard',
     label: '',
     href: '/dashboard',
