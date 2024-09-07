@@ -15,6 +15,10 @@ async function listen() {
   })
 }
 
-listen().catch((_e) => {
-  console.log('Cannot connect to Rabbitmq')
-})
+listen()
+  .then(() => {
+    console.log('Connected to Rabbitmq')
+  })
+  .catch((_e) => {
+    console.log('Cannot connect to Rabbitmq')
+  })
