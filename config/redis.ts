@@ -2,6 +2,8 @@ import env from '#start/env'
 import { defineConfig } from '@adonisjs/redis'
 import { InferConnections } from '@adonisjs/redis/types'
 
+const tls = env.get('NODE_ENV') === 'production' ? { tls: {} } : {}
+
 const redisConfig = defineConfig({
   connection: 'main',
 
@@ -19,13 +21,16 @@ const redisConfig = defineConfig({
     main: {
       host: env.get('REDIS_HOST'),
       port: env.get('REDIS_PORT'),
+      username: env.get('REDIS_USERNAME'),
       password: env.get('REDIS_PASSWORD', ''),
       db: 0,
       keyPrefix: '',
       retryStrategy(times) {
         return times > 10 ? null : times * 50
       },
-      username: env.get('REDIS_USERNAME'),
+
+      // only when prod
+      ...tls,
     },
   },
 })
