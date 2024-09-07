@@ -22,7 +22,7 @@ export default class AuthenticationController {
 
     await auth.use('web').login(user)
 
-    return response.redirect('/dashboard')
+    return response.redirect('/courses/create')
   }
 
   async showLogin({ inertia }: HttpContext) {
@@ -36,7 +36,7 @@ export default class AuthenticationController {
       const user = await User.verifyCredentials(email, password)
       await auth.use('web').login(user)
 
-      return response.redirect().toPath('/dashboard')
+      return response.redirect().toPath('/courses/create')
     } catch {
       session.flash('errors.auth', 'Invalid credentials')
       return response.redirect().toPath('/login')
