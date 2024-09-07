@@ -1,5 +1,5 @@
-import OnboardCourseJob from '#jobs/onboard_course'
 import type { HttpContext } from '@adonisjs/core/http'
+import { Rabbit } from 'rabbitmq-adonis-v6'
 
 export default class QuestionsController {
   // public async store({ request, response }: HttpContext) {
@@ -23,7 +23,8 @@ export default class QuestionsController {
     question.answer = answer
     await question.save()
 
-    await OnboardCourseJob.enqueue({ id: question.courseId })
+    // await OnboardCourseJob.enqueue({ id: question.courseId })
+    await Rabbit.sendToQueue('onboard_course', question.courseId)
 
     return response.json({ question })
   }

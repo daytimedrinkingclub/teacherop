@@ -8,6 +8,7 @@
 */
 
 import router from '@adonisjs/core/services/router'
+import { Rabbit } from 'rabbitmq-adonis-v6'
 import { middleware } from './kernel.js'
 
 const authController = () => import('#controllers/auth_controller')
@@ -36,3 +37,10 @@ router.get('/courses/:id', [courseController, 'show']).use([middleware.auth()])
 // router.post('/questions', [questionController, 'store']).use([middleware.auth()])
 router.get('/questions/current', [questionController, 'current']).use([middleware.auth()])
 router.put('/questions/:id', [questionController, 'update']).use([middleware.auth()])
+
+router.get('/rabbit', async (ctx) => {
+  console.log('rabbit')
+  await Rabbit.assertQueue('my_queue')
+  await Rabbit.sendToQueue('my_queue', 'Hello World')
+  return ctx.response.send('rabbit')
+})
