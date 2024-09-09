@@ -13,7 +13,7 @@ export default defineConfig({
   commands: [
     () => import('@adonisjs/core/commands'),
     () => import('@adonisjs/lucid/commands'),
-    // () => import('adonis-resque/commands'),
+    () => import('adonis-resque/commands'),
   ],
 
   /*
@@ -42,11 +42,10 @@ export default defineConfig({
     () => import('@adonisjs/lucid/database_provider'),
     () => import('@adonisjs/auth/auth_provider'),
     () => import('@adonisjs/inertia/inertia_provider'),
-    // () => import('adonis-resque/providers/resque_provider'),
-    // () => import('@adonisjs/redis/redis_provider'),
+    () => import('adonis-resque/providers/resque_provider'),
+    () => import('@adonisjs/redis/redis_provider'),
     () => import('@adonisjs/transmit/transmit_provider'),
     () => import('./providers/ai_provider.js'),
-    () => import('rabbitmq-adonis-v6/rabbitmq_provider'),
   ],
 
   /*
@@ -57,14 +56,7 @@ export default defineConfig({
   | List of modules to import before starting the application.
   |
   */
-  preloads: [
-    () => import('#start/routes'),
-    () => import('#start/kernel'),
-    {
-      file: () => import('#start/rabbit'),
-      environment: ['web'],
-    },
-  ],
+  preloads: [() => import('#start/routes'), () => import('#start/kernel')],
 
   /*
   |--------------------------------------------------------------------------

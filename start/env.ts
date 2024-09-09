@@ -44,16 +44,4 @@ export default await Env.create(new URL('../', import.meta.url), {
   ANTHROPIC_API_KEY: Env.schema.string(),
 
   LLM_MODEL: Env.schema.string.optional(),
-
-  /*
-  |----------------------------------------------------------
-  | Variables for Rabbitmq
-  |----------------------------------------------------------
-  */
-  RABBITMQ_HOSTNAME: Env.schema.string(),
-  RABBITMQ_USER: Env.schema.string(),
-  RABBITMQ_PASSWORD: Env.schema.string(),
-  RABBITMQ_PORT: Env.schema.number(),
-  RABBITMQ_PROTOCOL: Env.schema.string(),
-  RABBITMQ_HEARTBEAT: Env.schema.number.optional()
 })

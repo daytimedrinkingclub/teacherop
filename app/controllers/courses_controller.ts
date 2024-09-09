@@ -1,5 +1,5 @@
+import OnboardCourseJob from '#jobs/onboard_course'
 import type { HttpContext } from '@adonisjs/core/http'
-import { Rabbit } from 'rabbitmq-adonis-v6'
 
 export default class CoursesController {
   async index({ inertia, auth }: HttpContext) {
@@ -30,7 +30,7 @@ export default class CoursesController {
 
     const course = await user.related('courses').create({ query })
 
-    await Rabbit.sendToQueue('onboard_course', course.id)
+    await OnboardCourseJob.enqueue({ id: course.id })
 
     return response.created({ course })
   }

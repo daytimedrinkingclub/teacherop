@@ -12,8 +12,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
-    "jobs": "node app/jobs/job.js",
-    "jobs:dev": "ts-node app/jobs/job"
+    "jobs": "node ace resque:start"
   },
   "imports": {
     "#controllers/*": "./app/controllers/*.js",
