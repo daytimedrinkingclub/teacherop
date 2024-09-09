@@ -10,7 +10,7 @@ services:
       - HOST=0.0.0.0
       - REDIS_HOST=redis
       - REDIS_POST=6379
-    command: 'node bin/server.js'
+    command: 'node ace migration:run --force && node bin/server.js'
     volumes:
       - server_data:/app\
     ports:
