@@ -3,7 +3,7 @@ import Anthropic from '@anthropic-ai/sdk'
 export const onboardingPlanSummaryTools: Anthropic.Messages.Tool[] = [
   {
     name: 'get_onboarding_course_questions',
-    description: `Get the user data from the user, this includes the topics they want to learn, the duration they have, and the current skill level of the user. Today is ${new Date().toString()}`,
+    description: `Get the user data from the user, this includes the topics they want to learn, the duration they have, and the current skill level of the user. Today is ${new Date().toString()}. Please respect the user's input language and always use the language the use uses it can be English, Hindi, Spanish etc. or a mix of languages link Hinglish which is a mix of Hindi and English.`,
     input_schema: {
       type: 'object',
       properties: {
@@ -71,7 +71,7 @@ export const onboardingPlanSummaryTools: Anthropic.Messages.Tool[] = [
     },
   },
   {
-    name: 'generate_plan_summary',
+    name: "generate_plan_summary. Please respect the user's input language and always use the language the use uses it can be English, Hindi, Spanish etc. or a mix of languages link Hinglish which is a mix of Hindi and English.",
     description:
       'Generate a plan summary for the user to understand what they are learning and what they are aiming to achieve, with the things you think are important the topic names etc',
     input_schema: {
@@ -106,7 +106,8 @@ export const onboardingPlanSummaryTools: Anthropic.Messages.Tool[] = [
 export const checkpointTools: Anthropic.Messages.Tool[] = [
   {
     name: 'generate_course_checkpoint',
-    description: 'Generate a checkpoint for the user to complete',
+    description:
+      "Generate a checkpoint for the user to complete. Please respect the user's input language and always use the language the use uses it can be English, Hindi, Spanish etc. or a mix of languages link Hinglish which is a mix of Hindi and English.",
     input_schema: {
       type: 'object',
       properties: {
