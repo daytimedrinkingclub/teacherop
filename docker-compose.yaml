@@ -8,6 +8,8 @@ services:
       - NODE_ENV=production
       - PORT=3333
       - HOST=0.0.0.0
+      - REDIS_HOST=redis
+      - REDIS_POST=6379
     command: 'node bin/server.js'
     volumes:
       - server_data:/app\
