@@ -1,0 +1,70 @@
+services:
+  server:
+    container_name: teacherop-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - PORT=3333
+      - HOST=0.0.0.0
+    command: 'node bin/server.js'
+    volumes:
+      - server_data:/app\
+    ports:
+      - '3333:3333'
+    restart: on-failure
+    networks:
+      - teacherop-network
+    depends_on:
+      - redis
+
+  jobs:
+    container_name: teacherop-jobs
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: npm run jobs
+    volumes:
+      - jobs_data:/app
+    depends_on:
+      - redis
+
+  redis:
+    container_name: teacherop-redis
+    image: redis:latest
+    ports:
+      - '6969:6379'
+    volumes:
+      - redis_data:/data
+    networks:
+      - teacherop-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  resque-web:
+    image: appwrite/resque-web
+    container_name: teacherop-resque-web-prod
+    ports:
+      - '9696:5678'
+    environment:
+      - RESQUE_WEB_HOST=redis
+      - RESQUE_WEB_PORT=6379
+    depends_on:
+      - redis
+    networks:
+      - teacherop-network
+    restart: unless-stopped
+
+volumes:
+  server_data:
+  jobs_data:
+  redis_data:
+
+networks:
+  teacherop-network:
+    driver: bridge
