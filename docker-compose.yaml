@@ -24,7 +24,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: npm run jobs
+    command: 'node ace resque:start'
     volumes:
       - jobs_data:/app
     depends_on:
