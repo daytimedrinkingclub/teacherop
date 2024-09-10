@@ -110,20 +110,23 @@ export default class OnboardCourseJob extends BaseJob {
           const {
             plan_overview: planOverview,
             learning_goal: learningGoal,
-            module_name: moduleName,
-            sub_module_name: subModuleName,
+            module_names: moduleNames,
+            submodule_name: submoduleNames,
           } = toolInput as unknown as {
             plan_overview: string
             learning_goal: string
-            module_name: string
-            sub_module_name: string
+            module_names: string[]
+            submodule_name: string[]
           }
+
+          console.log('modules', moduleNames)
+          console.log('submodules', submoduleNames)
 
           const planSummary = await course.related('planSummaries').create({
             planOverview,
             learningGoal,
-            modules: moduleName,
-            subModules: subModuleName,
+            modules: JSON.stringify(moduleNames),
+            subModules: JSON.stringify(submoduleNames),
             aiResponse: response,
             userId: course.userId,
             courseId: course.id,

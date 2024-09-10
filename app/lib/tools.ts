@@ -85,55 +85,77 @@ export const onboardingPlanSummaryTools: Anthropic.Messages.Tool[] = [
         learning_goal: {
           type: 'string',
           description:
-            'Details on why the user wants to learn a particular topic, as this impacts the course plan python for school kids and python for a senior developer interview are different for example',
+            'Details on why the user wants to learn a particular topic, as this impacts the course plan - python for school kids and python for a senior developer interview are different for example',
         },
-        module_name: {
-          type: 'string',
-          description:
-            'All the modules that the user will be learning, this is a list of all the modules that the user will be learning for example module/chapter 1, module/chapter 2, module/chapter 3 etc and they can/may have sub modules',
+        module_names: {
+          type: 'array',
+          items: {
+            type: 'string',
+            description:
+              'All the modules that the user will be learning, this is a list of all the modules that the user will be learning for example module/chapter/title 1, module/chapter/title 2, module/chapter/title 3 etc.',
+          },
         },
-        sub_module_name: {
-          type: 'string',
-          description:
-            'The sub modules that the user will be learning, this is a list of all the sub modules that the user will be learning for example sub module 1, sub module 2, sub module 3 etc',
+        submodule_name: {
+          type: 'array',
+          items: {
+            type: 'string',
+            description:
+              'one or more submodules that the user will be learning under a module.This is a list of all the submodules of modules for example 1.1 - title, 1.2 - title, ....',
+          },
         },
       },
-      required: ['plan_overview', 'learning_goal', 'module_name', 'sub_module_name'],
+      required: ['plan_overview', 'learning_goal', 'module_name', 'submodule_name'],
     },
   },
 ]
 
-export const checkpointTools: Anthropic.Messages.Tool[] = [
+export const createModuleTool: Anthropic.Messages.Tool[] = [
   {
-    name: 'generate_course_checkpoint',
+    name: 'generate_course_module',
     description:
-      "Generate a checkpoint for the user to complete. Please respect the user's input language and always use the language the user uses it can be English, Hindi, Spanish etc. or a mix of languages link Hinglish which is a mix of Hindi and English.",
+      "Generate a module for the user to complete. Respect the user's input language (English, Hindi, Spanish, etc.) or mixed languages like Hinglish.",
     input_schema: {
       type: 'object',
       properties: {
-        type: {
-          type: 'string',
-          description: 'The type of the checkpoint, possible values are: [module, submodule]',
-        },
         title: {
           type: 'string',
-          description: 'The title of the checkpoint',
+          description: 'The title of the module',
         },
         description: {
           type: 'string',
-          description: 'The description of the checkpoint',
+          description: 'A brief description of the module',
         },
         content: {
           type: 'string',
-          description: 'The content of the checkpoint',
-        },
-        parent_id: {
-          type: 'string',
-          description:
-            'The parent id of the checkpoint, this is the id of the checkpoint that the current checkpoint is a child of, only pass this if the type is submodule',
+          description: 'The detailed content of the module',
         },
       },
-      required: ['type', 'title', 'description', 'content'],
+      required: ['title', 'description', 'content'],
+    },
+  },
+]
+export const createSubmoduleTool: Anthropic.Messages.Tool[] = [
+  {
+    name: 'generate_course_submodule',
+    description:
+      "Generate submodules for an existing module in the course. Respect the user's input language (English, Hindi, Spanish, etc.) or mixed languages like Hinglish.",
+    input_schema: {
+      type: 'object',
+      properties: {
+        title: {
+          type: 'string',
+          description: 'The title of the submodule',
+        },
+        description: {
+          type: 'string',
+          description: 'A brief description of the submodule',
+        },
+        content: {
+          type: 'string',
+          description: 'The detailed content of the submodule',
+        },
+      },
+      required: ['title', 'description', 'content'],
     },
   },
 ]

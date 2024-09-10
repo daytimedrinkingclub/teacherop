@@ -8,13 +8,25 @@
 */
 
 import router from '@adonisjs/core/services/router'
+
+import env from './env.js'
 import { middleware } from './kernel.js'
+
+const healthChecksController = () => import('#controllers/health_checks_controller')
 
 const authController = () => import('#controllers/auth_controller')
 const courseController = () => import('#controllers/courses_controller')
 const dashboardController = () => import('#controllers/dashboard_controller')
 const questionController = () => import('#controllers/questions_controller')
-router.on('/').renderInertia('home', { version: 6 })
+router.on('/').renderInertia('home')
+
+router.get('/health', [healthChecksController]).use(({ request, response }, next) => {
+  if (env.get('NODE_ENV') === 'development') return next()
+
+  if (request.header('x-monitoring-secret') === env.get('APP_KEY')) return next()
+
+  response.unauthorized({ message: 'Unauthorized access' })
+})
 
 router
   .group(() => {
