@@ -60,7 +60,7 @@ export default function CoursesCreatePage({}: InferPageProps<CoursesController, 
   return (
     <AppLayout>
       <Layout.Header>
-        <div className="flex items-end justify-end w-full">
+        <div className="flex justify-end items-end w-full">
           {/* <Search /> */}
           <div className="flex items-end space-x-4">
             {/* <ThemeSwitch /> */}
@@ -69,8 +69,8 @@ export default function CoursesCreatePage({}: InferPageProps<CoursesController, 
         </div>
       </Layout.Header>
       <Layout.Body>
-        <main className="flex flex-col items-center justify-center flex-1">
-          <div className="container flex flex-col items-center justify-center h-full px-4 mx-auto sm:px-6 lg:px-8">
+        <main className="flex flex-col flex-1 justify-center items-center">
+          <div className="container flex flex-col justify-center items-center px-4 mx-auto h-full sm:px-6 lg:px-8">
             <h1 className="mb-8 text-3xl font-bold text-center sm:text-4xl lg:text-5xl text-primary">
               TeacherOP
             </h1>
@@ -79,7 +79,7 @@ export default function CoursesCreatePage({}: InferPageProps<CoursesController, 
                 <div className="relative">
                   <input
                     type="text"
-                    className="w-full px-4 py-3 pr-12 text-lg transition duration-300 ease-in-out border border-gray-300 rounded-md sm:py-4 focus:outline-none focus:ring-2 focus:ring-accent sm:text-xl"
+                    className="px-4 py-3 pr-12 w-full text-lg rounded-md border border-gray-300 transition duration-300 ease-in-out sm:py-4 focus:outline-none focus:ring-2 focus:ring-accent sm:text-xl"
                     placeholder={displayText}
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
