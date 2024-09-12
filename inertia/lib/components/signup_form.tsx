@@ -104,7 +104,7 @@ export default function SignUpAuthForm({ className, ...props }: SignUpAuthFormPr
             <Label htmlFor="gender">Gender</Label>
             <Select
               value={form.data.gender}
-              onValueChange={(value) => form.setData('gender', value as Gender)}
+              onValueChange={(value: Gender) => form.setData('gender', value as Gender)}
             >
               <SelectTrigger id="gender">
                 <SelectValue placeholder="Select gender" />
@@ -121,7 +121,7 @@ export default function SignUpAuthForm({ className, ...props }: SignUpAuthFormPr
             <Label htmlFor="qualification">Qualification</Label>
             <Select
               value={form.data.qualification}
-              onValueChange={(value) => form.setData('qualification', value as Qualification)}
+              onValueChange={(value: Qualification) => form.setData('qualification', value as Qualification)}
             >
               <SelectTrigger id="qualification">
                 <SelectValue placeholder="Select qualification" />
