@@ -17,9 +17,9 @@ export default class extends BaseSchema {
       table.string('title').notNullable()
       table.text('description').notNullable()
       table.text('content').notNullable()
-
       table.boolean('is_completed').defaultTo(false)
-      table.boolean('is_locked').defaultTo(false)
+      table.bigint('estimated_duration').nullable()
+      table.bigint('elapsed_duration').notNullable().defaultTo(0)
       table.json('ai_response').notNullable()
       table.uuid('user_id').references('users.id').notNullable().onDelete('cascade')
       table.uuid('parent_id').references('checkpoints.id').onDelete('cascade')

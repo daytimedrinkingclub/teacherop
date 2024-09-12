@@ -34,6 +34,9 @@ export default class Course extends BaseModel {
   declare isOnboardingComplete: boolean
 
   @column()
+  declare isStudying: boolean
+
+  @column()
   declare meta: Record<string, any> | null
 
   @column()

@@ -116,6 +116,7 @@ export default class CheckPointJob extends BaseJob {
               description: toolInput.description,
               content: toolInput.content,
               userId: planSummary.userId,
+              estimatedDuration: null,
               aiResponse,
               courseId: planSummary.courseId,
             })

@@ -33,6 +33,13 @@ export default class Checkpoint extends BaseModel {
 
   @column()
   declare aiResponse: Record<string, any>
+
+  @column()
+  declare estimatedDuration: BigInt | null
+
+  @column()
+  declare elapsedDuration: BigInt
+
   @column()
   declare userId: string
 

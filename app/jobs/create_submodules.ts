@@ -105,6 +105,7 @@ export default class CreateSubmodulesJob extends BaseJob {
           title: string
           description: string
           content: string
+          estimated_duration: BigInt
         }
         const aiResponse = { ...response, content: [...toolsText, tool] }
 
@@ -115,6 +116,7 @@ export default class CreateSubmodulesJob extends BaseJob {
             description: toolInput.description,
             content: toolInput.content,
             userId: planSummary.userId,
+            estimatedDuration: toolInput.estimated_duration,
             aiResponse,
             courseId: planSummary.courseId,
             parentId: module.id,
