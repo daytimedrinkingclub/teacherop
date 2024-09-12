@@ -35,7 +35,7 @@ export default function Sidebar({ className, isCollapsed, setIsCollapsed }: Side
       {/* Overlay in mobile */}
       <div
         onClick={() => setNavOpened(false)}
-        className={`absolute inset-0 transition-[opacity] delay-100 duration-700 ${navOpened ? 'h-svh opacity-50' : 'h-0 opacity-0'} w-full bg-black md:hidden`}
+        className={`absolute inset-0 transition-[opacity] delay-100 duration-700 bg-white shadow-md ${navOpened ? 'h-svh opacity-50' : 'h-0 opacity-0'} w-full bg-black md:hidden`}
       />
 
       <Layout fixed className={navOpened ? 'h-svh' : ''}>

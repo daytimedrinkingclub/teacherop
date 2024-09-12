@@ -28,7 +28,7 @@ export default function LoginPage() {
               Enter your email to sign in to your account
             </p>
           </div>
-          <AuthForm auth="Login" />
+          <AuthForm />
           <p className="px-8 text-sm text-center text-muted-foreground">
             <Link href="/signup" className="underline hover:text-brand underline-offset-4">
               Don&apos;t have an account? Sign Up

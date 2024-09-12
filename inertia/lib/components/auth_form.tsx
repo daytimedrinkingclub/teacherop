@@ -8,11 +8,9 @@ import { Label } from '@/components/ui/label'
 import useError from '@/hooks/use_error'
 import { cn } from '@/lib/utils'
 
-interface AuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
-  auth: 'Login' | 'Sign up'
-}
+interface AuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
-export default function AuthForm({ className, auth, ...props }: AuthFormProps) {
+export default function AuthForm({ className, ...props }: AuthFormProps) {
   const form = useForm({
     email: '',
     password: '',
@@ -20,8 +18,7 @@ export default function AuthForm({ className, auth, ...props }: AuthFormProps) {
 
   const handleSignup = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const postURL = auth === 'Login' ? '/auth/login' : '/auth/signup'
-    form.post(postURL)
+    form.post('/auth/login')
   }
   const errors = useError()
 
@@ -62,7 +59,7 @@ export default function AuthForm({ className, auth, ...props }: AuthFormProps) {
 
           <Button disabled={form.processing}>
             {form.processing && <Icons.spinner />}
-            {auth}
+            Login
           </Button>
           {errors?.auth && <p className="px-1 text-red-600">{errors.auth}</p>}
         </div>

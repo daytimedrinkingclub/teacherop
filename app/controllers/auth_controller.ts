@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 
 import User from '#models/user'
-import { authenticationValidator } from '#validators/auth_validator'
+import { loginValidator, signupValidator } from '#validators/auth_validator'
 
 export default class AuthenticationController {
   async showSignup({ inertia }: HttpContext) {
@@ -9,7 +9,7 @@ export default class AuthenticationController {
   }
 
   async signup({ request, session, response, auth }: HttpContext) {
-    const payload = await request.validateUsing(authenticationValidator)
+    const payload = await request.validateUsing(signupValidator)
 
     const userAlreadyExists = await User.findBy('email', payload.email)
     if (userAlreadyExists !== null) {
@@ -30,7 +30,8 @@ export default class AuthenticationController {
   }
 
   async login({ request, auth, response, session }: HttpContext) {
-    const { email, password } = await request.validateUsing(authenticationValidator)
+    const { email, password } = await request.validateUsing(loginValidator)
+    console.log(email, password)
 
     try {
       const user = await User.verifyCredentials(email, password)
