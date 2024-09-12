@@ -3,7 +3,7 @@ import Anthropic from '@anthropic-ai/sdk'
 export const onboardingPlanSummaryTools: Anthropic.Messages.Tool[] = [
   {
     name: 'get_onboarding_course_questions',
-    description: `Get the user data from the user, this includes the topics they want to learn, the duration they have, and the current skill level of the user. Today is ${new Date().toString()}. Please respect the user's input language and always use the language the user uses it can be English, Hindi, Spanish etc. or a mix of languages link Hinglish which is a mix of Hindi and English.`,
+    description: `Get the user data from the user, this includes the topics they want to learn, the current skill level of the user and related questions. Today is ${new Date().toString()}. Please respect the user's input language and always use the language the user uses it can be English, Hindi, Spanish etc. or a mix of languages link Hinglish which is a mix of Hindi and English. Make an estimation that How much time it can take to complete the course and ask about the course duration that the user can complete the course.`,
     input_schema: {
       type: 'object',
       properties: {
@@ -129,6 +129,22 @@ export const createModuleTool: Anthropic.Messages.Tool[] = [
           type: 'string',
           description: 'The detailed content of the module',
         },
+        // estimated_duration: {
+        //   type: 'integer',
+        //   description: 'Estimated time to complete the module',
+        //   properties: {
+        //     duration: {
+        //       type: 'number',
+        //       description: 'Estimated duration in minutes/hours/days',
+        //     },
+        //     unit: {
+        //       type: 'string',
+        //       enum: ['minutes', 'hours', 'days'],
+        //       description: 'Unit of time for the duration',
+        //     },
+        //   },
+        //   required: ['duration', 'unit'],
+        // },
       },
       required: ['title', 'description', 'content'],
     },
@@ -154,8 +170,24 @@ export const createSubmoduleTool: Anthropic.Messages.Tool[] = [
           type: 'string',
           description: 'The detailed content of the submodule',
         },
+        estimated_duration: {
+          type: 'number',
+          description: 'Estimated time to complete the submodule in minutes',
+          // properties: {
+          //   duration: {
+          //     type: 'number',
+          //     description: 'Estimated duration in minutes/hours/days',
+          //   },
+          //   unit: {
+          //     type: 'string',
+          //     enum: ['minutes', 'hours', 'days'],
+          //     description: 'Unit of time for the duration',
+          //   },
+          // },
+          // required: ['duration', 'unit'],
+        },
       },
-      required: ['title', 'description', 'content'],
+      required: ['title', 'description', 'content', 'estimated_duration'],
     },
   },
 ]

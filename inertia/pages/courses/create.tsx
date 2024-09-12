@@ -49,12 +49,10 @@ export default function CoursesCreatePage({ }: InferPageProps<CoursesController,
     e.preventDefault()
     setPlaceholderIndex((prevIndex) => (prevIndex + 1) % placeholders.length)
 
-    const response = await axios.post('/courses', {
+    await axios.post('/courses', {
       query,
     })
     setIsModalOpen(true)
-
-    console.log(response.data)
   }
 
   return (

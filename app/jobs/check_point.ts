@@ -1,4 +1,6 @@
 import app from '@adonisjs/core/services/app'
+import transmit from '@adonisjs/transmit/services/main'
+import Anthropic from '@anthropic-ai/sdk'
 import { BaseJob } from 'adonis-resque'
 
 import { CheckpointTypeEnum } from '#enums/checkpoint'
@@ -7,8 +9,6 @@ import Course from '#models/course'
 import PlanSummary from '#models/plan_summary'
 import env from '#start/env'
 import { createModuleTool } from '#tools'
-import transmit from '@adonisjs/transmit/services/main'
-import Anthropic from '@anthropic-ai/sdk'
 import CreateSubmodulesJob from './create_submodules.js'
 
 interface CheckPointJobArgs {
@@ -116,6 +116,7 @@ export default class CheckPointJob extends BaseJob {
               description: toolInput.description,
               content: toolInput.content,
               userId: planSummary.userId,
+              estimatedDuration: null,
               aiResponse,
               courseId: planSummary.courseId,
             })
