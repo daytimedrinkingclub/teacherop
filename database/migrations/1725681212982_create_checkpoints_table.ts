@@ -1,4 +1,4 @@
-import { CheckpointType } from '#enums/checkpoint'
+import { CheckpointTypeEnum } from '#enums/checkpoint'
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
@@ -8,7 +8,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.uuid('id').primary()
       table
-        .enum('type', Object.values(CheckpointType), {
+        .enum('type', Object.values(CheckpointTypeEnum), {
           useNative: false,
           enumName: 'checkpoint_type_enum',
           schemaName: 'public',

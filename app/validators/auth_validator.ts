@@ -1,5 +1,5 @@
-import { Gender } from '#enums/gender'
-import { Qualification } from '#enums/qualification'
+import { GenderEnum } from '#enums/gender'
+import { QualificationEnum } from '#enums/qualification'
 import vine from '@vinejs/vine'
 
 export const signupValidator = vine.compile(
@@ -8,8 +8,8 @@ export const signupValidator = vine.compile(
     password: vine.string().minLength(8).trim(),
     fullName: vine.string().trim(),
     age: vine.number().min(18).max(100),
-    gender: vine.enum(Gender),
-    qualification: vine.enum(Qualification),
+    gender: vine.enum(GenderEnum),
+    qualification: vine.enum(QualificationEnum),
   })
 )
 

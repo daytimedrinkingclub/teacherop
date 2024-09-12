@@ -1,4 +1,4 @@
-export enum Qualification {
+export enum QualificationEnum {
   BACHELOR = 'bachelor',
   MASTER = 'master',
   DOCTORATE = 'doctorate',

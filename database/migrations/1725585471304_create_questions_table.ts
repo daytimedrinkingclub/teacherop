@@ -1,6 +1,6 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
-import { QuestionType } from '#enums/question'
+import { QuestionTypeEnum } from '#enums/question'
 
 export default class extends BaseSchema {
   protected tableName = 'questions'
@@ -10,7 +10,7 @@ export default class extends BaseSchema {
       table.uuid('id').primary()
       table.string('content').notNullable()
       table
-        .enum('type', Object.values(QuestionType), {
+        .enum('type', Object.values(QuestionTypeEnum), {
           useNative: false,
           enumName: 'question_type_enum',
           schemaName: 'public',

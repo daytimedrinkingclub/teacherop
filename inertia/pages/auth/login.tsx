@@ -3,7 +3,7 @@ import { Icons } from '@/components/icons'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { Link } from '@inertiajs/react'
-import AuthForm from '~/lib/components/auth_form'
+import LoginForm from '~/lib/components/login_form'
 
 export default function LoginPage() {
   return (
@@ -28,7 +28,7 @@ export default function LoginPage() {
               Enter your email to sign in to your account
             </p>
           </div>
-          <AuthForm />
+          <LoginForm />
           <p className="px-8 text-sm text-center text-muted-foreground">
             <Link href="/signup" className="underline hover:text-brand underline-offset-4">
               Don&apos;t have an account? Sign Up

@@ -3,7 +3,7 @@ import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
 import { v4 as uuid } from 'uuid'
 
-import { CheckpointType } from '#enums/checkpoint'
+import { CheckpointTypeEnum } from '#enums/checkpoint'
 import Course from '#models/course'
 import User from '#models/user'
 
@@ -14,7 +14,7 @@ export default class Checkpoint extends BaseModel {
   declare id: string
 
   @column()
-  declare type: CheckpointType
+  declare type: CheckpointTypeEnum
 
   @column()
   declare title: string

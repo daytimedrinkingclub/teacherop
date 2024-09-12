@@ -7,8 +7,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import useError from '@/hooks/use_error'
 import { cn } from '@/lib/utils'
-import { Gender } from '#enums/gender'
-import { Qualification } from '#enums/qualification'
+import { GenderEnum } from '#enums/gender'
+import { QualificationEnum } from '#enums/qualification'
 import {
   Select,
   SelectContent,
@@ -24,8 +24,8 @@ interface SignupFormData {
   email: string
   password: string
   age: number
-  gender: Gender
-  qualification: Qualification
+  gender: GenderEnum
+  qualification: QualificationEnum
 }
 
 export default function SignUpAuthForm({ className, ...props }: SignUpAuthFormProps) {
@@ -34,8 +34,8 @@ export default function SignUpAuthForm({ className, ...props }: SignUpAuthFormPr
     email: '',
     password: '',
     age: 0,
-    gender: Gender.MALE,
-    qualification: Qualification.BACHELOR,
+    gender: GenderEnum.MALE,
+    qualification: QualificationEnum.BACHELOR,
   })
 
   const handleSignup = (e: React.FormEvent<HTMLFormElement>) => {
@@ -104,15 +104,15 @@ export default function SignUpAuthForm({ className, ...props }: SignUpAuthFormPr
             <Label htmlFor="gender">Gender</Label>
             <Select
               value={form.data.gender}
-              onValueChange={(value: Gender) => form.setData('gender', value as Gender)}
+              onValueChange={(value: GenderEnum) => form.setData('gender', value as GenderEnum)}
             >
               <SelectTrigger id="gender">
                 <SelectValue placeholder="Select gender" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value={Gender.MALE}>Male</SelectItem>
-                <SelectItem value={Gender.FEMALE}>Female</SelectItem>
-                <SelectItem value={Gender.OTHER}>Other</SelectItem>
+                <SelectItem value={GenderEnum.MALE}>Male</SelectItem>
+                <SelectItem value={GenderEnum.FEMALE}>Female</SelectItem>
+                <SelectItem value={GenderEnum.OTHER}>Other</SelectItem>
               </SelectContent>
             </Select>
             {errors?.gender && <p className="px-1 text-xs text-red-600">{errors.gender}</p>}
@@ -121,16 +121,16 @@ export default function SignUpAuthForm({ className, ...props }: SignUpAuthFormPr
             <Label htmlFor="qualification">Qualification</Label>
             <Select
               value={form.data.qualification}
-              onValueChange={(value: Qualification) => form.setData('qualification', value as Qualification)}
+              onValueChange={(value: QualificationEnum) => form.setData('qualification', value as QualificationEnum)}
             >
               <SelectTrigger id="qualification">
                 <SelectValue placeholder="Select qualification" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value={Qualification.BACHELOR}>BACHELOR</SelectItem>
-                <SelectItem value={Qualification.DOCTORATE}>DOCTORATE</SelectItem>
-                <SelectItem value={Qualification.HIGH_SCHOOL}>HIGH_SCHOOL</SelectItem>
-                <SelectItem value={Qualification.MASTER}>MASTER</SelectItem>
+                <SelectItem value={QualificationEnum.BACHELOR}>BACHELOR</SelectItem>
+                <SelectItem value={QualificationEnum.DOCTORATE}>DOCTORATE</SelectItem>
+                <SelectItem value={QualificationEnum.HIGH_SCHOOL}>HIGH_SCHOOL</SelectItem>
+                <SelectItem value={QualificationEnum.MASTER}>MASTER</SelectItem>
               </SelectContent>
             </Select>
             {errors?.qualification && (

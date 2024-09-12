@@ -1,4 +1,4 @@
-export enum CourseStatus {
+export enum CourseStatusEnum {
   ONGOING = 'ongoing',
   COMPLETED = 'completed',
 }

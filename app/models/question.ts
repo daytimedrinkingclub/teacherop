@@ -2,7 +2,7 @@ import { BaseModel, beforeCreate, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 import { v4 as uuid } from 'uuid'
 
-import { QuestionType } from '#enums/question'
+import { QuestionTypeEnum } from '#enums/question'
 
 export default class Question extends BaseModel {
   static selfAssignPrimaryKey = true
@@ -14,7 +14,7 @@ export default class Question extends BaseModel {
   declare content: string
 
   @column()
-  declare type: QuestionType
+  declare type: QuestionTypeEnum
 
   @column()
   declare userId: string

@@ -1,4 +1,4 @@
-import { CheckpointType } from '#enums/checkpoint'
+import { CheckpointTypeEnum } from '#enums/checkpoint'
 import OnboardCourseJob from '#jobs/onboard_course'
 import type { HttpContext } from '@adonisjs/core/http'
 
@@ -7,7 +7,7 @@ export default class CoursesController {
     const user = auth.user!
 
     const courses = await user.related('courses').query().preload('checkpoints', (query) => {
-      query.where('type', CheckpointType.MODULE)
+      query.where('type', CheckpointTypeEnum.MODULE)
     })
 
     return inertia.render('courses/index', { courses, user })

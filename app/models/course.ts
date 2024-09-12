@@ -3,7 +3,7 @@ import { type BelongsTo, type HasMany } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
 import { v4 as uuid } from 'uuid'
 
-import { CourseStatus } from '#enums/course'
+import { CourseStatusEnum } from '#enums/course'
 import Checkpoint from '#models/checkpoint'
 import PlanSummary from '#models/plan_summary'
 import Question from '#models/question'
@@ -28,7 +28,7 @@ export default class Course extends BaseModel {
   declare content: string | null
 
   @column()
-  declare status: CourseStatus
+  declare status: CourseStatusEnum
 
   @column()
   declare isOnboardingComplete: boolean
