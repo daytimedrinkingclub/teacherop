@@ -46,6 +46,7 @@ export default class CoursesController {
       .where('type', 'module')
       .orderBy('created_at', 'asc')
     const modulesWithSubmodules = []
+
     for (const module of modules) {
       const submodules = await module
         .related('children')

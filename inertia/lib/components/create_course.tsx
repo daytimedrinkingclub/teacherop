@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { CalendarIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -18,16 +19,14 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Slider } from '@/components/ui/slider'
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
-import { CalendarIcon } from 'lucide-react'
 
 import { router } from '@inertiajs/react'
 import { transmit } from '~/lib/lib/utils'
 
 const subscription = transmit.subscription('onboard_course')
+subscription.create().then()
 
 let stopListening: () => void
-
-subscription.create().then()
 
 export default function CreateCourseModal({
   isOpen,
@@ -57,7 +56,6 @@ export default function CreateCourseModal({
 
   useEffect(() => {
     stopListening = subscription.onMessage((data: any) => {
-      console.log('data received', data)
       if (data.question) {
         setCurrentQuestion(data.question)
         setAnswer(null)
@@ -164,11 +162,11 @@ export default function CreateCourseModal({
                   !date && 'text-muted-foreground'
                 )}
               >
-                <CalendarIcon className="w-4 h-4 mr-2" />
+                <CalendarIcon className="mr-2 w-4 h-4" />
                 {date ? format(date, 'PPP') : <span>Pick a date</span>}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0">
+            <PopoverContent className="p-0 w-auto">
               <Calendar
                 mode="single"
                 selected={date}
