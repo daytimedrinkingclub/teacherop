@@ -8,6 +8,9 @@
 */
 
 import router from '@adonisjs/core/services/router'
+import transmit from '@adonisjs/transmit/services/main'
+
+transmit.registerRoutes()
 
 import env from './env.js'
 import { middleware } from './kernel.js'
