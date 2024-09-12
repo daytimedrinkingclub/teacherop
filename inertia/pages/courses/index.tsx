@@ -32,6 +32,7 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
             <h1 className="text-3xl font-bold">Your Courses</h1>
             <div className="relative">
               <Button
+                size="sm"
                 onClick={() => {
                   router.visit('/courses/create')
                 }}

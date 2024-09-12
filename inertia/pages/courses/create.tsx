@@ -21,7 +21,7 @@ const placeholders = [
   'I want to learn training a dog...',
 ]
 
-export default function CoursesCreatePage({}: InferPageProps<CoursesController, 'create'>) {
+export default function CoursesCreatePage({ }: InferPageProps<CoursesController, 'create'>) {
   const [displayText, setDisplayText] = useState('')
   const [placeholderIndex, setPlaceholderIndex] = useState(0)
   const [isFocused, setIsFocused] = useState(false)
@@ -104,7 +104,7 @@ export default function CoursesCreatePage({}: InferPageProps<CoursesController, 
             </div>
           </div>
         </main>
-        <CreateCourseModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} query={query} />
+        <CreateCourseModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} data={query} />
       </Layout.Body>
     </AppLayout>
   )
