@@ -3,7 +3,7 @@ import transmit from '@adonisjs/transmit/services/main'
 import Anthropic from '@anthropic-ai/sdk'
 import { BaseJob } from 'adonis-resque'
 
-import { QuestionType } from '#enums/question'
+import { QuestionTypeEnum } from '#enums/question'
 import Course from '#models/course'
 import env from '#start/env'
 
@@ -80,7 +80,7 @@ export default class OnboardCourseJob extends BaseJob {
             question_text: questionText,
             question_meta: rawMeta,
           } = toolInput as unknown as {
-            question_format: QuestionType
+            question_format: QuestionTypeEnum
             question_text: string
             question_meta: Record<string, any> | string
           }

@@ -3,7 +3,7 @@ import transmit from '@adonisjs/transmit/services/main'
 import Anthropic from '@anthropic-ai/sdk'
 import { BaseJob } from 'adonis-resque'
 
-import { CheckpointType } from '#enums/checkpoint'
+import { CheckpointTypeEnum } from '#enums/checkpoint'
 import Checkpoint from '#models/checkpoint'
 import Course from '#models/course'
 import PlanSummary from '#models/plan_summary'
@@ -53,7 +53,7 @@ export default class CheckPointJob extends BaseJob {
 
       const oldCheckpoints = await Checkpoint.query()
         .where('course_id', course.id)
-        .andWhere('type', CheckpointType['MODULE'])
+        .andWhere('type', CheckpointTypeEnum['MODULE'])
       const oldCheckpointsSerialized = oldCheckpoints.map((checkpoint) => checkpoint.serialize())
       // const moduleCount = oldCheckpoints.filter((checkpoint) => checkpoint.parentId === null).length
       // const submoduleCount = oldCheckpoints.filter(
@@ -111,7 +111,7 @@ export default class CheckPointJob extends BaseJob {
           const aiResponse = { ...response, content: [...toolsText, tool] }
           if (toolName === 'generate_course_module') {
             const checkpoint = await Checkpoint.create({
-              type: CheckpointType['MODULE'],
+              type: CheckpointTypeEnum['MODULE'],
               title: toolInput.title,
               description: toolInput.description,
               content: toolInput.content,

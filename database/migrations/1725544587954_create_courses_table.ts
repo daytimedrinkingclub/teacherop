@@ -1,6 +1,6 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
-import { CourseStatus } from '#enums/course'
+import { CourseStatusEnum } from '#enums/course'
 
 export default class extends BaseSchema {
   protected tableName = 'courses'
@@ -13,13 +13,13 @@ export default class extends BaseSchema {
       table.text('description').nullable()
       table.text('content').nullable()
       table
-        .enum('status', Object.values(CourseStatus), {
+        .enum('status', Object.values(CourseStatusEnum), {
           enumName: 'course_status_enum',
           useNative: false,
           schemaName: 'public',
         })
         .notNullable()
-        .defaultTo(CourseStatus.ONGOING)
+        .defaultTo(CourseStatusEnum.ONGOING)
       table.boolean('is_onboarding_complete').notNullable().defaultTo(false)
       table.boolean('is_studying').notNullable().defaultTo(false)
       table.json('meta').nullable()

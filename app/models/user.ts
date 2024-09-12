@@ -10,6 +10,8 @@ import Checkpoint from '#models/checkpoint'
 import Course from '#models/course'
 import PlanSummary from '#models/plan_summary'
 import Question from '#models/question'
+import { GenderEnum } from '#enums/gender'
+import { QualificationEnum } from '#enums/qualification'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -30,6 +32,15 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @column({ serializeAs: null })
   declare password: string
+
+  @column()
+  declare age: number
+
+  @column()
+  declare gender: GenderEnum
+
+  @column()
+  declare qualification: QualificationEnum
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

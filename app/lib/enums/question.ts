@@ -1,4 +1,4 @@
-export enum QuestionType {
+export enum QuestionTypeEnum {
   TEXT = 'text',
   RADIO = 'radio',
   CHECKBOX = 'checkbox',

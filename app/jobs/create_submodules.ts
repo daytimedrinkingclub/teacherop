@@ -1,7 +1,7 @@
 import app from '@adonisjs/core/services/app'
 import { BaseJob } from 'adonis-resque'
 
-import { CheckpointType } from '#enums/checkpoint'
+import { CheckpointTypeEnum } from '#enums/checkpoint'
 import Checkpoint from '#models/checkpoint'
 import Course from '#models/course'
 import PlanSummary from '#models/plan_summary'
@@ -25,7 +25,7 @@ export default class CreateSubmodulesJob extends BaseJob {
 
     const modules = await Checkpoint.query()
       .where('course_id', course.id)
-      .andWhere('type', CheckpointType['MODULE'])
+      .andWhere('type', CheckpointTypeEnum['MODULE'])
 
     for (const module of modules) {
       console.log('creating submodule for module: ', module.title)
@@ -111,7 +111,7 @@ export default class CreateSubmodulesJob extends BaseJob {
 
         if (toolName === 'generate_course_submodule') {
           const checkpoint = await Checkpoint.create({
-            type: CheckpointType['SUBMODULE'],
+            type: CheckpointTypeEnum['SUBMODULE'],
             title: toolInput.title,
             description: toolInput.description,
             content: toolInput.content,

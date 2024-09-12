@@ -6,10 +6,10 @@ import AppLayout from '~/lib/components/layout/app_layout'
 import { Layout } from '~/lib/components/layout/custom_layout'
 import { UserNav } from '~/lib/components/user_nav'
 
-export default function DashboardPage({}: InferPageProps<DashboardController, 'index'>) {
+export default function DashboardPage({ }: InferPageProps<DashboardController, 'index'>) {
   return (
     <AppLayout>
-      <Layout.Header>
+      <Layout.Header className=''>
         <div className="flex items-end justify-end w-full">
           {/* <Search /> */}
           <div className="flex items-end space-x-4">

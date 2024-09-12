@@ -9,8 +9,11 @@ import AppLayout from '~/lib/components/layout/app_layout'
 import { Layout } from '~/lib/components/layout/custom_layout'
 import { Badge } from '~/lib/components/ui/badge'
 import { UserNav } from '~/lib/components/user_nav'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/lib/components/ui/card'
 
 import { transmit } from '~/lib/lib/utils'
+import { Button } from '~/lib/components/ui/button'
+import { ChevronRightIcon } from 'lucide-react'
 
 const subscription = transmit.subscription('checkpoint_created')
 let stopListening: () => void
@@ -78,10 +81,20 @@ export default function CoursesShow(props: InferPageProps<CoursesController, 'sh
             </div>
           </div>
         ) : (
-          <>
-            <h3>Onboarding not complete</h3>
-            <button onClick={() => setIsOnboardingModalOpen(true)}>Start Onboarding</button>
-          </>
+          <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)]">
+            <Card className="w-full max-w-md text-center">
+              <CardHeader>
+                <CardTitle>Welcome to Your Course</CardTitle>
+                <CardDescription>Complete the onboarding to get started</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button onClick={() => setIsOnboardingModalOpen(true)} className="w-full">
+                  Start Onboarding
+                  <ChevronRightIcon className="w-4 h-4 ml-2" />
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
         )}
         <CreateCourseModal
           isOpen={isOnboardingModalOpen}

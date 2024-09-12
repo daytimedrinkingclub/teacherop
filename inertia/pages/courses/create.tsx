@@ -21,7 +21,7 @@ const placeholders = [
   'I want to learn training a dog...',
 ]
 
-export default function CoursesCreatePage({}: InferPageProps<CoursesController, 'create'>) {
+export default function CoursesCreatePage({ }: InferPageProps<CoursesController, 'create'>) {
   const [displayText, setDisplayText] = useState('')
   const [placeholderIndex, setPlaceholderIndex] = useState(0)
   const [isFocused, setIsFocused] = useState(false)
