@@ -15,7 +15,7 @@ services:
       - DB_USER=teacherop
       - DB_PASSWORD=password
       - DB_DATABASE=teacherop_prod
-    command: 'node ace migration:run --force && node bin/server.js'
+    command: 'node ace migration:run --force | node bin/server.js'
     volumes:
       - server_data:/app\
     ports:
@@ -49,6 +49,13 @@ services:
 
   jobs:
     container_name: teacherop-jobs
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=teacherop
+      - DB_PASSWORD=password
+      - DB_DATABASE=teacherop_prod
     build:
       context: .
       dockerfile: Dockerfile
@@ -57,6 +64,7 @@ services:
       - jobs_data:/app
     depends_on:
       - redis
+      - postgres
 
   redis:
     container_name: teacherop-redis
