@@ -66,8 +66,6 @@ export default class CoursesController {
       .orderBy('created_at', 'asc')
     const modulesWithSubmodules = []
 
-    console.log('modules created:', course.isModulesCreated)
-
     for (const module of modules!) {
       const submodules = await module
         .related('children')
