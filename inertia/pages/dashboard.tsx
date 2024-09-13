@@ -1,7 +1,14 @@
 import { InferPageProps } from '@adonisjs/inertia/types'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { BookOpenIcon, CheckCircleIcon, ClockIcon, TargetIcon, TrophyIcon, ZapIcon } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Progress } from '@/components/ui/progress'
+import {
+  BookOpenIcon,
+  CheckCircleIcon,
+  ClockIcon,
+  TargetIcon,
+  TrophyIcon,
+  ZapIcon,
+} from 'lucide-react'
 import DashboardController from '#controllers/dashboard_controller'
 
 import AppLayout from '~/lib/components/layout/app_layout'
@@ -15,7 +22,7 @@ const stats = {
   timeSpent: 1500, // in minutes
   achievements: 15,
   currentStreak: 7,
-  totalPoints: 2500
+  totalPoints: 2500,
 }
 
 function formatTime(minutes: number) {
@@ -24,11 +31,11 @@ function formatTime(minutes: number) {
   return `${hours}h ${mins}m`
 }
 
-export default function DashboardPage({ }: InferPageProps<DashboardController, 'index'>) {
+export default function DashboardPage({}: InferPageProps<DashboardController, 'index'>) {
   const completionPercentage = (stats.completedCourses / stats.totalCourses) * 100
   return (
     <AppLayout>
-      <Layout.Header className=''>
+      <Layout.Header className="">
         <div className="hidden md:flex items-end justify-end w-full">
           {/* <Search /> */}
           <div className="flex items-end space-x-4">

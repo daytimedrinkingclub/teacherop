@@ -89,9 +89,7 @@ const Body = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElemen
         {...props}
       >
         {children}
-        <div className="h-80">
-
-        </div>
+        <div className="h-80"></div>
       </div>
     )
   }

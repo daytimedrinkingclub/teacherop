@@ -17,7 +17,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
-interface SignUpAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
+interface SignUpAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 interface SignupFormData {
   fullName: string
@@ -121,7 +121,9 @@ export default function SignUpAuthForm({ className, ...props }: SignUpAuthFormPr
             <Label htmlFor="qualification">Qualification</Label>
             <Select
               value={form.data.qualification}
-              onValueChange={(value: QualificationEnum) => form.setData('qualification', value as QualificationEnum)}
+              onValueChange={(value: QualificationEnum) =>
+                form.setData('qualification', value as QualificationEnum)
+              }
             >
               <SelectTrigger id="qualification">
                 <SelectValue placeholder="Select qualification" />

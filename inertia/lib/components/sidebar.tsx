@@ -67,7 +67,7 @@ export default function Sidebar({ className, isCollapsed, setIsCollapsed }: Side
           >
             {navOpened ? <Icons.close /> : <Icons.menu />}
           </Button> */}
-          <div className=' md:hidden'>
+          <div className=" md:hidden">
             <UserNav />
           </div>
         </Layout.Header>
@@ -80,9 +80,7 @@ export default function Sidebar({ className, isCollapsed, setIsCollapsed }: Side
           isCollapsed={isCollapsed}
           links={sideLinks}
         />
-        <MobileBottomNavBar
-          links={sideLinks}
-        />
+        <MobileBottomNavBar links={sideLinks} />
 
         {/* Scrollbar width toggle button */}
         <Button
