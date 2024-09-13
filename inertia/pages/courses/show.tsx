@@ -64,9 +64,9 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
       <Layout.Body>
         {course.isOnboardingComplete ? (
           <>
-            <div className="container p-4 mx-auto space-y-6 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg">
-              <h1 className="mb-6 text-3xl font-bold text-blue-800">{course.title}</h1>
-              <Card className="p-6 bg-white rounded-lg shadow-lg">
+            <div className="container p-4 mx-auto space-y-6 rounded-lg">
+              <h1 className="mb-6 text-3xl font-bold">{course.title}</h1>
+              <Card className="p-6 bg-background rounded-lg shadow-lg">
                 <p className="mb-4 text-gray-700">{course.description}</p>
                 <div className="flex items-center space-x-4 whitespace-nowrap">
                   <Progress
@@ -74,7 +74,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                     className="flex-grow"
                   />
                   <p className="flex items-center text-sm text-gray-500">
-                    <ClockIcon className="mr-1 w-4 h-4 text-blue-500" />
+                    <ClockIcon className="mr-1 w-4 h-4" />
                     <span>
                       {course.completedModule} / {course.totalModule} Modules
                     </span>
@@ -91,7 +91,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
                 >
-                  <Card className="overflow-hidden rounded-lg border-l-4 border-blue-500 shadow-md bg-background">
+                  <Card className="overflow-hidden rounded-lg border-l-4 shadow-md bg-background">
                     <motion.div
                       className="p-4 cursor-pointer"
                       onClick={() => toggleModule(index)}
@@ -102,8 +102,8 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                     >
                       <div className="flex justify-between items-center">
                         <div className="flex items-center space-x-3">
-                          <ZapIcon className="w-6 h-6 text-blue-500" />
-                          <h2 className="text-lg font-semibold text-blue-700">{module.title}</h2>
+                          <ZapIcon className="w-6 h-6" />
+                          <h2 className="text-lg font-semibold">{module.title}</h2>
                         </div>
                         <div className="flex items-center space-x-3">
                           <Progress
@@ -117,7 +117,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                             animate={{ rotate: expandedModule === index ? 180 : 0 }}
                             transition={{ duration: 0.3 }}
                           >
-                            <ChevronDown className="w-5 h-5 text-blue-500" />
+                            <ChevronDown className="w-5 h-5" />
                           </motion.div>
                         </div>
                       </div>
@@ -142,23 +142,18 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                               >
                                 <div className="flex items-center space-x-3">
                                   {submodule.isCompleted ? (
-                                    <CheckCircleIcon className="w-5 h-5 text-green-500" />
+                                    <CheckCircleIcon className="w-5 h-5 " />
                                   ) : (
                                     <div className="w-5 h-5 rounded-full border-2 border-gray-300" />
                                   )}
                                   <div>
-                                    <h3 className="font-medium text-blue-600">{submodule.title}</h3>
+                                    <h3 className="font-medium">{submodule.title}</h3>
                                     <p className="text-sm text-gray-600">{submodule.description}</p>
                                   </div>
                                 </div>
                                 <Button
                                   size="sm"
                                   variant={submodule.isCompleted ? 'outline' : 'default'}
-                                  className={
-                                    submodule.isCompleted
-                                      ? 'text-green-500'
-                                      : 'bg-blue-500 hover:bg-blue-600 text-white'
-                                  }
                                 >
                                   {submodule.isCompleted ? 'Review' : 'Start'}
                                   <PlayIcon className="ml-2 w-4 h-4" />
