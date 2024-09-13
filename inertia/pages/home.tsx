@@ -2,6 +2,7 @@ import { Head, Link, router } from '@inertiajs/react'
 import { useEffect, useState } from 'react'
 
 import { Icons } from '~/lib/components/icons'
+import LandingPage from '~/lib/components/landing_page'
 import { buttonVariants } from '~/lib/components/ui/button'
 import {
   DropdownMenu,
@@ -104,7 +105,8 @@ export default function Home() {
             </Link>
           </div>
         </header>
-
+        <LandingPage />
+        {/* 
         <main className="flex flex-col items-center justify-center flex-1">
           <div className="container flex flex-col items-center justify-center h-full px-4 mx-auto sm:px-6 lg:px-8">
             <h1 className="mb-8 text-3xl font-bold text-center sm:text-4xl lg:text-5xl text-primary">
@@ -169,7 +171,7 @@ export default function Home() {
               </p>
             </div>
           </div>
-        </footer>
+        </footer> */}
       </div>
     </>
   )

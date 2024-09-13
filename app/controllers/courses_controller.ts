@@ -6,9 +6,12 @@ export default class CoursesController {
   async index({ inertia, auth }: HttpContext) {
     const user = auth.user!
 
-    const courses = await user.related('courses').query().preload('checkpoints', (query) => {
-      query.where('type', CheckpointTypeEnum.MODULE)
-    })
+    const courses = await user
+      .related('courses')
+      .query()
+      .preload('checkpoints', (query) => {
+        query.where('type', CheckpointTypeEnum.MODULE)
+      })
 
     return inertia.render('courses/index', { courses, user })
   }
