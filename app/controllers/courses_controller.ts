@@ -90,4 +90,13 @@ export default class CoursesController {
       modules: modulesWithSubmodules,
     })
   }
+
+  @bindCourse()
+  async onboardCourse({ auth, response, inertia }: HttpContext, course: Course) {
+    if (course.isOnboardingComplete) return response.redirect().toPath(`/courses/${course.id}`)
+    const user = auth.user!
+
+    const currentQuestion = await user.related('questions').query().whereNull('answer').first()
+    return inertia.render('courses/onboarding', { currentQuestion, user })
+  }
 }

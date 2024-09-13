@@ -47,6 +47,9 @@ router.get('/courses', [courseController, 'index']).use([middleware.auth()])
 router.get('/courses/create', [courseController, 'create']).use([middleware.auth()])
 router.post('/courses', [courseController, 'store']).use([middleware.auth()])
 router.get('/courses/:courseId', [courseController, 'show']).use([middleware.auth()])
+router
+  .get('/courses/:courseId/onboarding', [courseController, 'onboardCourse'])
+  .use([middleware.auth()])
 
 // router.post('/questions', [questionController, 'store']).use([middleware.auth()])
 router.get('/questions/current', [questionController, 'current']).use([middleware.auth()])
