@@ -29,6 +29,8 @@
     "#abilities/*": "./app/abilities/*.js",
     "#jobs/*": "./app/jobs/*.js",
     "#enums/*": "./app/lib/enums/*.js",
+    "#dtos/*": "./app/dtos/*.js",
+    "#decorators/*": "./app/decorators/*.js",
     "#tools": "./app/lib/tools.js",
     "#database/*": "./database/*.js",
     "#tests/*": "./tests/*.js",
