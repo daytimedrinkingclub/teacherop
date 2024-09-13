@@ -1,4 +1,5 @@
 import { Icons } from '@/components/icons'
+import { HomeIcon } from 'lucide-react'
 
 export interface NavLink {
   title: string
@@ -12,6 +13,12 @@ export interface SideLink extends NavLink {
 }
 
 export const sideLinks: SideLink[] = [
+  {
+    title: 'Home',
+    label: '',
+    href: '/',
+    icon: <HomeIcon size={18} />,
+  },
   {
     title: 'Courses',
     label: '',

@@ -7,6 +7,8 @@ import { Icons } from './icons'
 import { Layout } from './layout/custom_layout'
 import Nav from './nav'
 import { Button } from './ui/button'
+import { UserNav } from './user_nav'
+import MobileBottomNavBar from './mobileBottomNavBar'
 
 interface SidebarProps extends React.HTMLAttributes<HTMLElement> {
   isCollapsed: boolean
@@ -28,7 +30,7 @@ export default function Sidebar({ className, isCollapsed, setIsCollapsed }: Side
   return (
     <aside
       className={cn(
-        `fixed left-0 right-0 top-0 z-50 w-full border-r-2 border-r-muted transition-[width] md:bottom-0 md:right-auto md:h-svh ${isCollapsed ? 'md:w-14' : 'md:w-64'}`,
+        `bg-gray-50 fixed left-0 right-0 top-0 z-50 w-full border-r-2 border-r-muted transition-[width] md:bottom-0 md:right-auto md:h-svh ${isCollapsed ? 'md:w-14' : 'md:w-64'}`,
         className
       )}
     >
@@ -45,16 +47,16 @@ export default function Sidebar({ className, isCollapsed, setIsCollapsed }: Side
           className="z-50 flex justify-between px-4 py-3 overflow-hidden shadow-sm md:px-4"
         >
           <div className={`flex items-center ${!isCollapsed ? 'gap-2' : ''}`}>
-            <Icons.logo className="w-8 h-8" />
+            <Icons.logo className="w-8 h-8 stroke-blue-600" />
             <div
               className={`flex flex-col justify-end ${isCollapsed ? 'invisible w-0' : 'visible w-auto'}`}
             >
-              <span className="font-medium">TeacherOP</span>
+              <span className="font-medium text-lg md:text-2xl text-blue-600">TeacherOP</span>
             </div>
           </div>
 
           {/* Toggle Button in mobile */}
-          <Button
+          {/* <Button
             variant="ghost"
             size="icon"
             className="md:hidden"
@@ -64,7 +66,10 @@ export default function Sidebar({ className, isCollapsed, setIsCollapsed }: Side
             onClick={() => setNavOpened((prev) => !prev)}
           >
             {navOpened ? <Icons.close /> : <Icons.menu />}
-          </Button>
+          </Button> */}
+          <div className=' md:hidden'>
+            <UserNav />
+          </div>
         </Layout.Header>
 
         {/* Navigation links */}
@@ -73,6 +78,9 @@ export default function Sidebar({ className, isCollapsed, setIsCollapsed }: Side
           className={`z-40 h-full flex-1 overflow-auto ${navOpened ? 'max-h-screen' : 'max-h-0 py-0 md:max-h-screen md:py-2'}`}
           closeNav={() => setNavOpened(false)}
           isCollapsed={isCollapsed}
+          links={sideLinks}
+        />
+        <MobileBottomNavBar
           links={sideLinks}
         />
 

@@ -70,7 +70,7 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
 Header.displayName = 'Header'
 
 const Body = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => {
+  ({ className, children, ...props }, ref) => {
     // Check if Layout.Body is used within Layout
     const contextVal = React.useContext(LayoutContext)
     if (contextVal === null) {
@@ -82,12 +82,17 @@ const Body = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElemen
         ref={ref}
         data-layout="body"
         className={cn(
-          'px-4 py-6 md:overflow-hidden md:px-8 bg-gray-50',
+          'px-4 md:py-6 md:overflow-hidden md:px-8',
           contextVal && contextVal.fixed && 'flex-1',
           className
         )}
         {...props}
-      />
+      >
+        {children}
+        <div className="h-80">
+
+        </div>
+      </div>
     )
   }
 )

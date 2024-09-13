@@ -8,6 +8,7 @@ import CreateCourseModal from '~/lib/components/create_course'
 import AppLayout from '~/lib/components/layout/app_layout'
 import { Layout } from '~/lib/components/layout/custom_layout'
 import { UserNav } from '~/lib/components/user_nav'
+import WorkflowComponent from '~/lib/components/workflow'
 
 const placeholders = [
   'What do you want to learn today?',
@@ -58,7 +59,7 @@ export default function CoursesCreatePage({ }: InferPageProps<CoursesController,
   return (
     <AppLayout>
       <Layout.Header>
-        <div className="flex justify-end items-end w-full">
+        <div className="hidden md:flex  justify-end items-end w-full">
           {/* <Search /> */}
           <div className="flex items-end space-x-4">
             {/* <ThemeSwitch /> */}
@@ -101,6 +102,7 @@ export default function CoursesCreatePage({ }: InferPageProps<CoursesController,
               </form>
             </div>
           </div>
+          <WorkflowComponent />
         </main>
         <CreateCourseModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} data={query} />
       </Layout.Body>
