@@ -1,9 +1,10 @@
 import { InferPageProps } from '@adonisjs/inertia/types'
+import { Link, router } from '@inertiajs/react'
+import { BookIcon, BrainIcon, PlusIcon, UserIcon } from 'lucide-react'
 
 import CoursesController from '#controllers/courses_controller'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Link, router } from '@inertiajs/react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import AppLayout from '~/lib/components/layout/app_layout'
 import { Layout } from '~/lib/components/layout/custom_layout'
 import { Badge } from '~/lib/components/ui/badge'
@@ -15,7 +16,7 @@ import WorkflowComponent from '~/lib/components/workflow'
 import { motion } from 'framer-motion'
 
 export default function CoursesPage({ courses }: InferPageProps<CoursesController, 'index'>) {
-  const isOngoing = courses.some((course: any) => course.status === 'ongoing')
+  const isOngoing = courses.some((course) => course.status === 'ongoing')
 
   const getStatusIcon = (status: any) => {
     switch (status) {

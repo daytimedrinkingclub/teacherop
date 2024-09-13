@@ -1,15 +1,16 @@
 import { InferPageProps } from '@adonisjs/inertia/types'
 import { router } from '@inertiajs/react'
 import axios from 'axios'
+import { ChevronRightIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-import CoursesController from '#controllers/courses_controller'
+import type CoursesController from '#controllers/courses_controller'
 import CreateCourseModal from '~/lib/components/create_course'
 import AppLayout from '~/lib/components/layout/app_layout'
 import { Layout } from '~/lib/components/layout/custom_layout'
 import { UserNav } from '~/lib/components/user_nav'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/lib/components/ui/card'
-
+import { UserNav } from '~/lib/components/user_nav'
 import { transmit } from '~/lib/lib/utils'
 import { Button } from '~/lib/components/ui/button'
 import { ChevronRightIcon, ChevronDownIcon, BookOpenIcon, CheckCircleIcon, PlayIcon, ClockIcon, ChevronDown, ZapIcon } from 'lucide-react'
@@ -20,9 +21,8 @@ const subscription = transmit.subscription('checkpoint_created')
 let stopListening: () => void
 subscription.create().then()
 
-
-export default function CoursesShow(props: InferPageProps<CoursesController, 'show'>) {
-  const { course, modules } = props as any
+export default function CoursesShowPage(props: InferPageProps<CoursesController, 'show'>) {
+  const { course, modules } = props
   const [isOnboardingModalOpen, setIsOnboardingModalOpen] = useState(false)
   const [currentQuestion, setCurrentQuestion] = useState<any>(null)
 
@@ -39,7 +39,7 @@ export default function CoursesShow(props: InferPageProps<CoursesController, 'sh
       })
     }
 
-    stopListening = subscription.onMessage((data) => {
+    stopListening = subscription.onMessage(() => {
       router.reload({ only: ['course', 'modules'] })
     })
     return () => stopListening()
@@ -162,7 +162,7 @@ export default function CoursesShow(props: InferPageProps<CoursesController, 'sh
               <CardContent>
                 <Button onClick={() => setIsOnboardingModalOpen(true)} className="w-full">
                   Start Onboarding
-                  <ChevronRightIcon className="w-4 h-4 ml-2" />
+                  <ChevronRightIcon className="ml-2 w-4 h-4" />
                 </Button>
               </CardContent>
             </Card>
