@@ -31,7 +31,7 @@ function formatTime(minutes: number) {
   return `${hours}h ${mins}m`
 }
 
-export default function DashboardPage({}: InferPageProps<DashboardController, 'index'>) {
+export default function DashboardPage({ }: InferPageProps<DashboardController, 'index'>) {
   const completionPercentage = (stats.completedCourses / stats.totalCourses) * 100
   return (
     <AppLayout>
@@ -45,70 +45,70 @@ export default function DashboardPage({}: InferPageProps<DashboardController, 'i
         </div>
       </Layout.Header>
       <Layout.Body>
-        <div className="p-6 bg-gradient-to-br from-blue-50 to-purple-50">
-          <h1 className="text-3xl font-bold mb-6 text-blue-800">Course Dashboard</h1>
+        <div className="p-6">
+          <h1 className="text-3xl font-bold mb-6">Course Dashboard</h1>
           <div className="grid gap-6 md:grid-cols-3">
-            <Card className="border-l-4 border-blue-500">
+            <Card className="border-l-4">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Total Courses</CardTitle>
-                <BookOpenIcon className="h-6 w-6 text-blue-500" />
+                <BookOpenIcon className="h-6 w-6" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stats.totalCourses}</div>
-                <p className="text-xs text-blue-600">Courses available</p>
+                <p className="text-xs">Courses available</p>
               </CardContent>
             </Card>
-            <Card className="border-l-4 border-green-500">
+            <Card className="border-l-4">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Completed Courses</CardTitle>
-                <CheckCircleIcon className="h-6 w-6 text-green-500" />
+                <CheckCircleIcon className="h-6 w-6" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stats.completedCourses}</div>
                 <Progress value={completionPercentage} className="mt-2" />
-                <p className="text-xs text-green-600 mt-2">
+                <p className="text-xs mt-2">
                   {completionPercentage.toFixed(1)}% completion rate
                 </p>
               </CardContent>
             </Card>
-            <Card className="border-l-4 border-purple-500">
+            <Card className="border-l-4">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Time Spent</CardTitle>
-                <ClockIcon className="h-6 w-6 text-purple-500" />
+                <ClockIcon className="h-6 w-6" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{formatTime(stats.timeSpent)}</div>
-                <p className="text-xs text-purple-600">Total learning time</p>
+                <p className="text-xs">Total learning time</p>
               </CardContent>
             </Card>
-            <Card className="border-l-4 border-yellow-500">
+            <Card className="border-l-4">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Achievements</CardTitle>
-                <TrophyIcon className="h-6 w-6 text-yellow-500" />
+                <TrophyIcon className="h-6 w-6" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stats.achievements}</div>
-                <p className="text-xs text-yellow-600">Badges earned</p>
+                <p className="text-xs">Badges earned</p>
               </CardContent>
             </Card>
-            <Card className="border-l-4 border-red-500">
+            <Card className="border-l-4">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Current Streak</CardTitle>
-                <ZapIcon className="h-6 w-6 text-red-500" />
+                <ZapIcon className="h-6 w-6" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stats.currentStreak} days</div>
-                <p className="text-xs text-red-600">Keep it up!</p>
+                <p className="text-xs ">Keep it up!</p>
               </CardContent>
             </Card>
-            <Card className="border-l-4 border-indigo-500">
+            <Card className="border-l-4">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Total Points</CardTitle>
-                <TargetIcon className="h-6 w-6 text-indigo-500" />
+                <TargetIcon className="h-6 w-6" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stats.totalPoints}</div>
-                <p className="text-xs text-indigo-600">XP gained</p>
+                <p className="text-xs">XP gained</p>
               </CardContent>
             </Card>
           </div>

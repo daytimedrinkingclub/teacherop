@@ -35,7 +35,7 @@ const reviews = [
     role: 'Sports Coach',
     content:
       "TeacherOP's custom modules have greatly improved my coaching techniques. Highly recommended!",
-    rating: 4,
+    rating: 3,
   },
   {
     id: 1,
@@ -121,10 +121,10 @@ export default function LandingPage() {
   }, [isScrolling])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="py-20 text-center bg-gradient-to-r from-blue-100 via-purple-200 to-pink-100">
-        <h1 className="text-5xl font-bold mb-6 text-blue-800">TeacherOP: AI Course Creation</h1>
+      <section className="py-20 text-center bg-gray-50">
+        <h1 className="text-5xl font-bold mb-6">TeacherOP: AI Course Creation</h1>
         <p className="text-xl mb-8 text-gray-600">Universal Learning in Any Language</p>
         <div className="relative inline-block">
           <img
@@ -133,7 +133,7 @@ export default function LandingPage() {
             className="rounded-lg shadow-lg"
           />
           <Button
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-500 hover:bg-blue-600 text-white"
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
             onClick={() => setIsVideoOpen(true)}
           >
             <Play className="mr-2 h-4 w-4" /> Watch Demo
@@ -166,7 +166,7 @@ export default function LandingPage() {
                   <CardContent className="p-6">
                     <div className="flex items-center mb-4">
                       {[...Array(review.rating)].map((_, i) => (
-                        <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                        <Star key={i} className="h-5 w-5  fill-current" />
                       ))}
                     </div>
                     <p className="text-gray-600 mb-4">{review.content}</p>

@@ -27,11 +27,11 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
   const getStatusIcon = (status: any) => {
     switch (status) {
       case 'ongoing':
-        return <ClockIcon className="w-5 h-5 text-yellow-500" />
+        return <ClockIcon className="w-4 h-4" />
       case 'completed':
-        return <CheckCircleIcon className="w-5 h-5 text-green-500" />
+        return <CheckCircleIcon className="w-4 h-4" />
       default:
-        return <AlertCircleIcon className="w-5 h-5 text-red-500" />
+        return <AlertCircleIcon className="w-4 h-4" />
     }
   }
 
@@ -47,10 +47,10 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
         </div>
       </Layout.Header>
       <Layout.Body>
-        <div className="px-4 py-8 mx-auto w-full max-w-6xl bg-gradient-to-br from-blue-50 to-purple-50 md:px-6">
+        <div className="px-4 py-8 w-full max-w-6xl  md:px-6 rounded-md">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="flex items-center text-lg font-bold text-blue-800 whitespace-nowrap md:text-3xl">
-              <BookOpenIcon className="mr-2 w-6 h-6 text-blue-600 md:h-8 md:w-8" />
+            <h1 className="flex items-center text-lg font-bold whitespace-nowrap md:text-3xl">
+              <BookOpenIcon className="mr-2 w-6 h-6 md:h-8 md:w-8" />
               Your Courses
             </h1>
             <div className="relative">
@@ -60,7 +60,6 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
                   router.visit('/courses/create')
                 }}
                 disabled={isOngoing}
-                className="text-white bg-green-500 hover:bg-green-600"
               >
                 <PlusIcon className="mr-2 w-5 h-5" />
                 <span className="hidden md:block">New Course</span>
@@ -76,9 +75,9 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
                 transition={{ duration: 0.3 }}
               >
                 <Link href={`/courses/${course.id}`} className="block">
-                  <Card className="overflow-hidden bg-white border-l-4 border-blue-500 transition-shadow hover:shadow-lg">
+                  <Card className="overflow-hidden border-l-4  transition-shadow hover:shadow-lg">
                     <CardHeader>
-                      <CardTitle className="flex items-center text-blue-700">
+                      <CardTitle className="flex items-center">
                         <span>{course.title}</span>
                       </CardTitle>
                       <CardDescription>
@@ -86,26 +85,24 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
                         {course.description?.length || 0 > 100 ? '...' : ''}
                       </CardDescription>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className='space-y-4'>
                       <Progress
                         value={(course.completedModule / course.totalModule) * 100}
                         className="mb-2"
                       />
-                      <p className="flex items-center text-sm text-gray-500">
-                        <ZapIcon className="mr-1 w-4 h-4 text-yellow-500" />
-                        {Math.floor((course.completedModule / course.totalModule) * 100)}% Complete
-                      </p>
-                      <Badge
-                        variant="outline"
-                        className={`absolute top-2 right-2 flex items-center ${
-                          course.status === 'ongoing'
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : 'bg-green-100 text-green-800'
-                        }`}
-                      >
-                        {getStatusIcon(course.status)}
-                        <span className="ml-1">{course.status}</span>
-                      </Badge>
+                      <div className='flex items-center justify-between'>
+                        <p className="flex items-center text-sm text-gray-500">
+                          <ZapIcon className="mr-1 w-4 h-4" />
+                          {Math.floor((course.completedModule / course.totalModule) * 100)}% Complete
+                        </p>
+                        <Badge
+                          variant={course.status === 'ongoing' ? 'outline' : 'default'}
+                          className={`flex items-center`}
+                        >
+                          {getStatusIcon(course.status)}
+                          <span className="ml-1 text-sm">{course.status}</span>
+                        </Badge>
+                      </div>
                     </CardContent>
                   </Card>
                 </Link>
@@ -118,13 +115,13 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
                 transition={{ duration: 0.3 }}
               >
                 <Link href="/courses/create">
-                  <Card className="text-white bg-gradient-to-r from-blue-500 to-purple-500 transition-shadow hover:shadow-lg">
+                  <Card className="bg-primary text-primary-foreground">
                     <CardHeader>
-                      <CardTitle className="flex gap-2 items-center">
-                        <PlusIcon className="w-6 h-6" />
+                      <CardTitle className="flex items-center gap-2">
+                        <PlusIcon className="h-5 w-5" />
                         Create New Course
                       </CardTitle>
-                      <CardDescription className="text-white/80">
+                      <CardDescription className="text-primary-foreground/80">
                         Let AI generate a course for you
                       </CardDescription>
                     </CardHeader>
