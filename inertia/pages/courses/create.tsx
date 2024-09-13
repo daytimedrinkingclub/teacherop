@@ -1,10 +1,10 @@
 import { InferPageProps } from '@adonisjs/inertia/types'
+import { router } from '@inertiajs/react'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
 import CoursesController from '#controllers/courses_controller'
 
-import CreateCourseModal from '~/lib/components/create_course'
 import AppLayout from '~/lib/components/layout/app_layout'
 import { Layout } from '~/lib/components/layout/custom_layout'
 import { UserNav } from '~/lib/components/user_nav'
@@ -27,7 +27,6 @@ export default function CoursesCreatePage({ }: InferPageProps<CoursesController,
   const [placeholderIndex, setPlaceholderIndex] = useState(0)
   const [isFocused, setIsFocused] = useState(false)
   const [query, setQuery] = useState('')
-  const [isModalOpen, setIsModalOpen] = useState(false)
   useEffect(() => {
     if (isFocused) return
 
@@ -50,16 +49,16 @@ export default function CoursesCreatePage({ }: InferPageProps<CoursesController,
     e.preventDefault()
     setPlaceholderIndex((prevIndex) => (prevIndex + 1) % placeholders.length)
 
-    await axios.post('/courses', {
+    const { data } = await axios.post('/courses', {
       query,
     })
-    setIsModalOpen(true)
+    router.visit(`/courses/${data.course.id}/onboarding`)
   }
 
   return (
     <AppLayout>
       <Layout.Header>
-        <div className="hidden md:flex  justify-end items-end w-full">
+        <div className="hidden justify-end items-end w-full md:flex">
           {/* <Search /> */}
           <div className="flex items-end space-x-4">
             {/* <ThemeSwitch /> */}
@@ -104,7 +103,7 @@ export default function CoursesCreatePage({ }: InferPageProps<CoursesController,
           </div>
           <WorkflowComponent />
         </main>
-        <CreateCourseModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} data={query} />
+        {/* <CreateCourseModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} data={query} /> */}
       </Layout.Body>
     </AppLayout>
   )

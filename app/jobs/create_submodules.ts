@@ -7,7 +7,6 @@ import Course from '#models/course'
 import PlanSummary from '#models/plan_summary'
 import env from '#start/env'
 import { createSubmoduleTool } from '#tools'
-import transmit from '@adonisjs/transmit/services/main'
 import Anthropic from '@anthropic-ai/sdk'
 
 interface CreateSubmodulesJobArgs {
@@ -31,6 +30,9 @@ export default class CreateSubmodulesJob extends BaseJob {
       console.log('creating submodule for module: ', module.title)
       await this.createSubmodule(module.id)
     }
+
+    course.isModulesCreated = true
+    await course.save()
   }
 
   private async createSubmodule(moduleId: string) {
@@ -62,6 +64,7 @@ export default class CreateSubmodulesJob extends BaseJob {
     const oldCheckpoints = await Checkpoint.query()
       .where('course_id', course.id)
       .andWhere('parent_id', module.id)
+      .limit(5)
     const oldCheckpointsSerialized = oldCheckpoints.map((checkpoint) => checkpoint.serialize())
 
     for (let checkpoint of oldCheckpointsSerialized) {
@@ -86,7 +89,7 @@ export default class CreateSubmodulesJob extends BaseJob {
     const response = await ai.ask({
       model: env.get('LLM_MODEL', 'claude-3-5-sonnet-20240620'),
       messages,
-      max_tokens: 1000,
+      max_tokens: 4000,
       temperature: 0,
       tools: createSubmoduleTool,
     })
@@ -122,17 +125,11 @@ export default class CreateSubmodulesJob extends BaseJob {
             parentId: module.id,
           })
           await checkpoint.save()
-          transmit.broadcast('checkpoint_created', {
-            checkpointId: checkpoint.id,
-          })
         }
       }
       this.createSubmodule(moduleId)
     } else if (response.stop_reason === 'end_turn') {
       // console.log('AI response', response)
-      transmit.broadcast('course_created', {
-        courseId: planSummary.courseId,
-      })
     }
   }
 }

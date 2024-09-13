@@ -1,5 +1,4 @@
 import app from '@adonisjs/core/services/app'
-import transmit from '@adonisjs/transmit/services/main'
 import Anthropic from '@anthropic-ai/sdk'
 import { BaseJob } from 'adonis-resque'
 
@@ -60,7 +59,7 @@ export default class OnboardCourseJob extends BaseJob {
       model: env.get('LLM_MODEL', 'claude-3-5-sonnet-20240620'),
       messages,
       tools: onboardingPlanSummaryTools,
-      max_tokens: 1000,
+      max_tokens: 4000,
       temperature: 0,
     })
 
@@ -93,19 +92,13 @@ export default class OnboardCourseJob extends BaseJob {
           console.log('questionType', questionType)
           console.log('meta', JSON.stringify(meta, null, 2))
 
-          const question = await course.related('questions').create({
+          await course.related('questions').create({
             content: questionText,
             type: questionType,
             meta,
             userId: course.userId,
             aiResponse: response,
           })
-
-          transmit.broadcast('onboard_course', {
-            question: question.serialize(),
-          })
-
-          // transmit the question to the user
         } else if (toolName === 'generate_plan_summary') {
           const {
             plan_overview: planOverview,
@@ -132,10 +125,6 @@ export default class OnboardCourseJob extends BaseJob {
             courseId: course.id,
           })
 
-          transmit.broadcast('onboard_course', {
-            planSummary: planSummary.serialize(),
-          })
-
           // make the onboarding complete
           course.isOnboardingComplete = true
           await course.save()
@@ -149,7 +138,7 @@ export default class OnboardCourseJob extends BaseJob {
                 content: `Create a title and description for this course: ${JSON.stringify(course.serialize())}`,
               },
             ],
-            max_tokens: 1000,
+            max_tokens: 4000,
             temperature: 0,
             tools: [
               {
@@ -202,15 +191,6 @@ export default class OnboardCourseJob extends BaseJob {
       }
 
       await course.save()
-      if (!oldQuestions.length) {
-        transmit.broadcast('onboard_course', {
-          error: response.content[0].type === 'text' ? response.content[0].text : 'Unknown error',
-        })
-      } else {
-        transmit.broadcast('onboard_course', {
-          course: course.serialize(),
-        })
-      }
     }
   }
 }

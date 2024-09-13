@@ -3,6 +3,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import bindCourse from '#decorators/bind_course'
 import CheckPointDto from '#dtos/checkpoint_dto'
 import CourseDto from '#dtos/course_dto'
+import QuestionDto from '#dtos/question_dto'
 import UserDto from '#dtos/user_dto'
 import { CheckpointTypeEnum } from '#enums/checkpoint'
 import OnboardCourseJob from '#jobs/onboard_course'
@@ -65,7 +66,7 @@ export default class CoursesController {
       .orderBy('created_at', 'asc')
     const modulesWithSubmodules = []
 
-    // todo)) count of total modules, submodules and completed modules, submodules
+    console.log('modules created:', course.isModulesCreated)
 
     for (const module of modules!) {
       const submodules = await module
@@ -92,11 +93,15 @@ export default class CoursesController {
   }
 
   @bindCourse()
-  async onboardCourse({ auth, response, inertia }: HttpContext, course: Course) {
-    if (course.isOnboardingComplete) return response.redirect().toPath(`/courses/${course.id}`)
+  async onboardCourse({ auth, inertia }: HttpContext, course: Course) {
+    // if (course.isOnboardingComplete) return response.redirect().toPath(`/courses/${course.id}`)
     const user = auth.user!
 
-    const currentQuestion = await user.related('questions').query().whereNull('answer').first()
-    return inertia.render('courses/onboarding', { currentQuestion, user })
+    const question = await user.related('questions').query().whereNull('answer').first()
+    return inertia.render('courses/onboarding', {
+      course: new CourseDto(course).toJSON(),
+      currentQuestion: new QuestionDto(question).toJSON(),
+      user,
+    })
   }
 }

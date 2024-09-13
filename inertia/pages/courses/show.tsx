@@ -1,6 +1,5 @@
 import { InferPageProps } from '@adonisjs/inertia/types'
 import { router } from '@inertiajs/react'
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 
 import type CoursesController from '#controllers/courses_controller'
@@ -13,23 +12,15 @@ import {
   PlayIcon,
   ZapIcon,
 } from 'lucide-react'
-import CreateCourseModal from '~/lib/components/create_course'
 import AppLayout from '~/lib/components/layout/app_layout'
 import { Layout } from '~/lib/components/layout/custom_layout'
 import { Button } from '~/lib/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/lib/components/ui/card'
 import { Progress } from '~/lib/components/ui/progress'
 import { UserNav } from '~/lib/components/user_nav'
-import { transmit } from '~/lib/lib/utils'
-
-const subscription = transmit.subscription('checkpoint_created')
-let stopListening: () => void
-subscription.create().then()
 
 export default function CoursesShowPage(props: InferPageProps<CoursesController, 'show'>) {
   const { course, modules } = props
-  const [isOnboardingModalOpen, setIsOnboardingModalOpen] = useState(false)
-  const [currentQuestion, setCurrentQuestion] = useState<any>(null)
 
   const [expandedModule, setExpandedModule] = useState<number | null>(null)
 
@@ -38,16 +29,11 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
   }
 
   useEffect(() => {
-    if (!course.isOnboardingComplete) {
-      axios.get('/questions/current').then((res) => {
-        setCurrentQuestion(res.data.question)
-      })
-    }
-
-    stopListening = subscription.onMessage(() => {
-      router.reload({ only: ['course', 'modules'] })
-    })
-    return () => stopListening()
+    const interval = setInterval(() => {
+      console.log('modules created:', course.isModulesCreated)
+      if (course.isModulesCreated) clearInterval(interval)
+      router.reload()
+    }, 2000)
   }, [])
 
   return (
@@ -177,7 +163,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                 <CardDescription>Complete the onboarding to get started</CardDescription>
               </CardHeader>
               <CardContent>
-                <Button onClick={() => setIsOnboardingModalOpen(true)} className="w-full">
+                <Button onClick={() => router.visit(`${course.id}/onboarding`)} className="w-full">
                   Start Onboarding
                   <ChevronRightIcon className="ml-2 w-4 h-4" />
                 </Button>
@@ -185,11 +171,6 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
             </Card>
           </div>
         )}
-        <CreateCourseModal
-          isOpen={isOnboardingModalOpen}
-          setIsOpen={setIsOnboardingModalOpen}
-          data={currentQuestion}
-        />
       </Layout.Body>
     </AppLayout>
   )
