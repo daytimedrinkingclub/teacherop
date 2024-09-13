@@ -1,21 +1,26 @@
 import { InferPageProps } from '@adonisjs/inertia/types'
 import { router } from '@inertiajs/react'
 import axios from 'axios'
-import { ChevronRightIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import type CoursesController from '#controllers/courses_controller'
+import { AnimatePresence, motion } from 'framer-motion'
+import {
+  CheckCircleIcon,
+  ChevronDown,
+  ChevronRightIcon,
+  ClockIcon,
+  PlayIcon,
+  ZapIcon,
+} from 'lucide-react'
 import CreateCourseModal from '~/lib/components/create_course'
 import AppLayout from '~/lib/components/layout/app_layout'
 import { Layout } from '~/lib/components/layout/custom_layout'
-import { UserNav } from '~/lib/components/user_nav'
+import { Button } from '~/lib/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/lib/components/ui/card'
+import { Progress } from '~/lib/components/ui/progress'
 import { UserNav } from '~/lib/components/user_nav'
 import { transmit } from '~/lib/lib/utils'
-import { Button } from '~/lib/components/ui/button'
-import { ChevronRightIcon, ChevronDownIcon, BookOpenIcon, CheckCircleIcon, PlayIcon, ClockIcon, ChevronDown, ZapIcon } from 'lucide-react'
-import { Progress } from '~/lib/components/ui/progress'
-import { motion, AnimatePresence } from 'framer-motion'
 
 const subscription = transmit.subscription('checkpoint_created')
 let stopListening: () => void
@@ -48,7 +53,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
   return (
     <AppLayout>
       <Layout.Header>
-        <div className="hidden md:flex justify-end items-end w-full">
+        <div className="hidden justify-end items-end w-full md:flex">
           {/* <Search /> */}
           <div className="flex items-end space-x-4">
             {/* <ThemeSwitch /> */}
@@ -59,41 +64,54 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
       <Layout.Body>
         {course.isOnboardingComplete ? (
           <>
-            <div className="container mx-auto p-4 space-y-6 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg">
-              <h1 className="text-3xl font-bold mb-6 text-blue-800">{course.title}</h1>
-              <Card className="bg-white p-6 shadow-lg rounded-lg">
-                <p className="text-gray-700 mb-4">{course.description}</p>
+            <div className="container p-4 mx-auto space-y-6 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg">
+              <h1 className="mb-6 text-3xl font-bold text-blue-800">{course.title}</h1>
+              <Card className="p-6 bg-white rounded-lg shadow-lg">
+                <p className="mb-4 text-gray-700">{course.description}</p>
                 <div className="flex items-center space-x-4 whitespace-nowrap">
-                  <Progress value={course.progress} className="flex-grow" />
-                  <p className="text-sm text-gray-500 flex items-center">
-                    <ClockIcon className="w-4 h-4 mr-1 text-blue-500" />
-                    <span>{course.progress}% Complete</span>
+                  <Progress
+                    value={(course.completedModule / course.totalModule) * 100}
+                    className="flex-grow"
+                  />
+                  <p className="flex items-center text-sm text-gray-500">
+                    <ClockIcon className="mr-1 w-4 h-4 text-blue-500" />
+                    <span>
+                      {course.completedModule} / {course.totalModule} Modules
+                    </span>
                   </p>
                 </div>
+                <p className="mt-2 text-sm text-gray-600">
+                  {Math.floor((course.completedModule / course.totalModule) * 100)}% Complete
+                </p>
               </Card>
-              {modules.map((module: any, index: number) => (
+              {modules.map((module, index) => (
                 <motion.div
-                  key={index}
+                  key={module.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
                 >
-                  <Card className="bg-white rounded-lg shadow-md overflow-hidden border-l-4 border-blue-500">
+                  <Card className="overflow-hidden rounded-lg border-l-4 border-blue-500 shadow-md bg-background">
                     <motion.div
                       className="p-4 cursor-pointer"
                       onClick={() => toggleModule(index)}
                       initial={false}
-                      animate={{ backgroundColor: expandedModule === index ? "#f3f4f6" : "#ffffff" }}
+                      animate={{
+                        backgroundColor: expandedModule === index ? '#f3f4f6' : '#ffffff',
+                      }}
                     >
-                      <div className="flex items-center justify-between">
+                      <div className="flex justify-between items-center">
                         <div className="flex items-center space-x-3">
                           <ZapIcon className="w-6 h-6 text-blue-500" />
                           <h2 className="text-lg font-semibold text-blue-700">{module.title}</h2>
                         </div>
                         <div className="flex items-center space-x-3">
-                          <Progress value={module.progress} className="w-24" />
+                          <Progress
+                            value={(module.completedSubmodule / module.totalSubmodule) * 100}
+                            className="w-24"
+                          />
                           <span className="text-sm text-gray-600">
-                            {module.progress}%
+                            {Math.floor((module.completedSubmodule / module.totalSubmodule) * 100)}%
                           </span>
                           <motion.div
                             animate={{ rotate: expandedModule === index ? 180 : 0 }}
@@ -109,7 +127,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                       {expandedModule === index && (
                         <motion.div
                           initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
+                          animate={{ height: 'auto', opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.3 }}
                         >
@@ -117,7 +135,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                             {module.submodules.map((submodule: any, subIndex: number) => (
                               <motion.div
                                 key={subIndex}
-                                className="bg-gray-50 p-3 rounded-md flex items-center justify-between"
+                                className="flex justify-between items-center p-3 bg-gray-50 rounded-md"
                                 initial={{ x: -20, opacity: 0 }}
                                 animate={{ x: 0, opacity: 1 }}
                                 transition={{ delay: subIndex * 0.1 }}
@@ -135,11 +153,15 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                                 </div>
                                 <Button
                                   size="sm"
-                                  variant={submodule.isCompleted ? "outline" : "default"}
-                                  className={submodule.isCompleted ? "text-green-500" : "bg-blue-500 hover:bg-blue-600 text-white"}
+                                  variant={submodule.isCompleted ? 'outline' : 'default'}
+                                  className={
+                                    submodule.isCompleted
+                                      ? 'text-green-500'
+                                      : 'bg-blue-500 hover:bg-blue-600 text-white'
+                                  }
                                 >
-                                  {submodule.isCompleted ? "Review" : "Start"}
-                                  <PlayIcon className="w-4 h-4 ml-2" />
+                                  {submodule.isCompleted ? 'Review' : 'Start'}
+                                  <PlayIcon className="ml-2 w-4 h-4" />
                                 </Button>
                               </motion.div>
                             ))}
