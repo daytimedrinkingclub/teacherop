@@ -4,16 +4,29 @@ import bindCourse from '#decorators/bind_course'
 import CheckPointDto from '#dtos/checkpoint_dto'
 import CourseDto from '#dtos/course_dto'
 import UserDto from '#dtos/user_dto'
+import { CheckpointTypeEnum } from '#enums/checkpoint'
 import OnboardCourseJob from '#jobs/onboard_course'
+import Checkpoint from '#models/checkpoint'
 import Course from '#models/course'
 
 export default class CoursesController {
   async index({ inertia, auth }: HttpContext) {
     const user = auth.user!
 
-    const courses = (await user.related('courses').query()).map((c) => new CourseDto(c).toJSON())
+    const courses = await user.related('courses').query()
 
-    return inertia.render('courses/index', { courses, user: new UserDto(user).toJSON() })
+    const totalModules = await Checkpoint.query().where('type', CheckpointTypeEnum.MODULE)
+    const completedModules = await Checkpoint.query()
+      .where('type', CheckpointTypeEnum.MODULE)
+      .andWhere('is_completed', true)
+
+    const data = courses.map((c) => ({
+      ...new CourseDto(c).toJSON(),
+      totalModule: totalModules.length,
+      completedModule: completedModules.length,
+    }))
+
+    return inertia.render('courses/index', { courses: data, user: new UserDto(user).toJSON() })
   }
 
   async create({ response, inertia, auth }: HttpContext) {
@@ -52,6 +65,8 @@ export default class CoursesController {
       .orderBy('created_at', 'asc')
     const modulesWithSubmodules = []
 
+    // todo)) count of total modules, submodules and completed modules, submodules
+
     for (const module of modules!) {
       const submodules = await module
         .related('children')
@@ -60,12 +75,17 @@ export default class CoursesController {
         .orderBy('created_at', 'asc')
       modulesWithSubmodules.push({
         ...new CheckPointDto(module).toJSON(),
+        totalSubmodule: submodules.length,
+        completedSubmodule: submodules.filter((s) => s.isCompleted).length,
         submodules: submodules.map((s) => new CheckPointDto(s).toJSON()),
       })
     }
 
+    const totalModule = modules.length
+    const completedModule = modules.filter((m) => m.isCompleted).length
+
     return inertia.render('courses/show', {
-      course: new CourseDto(course).toJSON(),
+      course: { ...new CourseDto(course).toJSON(), totalModule, completedModule },
       user: new UserDto(user).toJSON(),
       modules: modulesWithSubmodules,
     })
