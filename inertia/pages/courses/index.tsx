@@ -20,6 +20,7 @@ import { Button } from '~/lib/components/ui/button'
 import { Progress } from '~/lib/components/ui/progress'
 import { UserNav } from '~/lib/components/user_nav'
 import WorkflowComponent from '~/lib/components/workflow'
+import { calculatePercentage } from '~/lib/lib/utils'
 
 export default function CoursesPage({ courses }: InferPageProps<CoursesController, 'index'>) {
   const isOngoing = courses.some((course) => course.status === 'ongoing')
@@ -87,13 +88,13 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <Progress
-                        value={(course.completedModule / course.totalModule) * 100}
+                        value={calculatePercentage(course.totalModule, course.completedModule || 0)}
                         className="mb-2"
                       />
                       <div className="flex items-center justify-between">
                         <p className="flex items-center text-sm text-gray-500">
                           <ZapIcon className="mr-1 w-4 h-4" />
-                          {Math.floor((course.completedModule / course.totalModule) * 100)}%
+                          {Math.floor(calculatePercentage(course.totalModule, course.completedModule || 0))}%
                           Complete
                         </p>
                         <Badge

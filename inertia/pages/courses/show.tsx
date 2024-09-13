@@ -18,6 +18,7 @@ import { Button } from '~/lib/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/lib/components/ui/card'
 import { Progress } from '~/lib/components/ui/progress'
 import { UserNav } from '~/lib/components/user_nav'
+import { calculatePercentage } from '~/lib/lib/utils'
 
 export default function CoursesShowPage(props: InferPageProps<CoursesController, 'show'>) {
   const { course, modules } = props
@@ -67,7 +68,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                   </p>
                 </div>
                 <p className="mt-2 text-sm text-gray-600">
-                  {Math.floor((course.completedModule / course.totalModule) * 100)}% Complete
+                  {calculatePercentage(course.totalModule, course.completedModule || 0)}% Complete
                 </p>
               </Card>
               {modules.map((module, index) => (
@@ -86,18 +87,18 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                         backgroundColor: expandedModule === index ? '#f3f4f6' : '#ffffff',
                       }}
                     >
-                      <div className="flex justify-between items-center">
+                      <div className="flex flex-col md:flex-row gap-2 justify-between items-center">
                         <div className="flex items-center space-x-3">
                           <ZapIcon className="w-6 h-6" />
                           <h2 className="text-lg font-semibold">{module.title}</h2>
                         </div>
                         <div className="flex items-center space-x-3">
                           <Progress
-                            value={(module.completedSubmodule / module.totalSubmodule) * 100}
+                            value={calculatePercentage(module.totalSubmodule, module.completedSubmodule || 0)}
                             className="w-24"
                           />
                           <span className="text-sm text-gray-600">
-                            {Math.floor((module.completedSubmodule / module.totalSubmodule) * 100)}%
+                            {calculatePercentage(module.totalSubmodule, module.completedSubmodule || 0)}%
                           </span>
                           <motion.div
                             animate={{ rotate: expandedModule === index ? 180 : 0 }}
@@ -121,7 +122,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                             {module.submodules.map((submodule: any, subIndex: number) => (
                               <motion.div
                                 key={subIndex}
-                                className="flex justify-between items-center p-3 bg-gray-50 rounded-md"
+                                className="flex justify-between flex-col md:flex-row items-center md:p-3 bg-gray-50 rounded-md"
                                 initial={{ x: -20, opacity: 0 }}
                                 animate={{ x: 0, opacity: 1 }}
                                 transition={{ delay: subIndex * 0.1 }}
