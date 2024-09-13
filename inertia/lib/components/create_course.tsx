@@ -21,10 +21,6 @@ import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
 
 import { router } from '@inertiajs/react'
-import { transmit } from '~/lib/lib/utils'
-
-const subscription = transmit.subscription('onboard_course')
-subscription.create().then()
 
 let stopListening: () => void
 
@@ -55,37 +51,37 @@ export default function CreateCourseModal({
   }, [data, isOpen])
 
   useEffect(() => {
-    stopListening = subscription.onMessage((data: any) => {
-      if (data.question) {
-        setCurrentQuestion(data.question)
-        setAnswer(null)
-      }
-      if (data.planSummary) {
-        setTitle(data.planSummary.title)
-        setCurrentQuestion(null)
-        setIsLoading(false)
-        setDescription('Thank you for answering all the questions. Your course is being prepared.')
-        setIsLoading(false)
-        setTimeout(() => {
-          setIsOpen(false)
-          router.visit(`/courses/${data.planSummary.courseId}`)
-        }, 5000)
-      } else if (data.course) {
-        setTitle(data.course.title)
-        setCurrentQuestion(null)
-        setIsLoading(false)
-        setTimeout(() => {
-          setIsOpen(false)
-          router.visit(`/courses/${data.course.id}`)
-        }, 5000)
-      } else if (data.error) {
-        setError(data.error)
-        setIsLoading(false)
-        setCurrentQuestion(null)
-        setDescription('')
-      }
-      setIsLoading(false)
-    })
+    // stopListening = subscription.onMessage((data: any) => {
+    //   if (data.question) {
+    //     setCurrentQuestion(data.question)
+    //     setAnswer(null)
+    //   }
+    //   if (data.planSummary) {
+    //     setTitle(data.planSummary.title)
+    //     setCurrentQuestion(null)
+    //     setIsLoading(false)
+    //     setDescription('Thank you for answering all the questions. Your course is being prepared.')
+    //     setIsLoading(false)
+    //     setTimeout(() => {
+    //       setIsOpen(false)
+    //       router.visit(`/courses/${data.planSummary.courseId}`)
+    //     }, 5000)
+    //   } else if (data.course) {
+    //     setTitle(data.course.title)
+    //     setCurrentQuestion(null)
+    //     setIsLoading(false)
+    //     setTimeout(() => {
+    //       setIsOpen(false)
+    //       router.visit(`/courses/${data.course.id}`)
+    //     }, 5000)
+    //   } else if (data.error) {
+    //     setError(data.error)
+    //     setIsLoading(false)
+    //     setCurrentQuestion(null)
+    //     setDescription('')
+    //   }
+    //   setIsLoading(false)
+    // })
 
     return () => {
       stopListening()

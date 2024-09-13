@@ -85,15 +85,16 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
                         {course.description?.length || 0 > 100 ? '...' : ''}
                       </CardDescription>
                     </CardHeader>
-                    <CardContent className='space-y-4'>
+                    <CardContent className="space-y-4">
                       <Progress
                         value={(course.completedModule / course.totalModule) * 100}
                         className="mb-2"
                       />
-                      <div className='flex items-center justify-between'>
+                      <div className="flex items-center justify-between">
                         <p className="flex items-center text-sm text-gray-500">
                           <ZapIcon className="mr-1 w-4 h-4" />
-                          {Math.floor((course.completedModule / course.totalModule) * 100)}% Complete
+                          {Math.floor((course.completedModule / course.totalModule) * 100)}%
+                          Complete
                         </p>
                         <Badge
                           variant={course.status === 'ongoing' ? 'outline' : 'default'}

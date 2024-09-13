@@ -22,6 +22,7 @@ export default class extends BaseSchema {
         .defaultTo(CourseStatusEnum.ONGOING)
       table.boolean('is_onboarding_complete').notNullable().defaultTo(false)
       table.boolean('is_studying').notNullable().defaultTo(false)
+      table.boolean('is_modules_created').notNullable().defaultTo(false)
       table.json('meta').nullable()
       table.uuid('user_id').references('users.id').notNullable().onDelete('CASCADE')
       table.timestamp('created_at').notNullable()

@@ -73,8 +73,6 @@
     "@adonisjs/session": "^7.4.1",
     "@adonisjs/shield": "^8.1.1",
     "@adonisjs/static": "^1.1.1",
-    "@adonisjs/transmit": "^2.0.0",
-    "@adonisjs/transmit-client": "^1.0.0",
     "@adonisjs/vite": "^3.0.0",
     "@anthropic-ai/sdk": "^0.27.2",
     "@inertiajs/react": "^1.2.0",

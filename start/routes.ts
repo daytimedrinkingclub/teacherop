@@ -8,9 +8,6 @@
 */
 
 import router from '@adonisjs/core/services/router'
-import transmit from '@adonisjs/transmit/services/main'
-
-transmit.registerRoutes()
 
 import env from './env.js'
 import { middleware } from './kernel.js'
@@ -47,6 +44,9 @@ router.get('/courses', [courseController, 'index']).use([middleware.auth()])
 router.get('/courses/create', [courseController, 'create']).use([middleware.auth()])
 router.post('/courses', [courseController, 'store']).use([middleware.auth()])
 router.get('/courses/:courseId', [courseController, 'show']).use([middleware.auth()])
+router
+  .get('/courses/:courseId/onboarding', [courseController, 'onboardCourse'])
+  .use([middleware.auth()])
 
 // router.post('/questions', [questionController, 'store']).use([middleware.auth()])
 router.get('/questions/current', [questionController, 'current']).use([middleware.auth()])

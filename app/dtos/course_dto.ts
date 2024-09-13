@@ -13,6 +13,7 @@ export default class CourseDto {
       status: this.course.status,
       isOnboardingComplete: this.course.isOnboardingComplete,
       isStudying: this.course.isStudying,
+      isModulesCreated: this.course.isModulesCreated,
       meta: this.course.meta,
       userId: this.course.userId,
       createdAt: this.course.createdAt.toISO(),

@@ -1,5 +1,4 @@
 import app from '@adonisjs/core/services/app'
-import transmit from '@adonisjs/transmit/services/main'
 import Anthropic from '@anthropic-ai/sdk'
 import { BaseJob } from 'adonis-resque'
 
@@ -86,7 +85,7 @@ export default class CheckPointJob extends BaseJob {
       const response = await ai.ask({
         model: env.get('LLM_MODEL', 'claude-3-5-sonnet-20240620'),
         messages,
-        max_tokens: 2000,
+        max_tokens: 4000,
         temperature: 0,
         tools: createModuleTool,
       })
@@ -122,23 +121,10 @@ export default class CheckPointJob extends BaseJob {
             })
 
             await checkpoint.save()
-
-            transmit.broadcast('checkpoint_created', {
-              checkpointId: checkpoint.id,
-            })
-            // await CreateSubmodulesJob.enqueue({ modulesId: checkpoint.id })
-
-            // recursively create checkpoints for the new checkpoint and its children until no more checkpoints are created
-            // await this.createModules(planSummaryId)
           }
         }
       } else if (response.stop_reason === 'end_turn') {
         // create all the submodules
-
-        // transmit.broadcast('course_created', {
-        transmit.broadcast('course_created', {
-          courseId: planSummary.courseId,
-        })
       }
     }
 

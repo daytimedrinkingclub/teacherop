@@ -31,7 +31,7 @@ function formatTime(minutes: number) {
   return `${hours}h ${mins}m`
 }
 
-export default function DashboardPage({ }: InferPageProps<DashboardController, 'index'>) {
+export default function DashboardPage({}: InferPageProps<DashboardController, 'index'>) {
   const completionPercentage = (stats.completedCourses / stats.totalCourses) * 100
   return (
     <AppLayout>
@@ -66,9 +66,7 @@ export default function DashboardPage({ }: InferPageProps<DashboardController, '
               <CardContent>
                 <div className="text-2xl font-bold">{stats.completedCourses}</div>
                 <Progress value={completionPercentage} className="mt-2" />
-                <p className="text-xs mt-2">
-                  {completionPercentage.toFixed(1)}% completion rate
-                </p>
+                <p className="text-xs mt-2">{completionPercentage.toFixed(1)}% completion rate</p>
               </CardContent>
             </Card>
             <Card className="border-l-4">

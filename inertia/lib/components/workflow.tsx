@@ -42,7 +42,6 @@ const workflowSteps = [
 ]
 
 const WorkflowComponent = () => {
-
   return (
     <div className="mt-12  p-4 md:p-8 rounded-lg">
       <h3 className="text-3xl font-bold mb-6 text-center">How TeacherOP Works</h3>
@@ -54,9 +53,7 @@ const WorkflowComponent = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
           >
-            <Card
-              className="h-full border-l-4 transition-all duration-300 ease-in-out hover:shadow-lg"
-            >
+            <Card className="h-full border-l-4 transition-all duration-300 ease-in-out hover:shadow-lg">
               <CardHeader>
                 <CardTitle className="flex items-center gap-3 text-xl">
                   <motion.div
