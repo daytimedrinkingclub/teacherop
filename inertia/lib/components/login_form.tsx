@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label'
 import useError from '@/hooks/use_error'
 import { cn } from '@/lib/utils'
 
-interface LoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface LoginFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 export default function LoginForm({ className, ...props }: LoginFormProps) {
   const form = useForm({
