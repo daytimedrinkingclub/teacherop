@@ -30,12 +30,12 @@ export default await Env.create(new URL('../', import.meta.url), {
   | Variables for configuring database connection
   |----------------------------------------------------------
   */
-  // DB_HOST: Env.schema.string({ format: 'host' }),
-  // DB_PORT: Env.schema.number(),
-  // DB_USER: Env.schema.string(),
-  // DB_PASSWORD: Env.schema.string.optional(),
-  // DB_DATABASE: Env.schema.string(),
-  DATABASE_URL: Env.schema.string(),
+  DB_HOST: Env.schema.string({ format: 'host' }),
+  DB_PORT: Env.schema.number(),
+  DB_USER: Env.schema.string(),
+  DB_PASSWORD: Env.schema.string.optional(),
+  DB_DATABASE: Env.schema.string(),
+  // DATABASE_URL: Env.schema.string(),
 
   REDIS_HOST: Env.schema.string.optional({ format: 'host' }),
   REDIS_PORT: Env.schema.number.optional(),
