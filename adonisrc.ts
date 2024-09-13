@@ -44,7 +44,6 @@ export default defineConfig({
     () => import('@adonisjs/inertia/inertia_provider'),
     () => import('adonis-resque/providers/resque_provider'),
     () => import('@adonisjs/redis/redis_provider'),
-    () => import('@adonisjs/transmit/transmit_provider'),
     () => import('./providers/ai_provider.js'),
   ],
 
