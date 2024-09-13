@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 
 import CoursesController from '#controllers/courses_controller'
 
-import { CalendarIcon } from 'lucide-react'
+import { ArrowRightIcon, BookOpenIcon, CalendarIcon, LoaderIcon } from 'lucide-react'
 import AppLayout from '~/lib/components/layout/app_layout'
 import { Layout } from '~/lib/components/layout/custom_layout'
 import { Button } from '~/lib/components/ui/button'
@@ -20,6 +20,7 @@ import { Skeleton } from '~/lib/components/ui/skeleton'
 import { Slider } from '~/lib/components/ui/slider'
 import { UserNav } from '~/lib/components/user_nav'
 import { cn } from '~/lib/lib/utils'
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '~/lib/components/ui/card'
 
 export default function CourseOnboardingPage(
   props: InferPageProps<CoursesController, 'onboardCourse'>
@@ -32,7 +33,7 @@ export default function CourseOnboardingPage(
   const [date, setDate] = useState<Date>()
 
   const renderInput = () => {
-    if (!currentQuestion) return
+    if (!currentQuestion) return null
     switch (currentQuestion.type) {
       case 'text':
         return (
@@ -40,15 +41,16 @@ export default function CourseOnboardingPage(
             value={answer || ''}
             onChange={(e) => setAnswer(e.target.value)}
             className="w-full"
+            placeholder="Type your answer here..."
           />
         )
       case 'radio':
         return (
           <RadioGroup value={answer} onValueChange={setAnswer}>
             {currentQuestion.meta?.options.map((option: string) => (
-              <div key={option} className="flex items-center space-x-2">
+              <div key={option} className="flex items-center space-x-2 p-2 hover:bg-secondary rounded-md">
                 <RadioGroupItem value={option} id={option} />
-                <Label htmlFor={option}>{option}</Label>
+                <Label htmlFor={option} className="flex-grow cursor-pointer">{option}</Label>
               </div>
             ))}
           </RadioGroup>
@@ -57,7 +59,7 @@ export default function CourseOnboardingPage(
         return (
           <div className="space-y-2">
             {currentQuestion.meta?.options.map((option: string) => (
-              <div key={option} className="flex items-center space-x-2">
+              <div key={option} className="flex items-center space-x-2 p-2 hover:bg-secondary rounded-md">
                 <Checkbox
                   id={option}
                   checked={(answer || []).includes(option)}
@@ -69,20 +71,26 @@ export default function CourseOnboardingPage(
                     )
                   }}
                 />
-                <Label htmlFor={option}>{option}</Label>
+                <Label htmlFor={option} className="flex-grow cursor-pointer">{option}</Label>
               </div>
             ))}
           </div>
         )
       case 'scale':
         return (
-          <Slider
-            min={currentQuestion.meta?.min}
-            max={currentQuestion.meta?.max}
-            step={1}
-            value={[answer || currentQuestion.meta?.min]}
-            onValueChange={(value: any) => setAnswer(value[0])}
-          />
+          <div className="space-y-4">
+            <Slider
+              min={currentQuestion.meta?.min}
+              max={currentQuestion.meta?.max}
+              step={1}
+              value={[answer || currentQuestion.meta?.min]}
+              onValueChange={(value: any) => setAnswer(value[0])}
+            />
+            <div className="flex justify-between text-sm text-muted-foreground">
+              <span>{currentQuestion.meta?.min}</span>
+              <span>{currentQuestion.meta?.max}</span>
+            </div>
+          </div>
         )
       case 'datepicker':
         return (
@@ -116,6 +124,7 @@ export default function CourseOnboardingPage(
         return null
     }
   }
+
   useEffect(() => {
     const interval = setInterval(() => {
       if (currentQuestion) setIsLoading(false)
@@ -124,18 +133,19 @@ export default function CourseOnboardingPage(
     }, 2000)
   }, [])
 
-  // if (!currentQuestion) router.reload({ only: ['currentQuestion'] })
   const handleSubmit = async () => {
-    setIsLoading(true)
-    setAnswer(null)
-    setDate(undefined)
-    await axios.put(`/questions/${currentQuestion?.id}`, {
-      answer,
-    })
-    // setInterval(() => {
-    // }, 500)
+    try {
+      setIsLoading(true)
+      await axios.put(`/questions/${currentQuestion?.id}`, { answer })
+      setDate(undefined)
+    } catch (error) {
+      console.error('Error submitting answer:', error)
+      alert('Error submitting answer. Please try again.')
+    } finally {
+      setAnswer(null)
+      setIsLoading(false)
+    }
   }
-
   return (
     <AppLayout>
       <Layout.Header>
@@ -148,49 +158,41 @@ export default function CourseOnboardingPage(
         </div>
       </Layout.Header>
       <Layout.Body>
-        {currentQuestion ? (
-          <div className="grid gap-4 py-4">
-            <Label className="text-lg font-semibold">{currentQuestion.content}</Label>
-            {renderInput()}
-            <Button onClick={handleSubmit} disabled={!answer || isLoading}>
-              Next
+        <Card className="max-w-2xl mx-auto">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <BookOpenIcon className="w-6 h-6" />
+              <h1 className="text-2xl font-bold">{course.title} Onboarding</h1>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {currentQuestion ? (
+              <div className="space-y-4">
+                <Label className="text-lg font-semibold">{currentQuestion.content}</Label>
+                {renderInput()}
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <Skeleton className="w-full h-8" />
+                <Skeleton className="w-full h-32" />
+              </div>
+            )}
+          </CardContent>
+          <CardFooter>
+            <Button
+              onClick={handleSubmit}
+              disabled={!answer || isLoading}
+              className="w-full"
+            >
+              {isLoading ? (
+                <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <ArrowRightIcon className="mr-2 h-4 w-4" />
+              )}
+              {isLoading ? 'Submitting...' : 'Next'}
             </Button>
-          </div>
-        ) : (
-          <div className="mx-auto mt-10 w-full max-w-md">
-            <div className="space-y-4">
-              {/* Header skeleton */}
-              <div className="flex items-center space-x-4">
-                <Skeleton className="w-12 h-12 rounded-full" />
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-[250px]" />
-                  <Skeleton className="h-4 w-[200px]" />
-                </div>
-              </div>
-
-              {/* Content skeleton */}
-              <div className="space-y-2">
-                <Skeleton className="w-full h-4" />
-                <Skeleton className="w-full h-4" />
-                <Skeleton className="w-3/4 h-4" />
-              </div>
-
-              {/* Image placeholder skeleton */}
-              <Skeleton className="w-full h-40" />
-
-              {/* Action buttons skeleton */}
-              <div className="flex space-x-4">
-                <Skeleton className="w-full h-10" />
-                <Skeleton className="w-full h-10" />
-              </div>
-            </div>
-
-            {/* Accessibility considerations */}
-            <div className="sr-only" aria-live="polite">
-              Loading content, please wait.
-            </div>
-          </div>
-        )}
+          </CardFooter>
+        </Card>
       </Layout.Body>
     </AppLayout>
   )
