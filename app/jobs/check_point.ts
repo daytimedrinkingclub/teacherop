@@ -106,6 +106,7 @@ export default class CheckPointJob extends BaseJob {
             title: string
             description: string
             content: string
+            order: number
           }
           const aiResponse = { ...response, content: [...toolsText, tool] }
           if (toolName === 'generate_course_module') {
@@ -114,6 +115,7 @@ export default class CheckPointJob extends BaseJob {
               title: toolInput.title,
               description: toolInput.description,
               content: toolInput.content,
+              order: toolInput.order,
               userId: planSummary.userId,
               estimatedDuration: null,
               aiResponse,

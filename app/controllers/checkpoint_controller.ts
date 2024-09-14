@@ -11,14 +11,22 @@ export default class CheckpointController {
     const user = auth.user!
 
     const course = await checkpoint.related('course').query().first()
-    const module = await checkpoint.related('parent').query().first()
+    const next = await checkpoint.getNextCheckpoint()
+
+    await checkpoint.load('children')
+
+    const children =
+      checkpoint.type === 'module'
+        ? checkpoint.children.map((c) => new CheckPointDto(c).toJSON())
+        : null
+
+    const module = { ...new CheckPointDto(checkpoint).toJSON(), children, next: next?.id }
 
     // todo)) only pass required data
     return inertia.render('resources/show', {
       user: new UserDto(user).toJSON(),
-      checkpoint: new CheckPointDto(checkpoint).toJSON(),
       course: new CourseDto(course!).toJSON(),
-      module: new CheckPointDto(module).toJSON(),
+      module,
     })
   }
 }

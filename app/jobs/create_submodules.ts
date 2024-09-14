@@ -64,6 +64,7 @@ export default class CreateSubmodulesJob extends BaseJob {
     const oldCheckpoints = await Checkpoint.query()
       .where('course_id', course.id)
       .andWhere('parent_id', module.id)
+      .orderBy('created_at', 'desc')
       .limit(5)
     const oldCheckpointsSerialized = oldCheckpoints.map((checkpoint) => checkpoint.serialize())
 
@@ -109,6 +110,7 @@ export default class CreateSubmodulesJob extends BaseJob {
           description: string
           content: string
           estimated_duration: BigInt
+          order: number
         }
         const aiResponse = { ...response, content: [...toolsText, tool] }
 
@@ -120,6 +122,7 @@ export default class CreateSubmodulesJob extends BaseJob {
             content: toolInput.content,
             userId: planSummary.userId,
             estimatedDuration: toolInput.estimated_duration,
+            order: toolInput.order,
             aiResponse,
             courseId: planSummary.courseId,
             parentId: module.id,

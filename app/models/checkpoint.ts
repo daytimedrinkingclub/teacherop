@@ -41,6 +41,9 @@ export default class Checkpoint extends BaseModel {
   declare elapsedDuration: BigInt
 
   @column()
+  declare order: number
+
+  @column()
   declare userId: string
 
   @column()
@@ -71,4 +74,40 @@ export default class Checkpoint extends BaseModel {
 
   @belongsTo(() => User)
   declare user: BelongsTo<typeof User>
+
+  async getNextCheckpoint() {
+    const checkpoints = await Checkpoint.query()
+      .where('courseId', this.courseId)
+      .orderBy('parentId', 'asc')
+      .where('type', 'submodule')
+      .orderBy('order', 'asc')
+
+    const currentIndex = checkpoints.findIndex((cp) => cp.id === this.id)
+
+    if (currentIndex === -1 || currentIndex === checkpoints.length - 1) {
+      return null // Current checkpoint not found or is the last one
+    }
+
+    const nextCheckpoint = checkpoints[currentIndex + 1]
+
+    if (this.parentId === null) {
+      // Current checkpoint is a module
+      if (nextCheckpoint.parentId === this.id) {
+        // Next checkpoint is the first submodule of the current module
+        return nextCheckpoint
+      } else {
+        // Next checkpoint is the next module
+        return nextCheckpoint
+      }
+    } else {
+      // Current checkpoint is a submodule
+      if (nextCheckpoint.parentId === this.parentId) {
+        // Next checkpoint is the next submodule in the same module
+        return nextCheckpoint
+      } else {
+        // Next checkpoint is the next module
+        return nextCheckpoint
+      }
+    }
+  }
 }

@@ -12,10 +12,10 @@ import { Separator } from '~/lib/components/ui/separator'
 import { UserNav } from '~/lib/components/user_nav'
 
 export default function CheckpointShow({
-  checkpoint,
   course,
   module,
 }: InferPageProps<CheckpointController, 'show'>) {
+  console.log(module)
   return (
     <AppLayout>
       <Layout.Header>
@@ -53,8 +53,8 @@ export default function CheckpointShow({
                 <Separator />
                 <Card className="mt-6">
                   <CardContent className="p-6">
-                    <h4 className="mb-4 text-lg font-semibold">{checkpoint.title}</h4>
-                    <p>{checkpoint.description}</p>
+                    <h4 className="mb-4 text-lg font-semibold">{module.title}</h4>
+                    <p>{module.description}</p>
                     <div className="max-w-none prose">
                       <ReactMarkdown
                         components={{
@@ -79,7 +79,7 @@ export default function CheckpointShow({
                           },
                         }}
                       >
-                        {checkpoint.content}
+                        {module.content}
                       </ReactMarkdown>
                     </div>
                   </CardContent>

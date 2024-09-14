@@ -129,6 +129,10 @@ export const createModuleTool: Anthropic.Messages.Tool[] = [
           type: 'string',
           description: 'The detailed content of the module',
         },
+        order: {
+          type: 'integer',
+          description: 'The order of the module',
+        },
         // estimated_duration: {
         //   type: 'integer',
         //   description: 'Estimated time to complete the module',
@@ -146,7 +150,7 @@ export const createModuleTool: Anthropic.Messages.Tool[] = [
         //   required: ['duration', 'unit'],
         // },
       },
-      required: ['title', 'description', 'content'],
+      required: ['title', 'description', 'content', 'order'],
     },
   },
 ]
@@ -169,6 +173,10 @@ export const createSubmoduleTool: Anthropic.Messages.Tool[] = [
         content: {
           type: 'string',
           description: 'The detailed content of the submodule',
+        },
+        order: {
+          type: 'integer',
+          description: 'The order of the submodule',
         },
         estimated_duration: {
           type: 'number',
