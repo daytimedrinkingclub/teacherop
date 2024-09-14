@@ -8,7 +8,7 @@ export default class extends BaseSchema {
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.uuid('id').primary()
-      table.string('content').notNullable()
+      table.text('content').notNullable()
       table
         .enum('type', Object.values(QuestionTypeEnum), {
           useNative: false,
@@ -18,7 +18,7 @@ export default class extends BaseSchema {
         .notNullable()
       table.json('meta').nullable()
       table.json('ai_response').nullable()
-      table.string('answer').nullable()
+      table.text('answer').nullable()
       table.uuid('user_id').notNullable().references('users.id').onDelete('cascade')
       table.uuid('course_id').notNullable().references('courses.id').onDelete('cascade')
 

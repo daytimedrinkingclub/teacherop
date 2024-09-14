@@ -32,9 +32,9 @@ export default class CoursesController {
 
   async create({ response, inertia, auth }: HttpContext) {
     const user = auth.user!
-    const isOngoing = await user.related('courses').query().where('status', 'ongoing').first()
+    // const isOngoing = await user.related('courses').query().where('status', 'ongoing').first()
 
-    if (isOngoing) return response.redirect('/courses')
+    // if (isOngoing) return response.redirect('/courses')
 
     return inertia.render('courses/create', { user })
   }
@@ -42,9 +42,9 @@ export default class CoursesController {
   async store({ request, response, auth }: HttpContext) {
     const user = auth.user!
 
-    const isOngoing = await user.related('courses').query().where('status', 'ongoing').first()
+    // const isOngoing = await user.related('courses').query().where('status', 'ongoing').first()
 
-    if (isOngoing) return response.redirect('/courses')
+    // if (isOngoing) return response.redirect('/courses')
 
     const { query } = request.body()
 
