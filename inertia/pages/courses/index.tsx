@@ -61,7 +61,7 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
                 onClick={() => {
                   router.visit('/courses/create')
                 }}
-              // disabled={isOngoing}
+                disabled={isOngoing}
               >
                 <PlusIcon className="mr-2 w-5 h-5" />
                 <span className="hidden md:block">New Course</span>

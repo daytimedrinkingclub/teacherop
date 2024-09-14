@@ -32,9 +32,9 @@ export default class CoursesController {
 
   async create({ response, inertia, auth }: HttpContext) {
     const user = auth.user!
-    // const isOngoing = await user.related('courses').query().where('status', 'ongoing').first()
+    const isOngoing = await user.related('courses').query().where('status', 'ongoing').first()
 
-    // if (isOngoing) return response.redirect('/courses')
+    if (isOngoing) return response.redirect('/courses')
 
     return inertia.render('courses/create', { user })
   }
@@ -42,9 +42,9 @@ export default class CoursesController {
   async store({ request, response, auth }: HttpContext) {
     const user = auth.user!
 
-    // const isOngoing = await user.related('courses').query().where('status', 'ongoing').first()
+    const isOngoing = await user.related('courses').query().where('status', 'ongoing').first()
 
-    // if (isOngoing) return response.redirect('/courses')
+    if (isOngoing) return response.redirect('/courses')
 
     const { query } = request.body()
 
@@ -92,7 +92,6 @@ export default class CoursesController {
 
   @bindCourse()
   async onboardCourse({ auth, inertia }: HttpContext, course: Course) {
-    // if (course.isOnboardingComplete) return response.redirect().toPath(`/courses/${course.id}`)
     const user = auth.user!
 
     const question = await user.related('questions').query().whereNull('answer').first()
