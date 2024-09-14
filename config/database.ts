@@ -8,7 +8,6 @@ const dbConfig = defineConfig({
       pool: {
         min: 2,
         max: 10,
-        propagateCreateError: false,
       },
       client: 'pg',
       connection: {
@@ -17,6 +16,7 @@ const dbConfig = defineConfig({
         user: env.get('DB_USER'),
         password: env.get('DB_PASSWORD'),
         database: env.get('DB_DATABASE'),
+        ssl: env.get('DB_SSL', false),
         // connectionString: env.get('DATABASE_URL'),
       },
       migrations: {
