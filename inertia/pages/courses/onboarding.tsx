@@ -2,7 +2,7 @@ import { InferPageProps } from '@adonisjs/inertia/types'
 import { router } from '@inertiajs/react'
 import axios from 'axios'
 import { format } from 'date-fns'
-import { useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 
 import CoursesController from '#controllers/courses_controller'
 
@@ -125,27 +125,32 @@ export default function CourseOnboardingPage(
     }
   }
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (currentQuestion) setIsLoading(false)
-      if (course.isOnboardingComplete) clearInterval(interval)
-      router.reload()
-    }, 2000)
-  }, [])
 
-  const handleSubmit = async () => {
+  useEffect(() => {
+    if (!currentQuestion) {
+      const interval = setInterval(() => {
+        router.reload()
+      }, 5000)
+
+      return () => clearInterval(interval)
+    }
+  }, [currentQuestion])
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
     try {
       setIsLoading(true)
       await axios.put(`/questions/${currentQuestion?.id}`, { answer })
       setDate(undefined)
+      setAnswer(null)
+      router.reload()
     } catch (error) {
       console.error('Error submitting answer:', error)
       alert('Error submitting answer. Please try again.')
     } finally {
-      setAnswer(null)
       setIsLoading(false)
     }
   }
+
   return (
     <AppLayout>
       <Layout.Header>
@@ -165,33 +170,35 @@ export default function CourseOnboardingPage(
               <h1 className="text-2xl font-bold">{course.title} Onboarding</h1>
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            {currentQuestion ? (
-              <div className="space-y-4">
-                <Label className="text-lg font-semibold">{currentQuestion.content}</Label>
-                {renderInput()}
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <Skeleton className="w-full h-8" />
-                <Skeleton className="w-full h-32" />
-              </div>
-            )}
-          </CardContent>
-          <CardFooter>
-            <Button
-              onClick={handleSubmit}
-              disabled={!answer || isLoading}
-              className="w-full"
-            >
-              {isLoading ? (
-                <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />
+          <form onSubmit={handleSubmit}>
+            <CardContent>
+              {currentQuestion ? (
+                <div className="space-y-4">
+                  <Label className="text-lg font-semibold">{currentQuestion.content}</Label>
+                  {renderInput()}
+                </div>
               ) : (
-                <ArrowRightIcon className="mr-2 h-4 w-4" />
+                <div className="space-y-4">
+                  <Skeleton className="w-full h-8" />
+                  <Skeleton className="w-full h-32" />
+                </div>
               )}
-              {isLoading ? 'Submitting...' : 'Next'}
-            </Button>
-          </CardFooter>
+            </CardContent>
+            <CardFooter>
+              <Button
+                type="submit"
+                disabled={!answer || isLoading}
+                className="w-full"
+              >
+                {isLoading ? (
+                  <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <ArrowRightIcon className="mr-2 h-4 w-4" />
+                )}
+                {isLoading ? 'Submitting...' : 'Next'}
+              </Button>
+            </CardFooter>
+          </form>
         </Card>
       </Layout.Body>
     </AppLayout>

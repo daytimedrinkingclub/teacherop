@@ -43,7 +43,7 @@ const workflowSteps = [
 
 const WorkflowComponent = () => {
   return (
-    <div className="mt-12  p-4 md:p-8 rounded-lg">
+    <div className="mt-8  p-4 md:p-8 rounded-lg">
       <h3 className="text-3xl font-bold mb-6 text-center">How TeacherOP Works</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {workflowSteps.map((step, index) => (

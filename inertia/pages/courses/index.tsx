@@ -21,6 +21,7 @@ import { Progress } from '~/lib/components/ui/progress'
 import { UserNav } from '~/lib/components/user_nav'
 import WorkflowComponent from '~/lib/components/workflow'
 import { calculatePercentage } from '~/lib/lib/utils'
+import { Separator } from '~/lib/components/ui/separator'
 
 export default function CoursesPage({ courses }: InferPageProps<CoursesController, 'index'>) {
   const isOngoing = courses.some((course) => course.status === 'ongoing')
@@ -138,6 +139,7 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
             )}
           </div>
         </div>
+        <Separator className="my-8 border-2" />
         <WorkflowComponent />
       </Layout.Body>
     </AppLayout>

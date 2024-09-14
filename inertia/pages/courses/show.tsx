@@ -9,6 +9,7 @@ import {
   ChevronDown,
   ChevronRightIcon,
   ClockIcon,
+  LoaderIcon,
   PlayIcon,
   ZapIcon,
 } from 'lucide-react'
@@ -24,18 +25,26 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
   const { course, modules } = props
 
   const [expandedModule, setExpandedModule] = useState<number | null>(null)
+  const [showFullDescription, setShowFullDescription] = useState(false)
 
   const toggleModule = (index: number) => {
     setExpandedModule(expandedModule === index ? null : index)
   }
 
+  const toggleDescription = () => {
+    setShowFullDescription(!showFullDescription)
+  }
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      console.log('modules created:', course.isModulesCreated)
-      if (course.isModulesCreated) clearInterval(interval)
-      router.reload()
-    }, 2000)
-  }, [])
+    if (!course.isModulesCreated) {
+      const interval = setInterval(() => {
+        console.log('modules created:', course.isModulesCreated)
+        router.reload()
+      }, 5000)
+
+      return () => clearInterval(interval)
+    }
+  }, [course.isModulesCreated])
 
   return (
     <AppLayout>
@@ -49,12 +58,34 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
         </div>
       </Layout.Header>
       <Layout.Body>
+
         {course.isOnboardingComplete ? (
           <>
-            <div className="container p-4 mx-auto space-y-6 rounded-lg">
-              <h1 className="mb-6 text-3xl font-bold">{course.title}</h1>
+            <div className="container p-2 md:p-4 mx-auto space-y-6 rounded-lg">
+              <div className="flex items-center gap-4 mb-6">
+                <h1 className="text-lg md:text-3xl font-bold">{course.title}</h1>
+                {!course.isModulesCreated && (
+                  <p className="flex items-center gap-2 text-sm font-medium text-muted-foreground bg-muted px-3 py-1 rounded-full">
+                    <LoaderIcon className="w-4 h-4 animate-spin" />
+                    <span className="hidden md:inline"> Creating modules...</span>
+                  </p>
+                )}
+              </div>
               <Card className="p-6 bg-background rounded-lg shadow-lg">
-                <p className="mb-4 text-gray-700">{course.description}</p>
+                <div className="mb-4">
+                  <p className={`text-gray-700 ${!showFullDescription && 'md:block hidden'}`}>
+                    {course.description}
+                  </p>
+                  <p className={`text-gray-700 md:hidden ${showFullDescription ? 'block' : 'line-clamp-3'}`}>
+                    {course.description}
+                  </p>
+                  <button
+                    onClick={toggleDescription}
+                    className="text-sm text-blue-600 hover:underline mt-2 md:hidden"
+                  >
+                    {showFullDescription ? 'Show Less' : 'Show More'}
+                  </button>
+                </div>
                 <div className="flex items-center space-x-4 whitespace-nowrap">
                   <Progress
                     value={(course.completedModule / course.totalModule) * 100}
@@ -87,7 +118,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                         backgroundColor: expandedModule === index ? '#f3f4f6' : '#ffffff',
                       }}
                     >
-                      <div className="flex flex-col md:flex-row gap-2 justify-between items-center">
+                      <div className="flex flex-col md:flex-row gap-2 justify-between md:items-center">
                         <div className="flex items-center space-x-3">
                           <ZapIcon className="w-6 h-6" />
                           <h2 className="text-lg font-semibold">{module.title}</h2>
@@ -97,8 +128,12 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                             value={calculatePercentage(module.totalSubmodule, module.completedSubmodule || 0)}
                             className="w-24"
                           />
-                          <span className="text-sm text-gray-600">
-                            {calculatePercentage(module.totalSubmodule, module.completedSubmodule || 0)}%
+                          <span className="text-sm text-gray-600 flex gap-2">
+                            {!course.isModulesCreated && (
+                              <span className="flex items-center gap-2 text-sm font-medium text-muted-foreground bg-muted px-3 py-1 rounded-full">
+                                <LoaderIcon className="w-4 h-4 animate-spin" />
+                              </span>
+                            )} {calculatePercentage(module.totalSubmodule, module.completedSubmodule || 0)}%
                           </span>
                           <motion.div
                             animate={{ rotate: expandedModule === index ? 180 : 0 }}
