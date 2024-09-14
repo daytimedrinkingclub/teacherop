@@ -5,6 +5,9 @@ const dbConfig = defineConfig({
   connection: 'postgres',
   connections: {
     postgres: {
+      pool: {
+        propagateCreateError: false,
+      },
       client: 'pg',
       connection: {
         host: env.get('DB_HOST'),
