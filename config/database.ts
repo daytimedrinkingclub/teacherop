@@ -6,6 +6,8 @@ const dbConfig = defineConfig({
   connections: {
     postgres: {
       pool: {
+        min: 2,
+        max: 10,
         propagateCreateError: false,
       },
       client: 'pg',
