@@ -1,9 +1,10 @@
 import Checkpoint from '#models/checkpoint'
 
 export default class CheckPointDto {
-  constructor(private checkpoint: Checkpoint) {}
+  constructor(private checkpoint: Checkpoint | null) {}
 
   toJSON() {
+    if (!this.checkpoint) return null
     return {
       id: this.checkpoint.id,
       type: this.checkpoint.type,

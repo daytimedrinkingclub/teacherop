@@ -8,7 +8,8 @@ const bindCourse = () => (_target: any, _key: any, descriptor: PropertyDescripto
   const originalMethod = descriptor.value
 
   descriptor.value = async function (this: any, ctx: HttpContext) {
-    const { params, request, inertia } = ctx
+    const { params, request, inertia, auth } = ctx
+    const user = auth.user!
 
     const courseId = params.courseId || request.input('courseId') || request.all().courseId
 
@@ -17,7 +18,7 @@ const bindCourse = () => (_target: any, _key: any, descriptor: PropertyDescripto
     if (!isUUID(courseId)) return inertia.render('errors/not_found')
 
     try {
-      const course = await Course.find(courseId)
+      const course = await Course.query().where('id', courseId).andWhere('user_id', user.id).first()
       if (!course) return inertia.render('errors/not_found')
       return await originalMethod.call(this, ctx, course)
     } catch (error) {
