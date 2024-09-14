@@ -64,6 +64,7 @@ services:
     command: 'node ace resque:start'
     volumes:
       - jobs_data:/app
+    restart: on-failure
     depends_on:
       - redis
       # - postgres
