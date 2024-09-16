@@ -63,7 +63,7 @@ export default class CoursesController {
       .related('checkpoints')
       .query()
       .where('type', 'module')
-      .orderBy('created_at', 'asc')
+      .orderBy('order', 'asc')
     const modulesWithSubmodules = []
 
     for (const module of modules!) {
@@ -71,7 +71,7 @@ export default class CoursesController {
         .related('children')
         .query()
         .where('type', 'submodule')
-        .orderBy('created_at', 'asc')
+        .orderBy('order', 'asc')
       modulesWithSubmodules.push({
         ...new CheckPointDto(module).toJSON(),
         totalSubmodule: submodules.length,

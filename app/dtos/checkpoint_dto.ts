@@ -15,6 +15,7 @@ export default class CheckPointDto {
       isLocked: this.checkpoint.isLocked,
       estimatedDuration: this.checkpoint.estimatedDuration?.toString() || null,
       elapsedDuration: this.checkpoint.elapsedDuration.toString(),
+      childrenCreated: this.checkpoint.children_created,
       order: this.checkpoint.order,
       userId: this.checkpoint.userId,
       parentId: this.checkpoint.parentId,

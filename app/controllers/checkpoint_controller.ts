@@ -13,7 +13,7 @@ export default class CheckpointController {
     const course = await checkpoint.related('course').query().first()
     const next = await checkpoint.getNextCheckpoint()
 
-    await checkpoint.load('children')
+    await checkpoint.load('children', (q) => q.orderBy('order', 'asc'))
 
     const children =
       checkpoint.type === 'module'
