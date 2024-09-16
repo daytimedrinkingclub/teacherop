@@ -8,13 +8,19 @@
     <title inertia>
       AdonisJS x Inertia x React
     </title>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
     @viteReactRefresh()
     @inertiaHead()
     @vite(['inertia/app/app.tsx', `inertia/pages/${page.component}.tsx`])
+    @vite(['resources/js/app.js'])
   </head>
 
-  <body>
+  <body class="font-albert-sans">
     @inertia()
   </body>
 
