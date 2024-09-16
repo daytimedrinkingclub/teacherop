@@ -1,16 +1,8 @@
 import { InferPageProps } from '@adonisjs/inertia/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
-import {
-  BookOpenIcon,
-  CheckCircleIcon,
-  ClockIcon,
-  TargetIcon,
-  TrophyIcon,
-  ZapIcon,
-} from 'lucide-react'
 import DashboardController from '#controllers/dashboard_controller'
-
+import { Icons } from '@/components/icons'
 import AppLayout from '~/lib/components/layout/app_layout'
 import { Layout } from '~/lib/components/layout/custom_layout'
 import { UserNav } from '~/lib/components/user_nav'
@@ -31,7 +23,7 @@ function formatTime(minutes: number) {
   return `${hours}h ${mins}m`
 }
 
-export default function DashboardPage({}: InferPageProps<DashboardController, 'index'>) {
+export default function DashboardPage({ }: InferPageProps<DashboardController, 'index'>) {
   const completionPercentage = (stats.completedCourses / stats.totalCourses) * 100
   return (
     <AppLayout>
@@ -51,7 +43,7 @@ export default function DashboardPage({}: InferPageProps<DashboardController, 'i
             <Card className="border-l-4">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Total Courses</CardTitle>
-                <BookOpenIcon className="h-6 w-6" />
+                <Icons.bookOpen className="h-6 w-6" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stats.totalCourses}</div>
@@ -61,7 +53,7 @@ export default function DashboardPage({}: InferPageProps<DashboardController, 'i
             <Card className="border-l-4">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Completed Courses</CardTitle>
-                <CheckCircleIcon className="h-6 w-6" />
+                <Icons.checkCircle className="h-6 w-6" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stats.completedCourses}</div>
@@ -72,7 +64,7 @@ export default function DashboardPage({}: InferPageProps<DashboardController, 'i
             <Card className="border-l-4">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Time Spent</CardTitle>
-                <ClockIcon className="h-6 w-6" />
+                <Icons.clock className="h-6 w-6" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{formatTime(stats.timeSpent)}</div>
@@ -82,7 +74,7 @@ export default function DashboardPage({}: InferPageProps<DashboardController, 'i
             <Card className="border-l-4">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Achievements</CardTitle>
-                <TrophyIcon className="h-6 w-6" />
+                <Icons.trophy className="h-6 w-6" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stats.achievements}</div>
@@ -92,7 +84,7 @@ export default function DashboardPage({}: InferPageProps<DashboardController, 'i
             <Card className="border-l-4">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Current Streak</CardTitle>
-                <ZapIcon className="h-6 w-6" />
+                <Icons.zap className="h-6 w-6" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stats.currentStreak} days</div>
@@ -102,7 +94,7 @@ export default function DashboardPage({}: InferPageProps<DashboardController, 'i
             <Card className="border-l-4">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Total Points</CardTitle>
-                <TargetIcon className="h-6 w-6" />
+                <Icons.target className="h-6 w-6" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stats.totalPoints}</div>

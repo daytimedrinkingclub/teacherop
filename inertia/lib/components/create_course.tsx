@@ -1,7 +1,8 @@
 import axios from 'axios'
-import { CalendarIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
-
+import { format } from 'date-fns'
+import { router } from '@inertiajs/react'
+import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -18,9 +19,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Slider } from '@/components/ui/slider'
 import { cn } from '@/lib/utils'
-import { format } from 'date-fns'
 
-import { router } from '@inertiajs/react'
 
 let stopListening: () => void
 
@@ -158,7 +157,7 @@ export default function CreateCourseModal({
                   !date && 'text-muted-foreground'
                 )}
               >
-                <CalendarIcon className="mr-2 w-4 h-4" />
+                <Icons.calendarIcon className="mr-2 w-4 h-4" />
                 {date ? format(date, 'PPP') : <span>Pick a date</span>}
               </Button>
             </PopoverTrigger>

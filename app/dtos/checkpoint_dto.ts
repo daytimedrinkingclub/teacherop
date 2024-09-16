@@ -1,9 +1,10 @@
 import Checkpoint from '#models/checkpoint'
 
 export default class CheckPointDto {
-  constructor(private checkpoint: Checkpoint) {}
+  constructor(private checkpoint: Checkpoint | null) {}
 
   toJSON() {
+    if (!this.checkpoint) return null
     return {
       id: this.checkpoint.id,
       type: this.checkpoint.type,
@@ -12,9 +13,9 @@ export default class CheckPointDto {
       content: this.checkpoint.content,
       isCompleted: this.checkpoint.isCompleted,
       isLocked: this.checkpoint.isLocked,
-      aiResponse: this.checkpoint.aiResponse,
       estimatedDuration: this.checkpoint.estimatedDuration?.toString() || null,
       elapsedDuration: this.checkpoint.elapsedDuration.toString(),
+      order: this.checkpoint.order,
       userId: this.checkpoint.userId,
       parentId: this.checkpoint.parentId,
       courseId: this.checkpoint.courseId,

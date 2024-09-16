@@ -2,8 +2,8 @@ import { Button, buttonVariants } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { Link } from '@inertiajs/react'
-import { ArrowLeft, LogIn } from 'lucide-react'
 import SignUpAuthForm from '~/lib/components/signup_form'
+import { Icons } from '~/lib/components/icons'
 
 export default function SignupPage() {
   return (
@@ -15,14 +15,14 @@ export default function SignupPage() {
           'absolute left-4 top-4 md:left-8 md:top-8'
         )}
       >
-        <ArrowLeft className="w-4 h-4 mr-2" />
+        <Icons.arrowLeft className="w-4 h-4 mr-2" />
         Back to Login
       </Link>
       <Card className="w-full max-w-lg">
         <CardHeader className="space-y-1">
           <div className="flex justify-center mb-4">
             <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
-              <LogIn className="w-6 h-6 text-primary-foreground" />
+              <Icons.logIn className="w-6 h-6 text-primary-foreground" />
             </div>
           </div>
           <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>

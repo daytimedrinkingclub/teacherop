@@ -2,9 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Play, Star, ChevronDown } from 'lucide-react'
 import WorkflowComponent from './workflow'
-
+import { Icons } from '@/components/icons'
 const reviews = [
   {
     id: 1,
@@ -136,7 +135,7 @@ export default function LandingPage() {
             className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
             onClick={() => setIsVideoOpen(true)}
           >
-            <Play className="mr-2 h-4 w-4" /> Watch Demo
+            <Icons.play className="mr-2 h-4 w-4" /> Watch Demo
           </Button>
         </div>
       </section>
@@ -166,7 +165,7 @@ export default function LandingPage() {
                   <CardContent className="p-6">
                     <div className="flex items-center mb-4">
                       {[...Array(review.rating)].map((_, i) => (
-                        <Star key={i} className="h-5 w-5  fill-current" />
+                        <Icons.star key={i} className="h-5 w-5  fill-current" />
                       ))}
                     </div>
                     <p className="text-gray-600 mb-4">{review.content}</p>
@@ -195,7 +194,7 @@ export default function LandingPage() {
                 <CardHeader>
                   <CardTitle className="flex justify-between items-center text-lg">
                     {faq.question}
-                    <ChevronDown
+                    <Icons.chevronDown
                       className={`h-5 w-5 transition-transform ${openFaq === index ? 'transform rotate-180' : ''}`}
                     />
                   </CardTitle>

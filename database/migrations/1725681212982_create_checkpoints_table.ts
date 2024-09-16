@@ -20,6 +20,7 @@ export default class extends BaseSchema {
       table.boolean('is_completed').defaultTo(false)
       table.bigint('estimated_duration').nullable()
       table.bigint('elapsed_duration').notNullable().defaultTo(0)
+      table.integer('order').notNullable()
       table.json('ai_response').notNullable()
       table.uuid('user_id').references('users.id').notNullable().onDelete('cascade')
       table.uuid('parent_id').references('checkpoints.id').onDelete('cascade')

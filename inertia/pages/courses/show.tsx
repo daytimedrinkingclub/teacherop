@@ -4,15 +4,8 @@ import { useEffect, useState } from 'react'
 
 import type CoursesController from '#controllers/courses_controller'
 import { AnimatePresence, motion } from 'framer-motion'
-import {
-  CheckCircleIcon,
-  ChevronDown,
-  ChevronRightIcon,
-  ClockIcon,
-  LoaderIcon,
-  PlayIcon,
-  ZapIcon,
-} from 'lucide-react'
+import { Icons } from '~/lib/components/icons'
+
 import AppLayout from '~/lib/components/layout/app_layout'
 import { Layout } from '~/lib/components/layout/custom_layout'
 import { Button } from '~/lib/components/ui/button'
@@ -58,30 +51,31 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
         </div>
       </Layout.Header>
       <Layout.Body>
-
         {course.isOnboardingComplete ? (
           <>
-            <div className="container p-2 md:p-4 mx-auto space-y-6 rounded-lg">
-              <div className="flex items-center gap-4 mb-6">
-                <h1 className="text-lg md:text-3xl font-bold">{course.title}</h1>
+            <div className="container p-2 mx-auto space-y-6 rounded-lg md:p-4">
+              <div className="flex gap-4 items-center mb-6">
+                <h1 className="text-lg font-bold md:text-3xl">{course.title}</h1>
                 {!course.isModulesCreated && (
-                  <p className="flex items-center gap-2 text-sm font-medium text-muted-foreground bg-muted px-3 py-1 rounded-full">
-                    <LoaderIcon className="w-4 h-4 animate-spin" />
+                  <p className="flex gap-2 items-center px-3 py-1 text-sm font-medium rounded-full text-muted-foreground bg-muted">
+                    <Icons.loader className="w-4 h-4 animate-spin" />
                     <span className="hidden md:inline"> Creating modules...</span>
                   </p>
                 )}
               </div>
-              <Card className="p-6 bg-background rounded-lg shadow-lg">
+              <Card className="p-6 rounded-lg shadow-lg bg-background">
                 <div className="mb-4">
                   <p className={`text-gray-700 ${!showFullDescription && 'md:block hidden'}`}>
                     {course.description}
                   </p>
-                  <p className={`text-gray-700 md:hidden ${showFullDescription ? 'block' : 'line-clamp-3'}`}>
+                  <p
+                    className={`text-gray-700 md:hidden ${showFullDescription ? 'block' : 'line-clamp-3'}`}
+                  >
                     {course.description}
                   </p>
                   <button
                     onClick={toggleDescription}
-                    className="text-sm text-blue-600 hover:underline mt-2 md:hidden"
+                    className="mt-2 text-sm text-blue-600 hover:underline md:hidden"
                   >
                     {showFullDescription ? 'Show Less' : 'Show More'}
                   </button>
@@ -92,7 +86,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                     className="flex-grow"
                   />
                   <p className="flex items-center text-sm text-gray-500">
-                    <ClockIcon className="mr-1 w-4 h-4" />
+                    <Icons.clock className="mr-1 w-4 h-4" />
                     <span>
                       {course.completedModule} / {course.totalModule} Modules
                     </span>
@@ -118,28 +112,44 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                         backgroundColor: expandedModule === index ? '#f3f4f6' : '#ffffff',
                       }}
                     >
-                      <div className="flex flex-col md:flex-row gap-2 justify-between md:items-center">
+                      <div className="flex flex-col gap-2 justify-between md:flex-row md:items-center">
                         <div className="flex items-center space-x-3">
-                          <ZapIcon className="w-6 h-6" />
+                          <Icons.zap className="w-6 h-6" />
                           <h2 className="text-lg font-semibold">{module.title}</h2>
                         </div>
                         <div className="flex items-center space-x-3">
                           <Progress
-                            value={calculatePercentage(module.totalSubmodule, module.completedSubmodule || 0)}
+                            value={calculatePercentage(
+                              module.totalSubmodule,
+                              module.completedSubmodule || 0
+                            )}
                             className="w-24"
                           />
-                          <span className="text-sm text-gray-600 flex gap-2">
+                          <span className="flex gap-2 text-sm text-gray-600">
                             {!course.isModulesCreated && (
-                              <span className="flex items-center gap-2 text-sm font-medium text-muted-foreground bg-muted px-3 py-1 rounded-full">
-                                <LoaderIcon className="w-4 h-4 animate-spin" />
+                              <span className="flex gap-2 items-center px-3 py-1 text-sm font-medium rounded-full text-muted-foreground bg-muted">
+                                <Icons.loader className="w-4 h-4 animate-spin" />
                               </span>
-                            )} {calculatePercentage(module.totalSubmodule, module.completedSubmodule || 0)}%
+                            )}{' '}
+                            {calculatePercentage(
+                              module.totalSubmodule,
+                              module.completedSubmodule || 0
+                            )}
+                            %
                           </span>
+                          {course.isModulesCreated && <Button
+                            onClick={() => router.visit(`/resources/${module.id}`)}
+                            size="sm"
+                            variant={module.isCompleted ? 'outline' : 'default'}
+                          >
+                            <span className="hidden md:inline">{module.isCompleted ? 'Review' : 'Start'}</span>
+                            <Icons.play className="md:ml-2 w-4 h-4" />
+                          </Button>}
                           <motion.div
                             animate={{ rotate: expandedModule === index ? 180 : 0 }}
                             transition={{ duration: 0.3 }}
                           >
-                            <ChevronDown className="w-5 h-5" />
+                            <Icons.chevronDown className="w-5 h-5" />
                           </motion.div>
                         </div>
                       </div>
@@ -153,18 +163,18 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.3 }}
                         >
-                          <CardContent className="px-4 pb-4 space-y-2">
+                          <CardContent className="p-0 py-4 md:px-4 pb-4 space-y-2">
                             {module.submodules.map((submodule: any, subIndex: number) => (
                               <motion.div
                                 key={subIndex}
-                                className="flex justify-between flex-col md:flex-row items-center md:p-3 bg-gray-50 rounded-md"
+                                className="flex flex-col justify-between items-center bg-gray-50 rounded-md md:flex-row md:p-3"
                                 initial={{ x: -20, opacity: 0 }}
                                 animate={{ x: 0, opacity: 1 }}
                                 transition={{ delay: subIndex * 0.1 }}
                               >
                                 <div className="flex items-center space-x-3">
                                   {submodule.isCompleted ? (
-                                    <CheckCircleIcon className="w-5 h-5 " />
+                                    <Icons.checkCircle className="w-5 h-5" />
                                   ) : (
                                     <div className="w-5 h-5 rounded-full border-2 border-gray-300" />
                                   )}
@@ -173,13 +183,14 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                                     <p className="text-sm text-gray-600">{submodule.description}</p>
                                   </div>
                                 </div>
-                                <Button
+                                {course.isModulesCreated && <Button
+                                  onClick={() => router.visit(`/resources/${submodule.id}`)}
                                   size="sm"
                                   variant={submodule.isCompleted ? 'outline' : 'default'}
                                 >
-                                  {submodule.isCompleted ? 'Review' : 'Start'}
-                                  <PlayIcon className="ml-2 w-4 h-4" />
-                                </Button>
+                                  <span className="hidden md:inline">{submodule.isCompleted ? 'Review' : 'Start'}</span>
+                                  <Icons.play className="md:ml-2 w-4 h-4" />
+                                </Button>}
                               </motion.div>
                             ))}
                           </CardContent>
@@ -201,7 +212,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
               <CardContent>
                 <Button onClick={() => router.visit(`${course.id}/onboarding`)} className="w-full">
                   Start Onboarding
-                  <ChevronRightIcon className="ml-2 w-4 h-4" />
+                  <Icons.chevronRight className="ml-2 w-4 h-4" />
                 </Button>
               </CardContent>
             </Card>
