@@ -1,18 +1,12 @@
 import { type InferPageProps } from '@adonisjs/inertia/types'
 import { Link, router } from '@inertiajs/react'
 import { motion } from 'framer-motion'
+import { Icons } from '~/lib/components/icons'
 
 import type CoursesController from '#controllers/courses_controller'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  AlertCircleIcon,
-  BookOpenIcon,
-  CheckCircleIcon,
-  ClockIcon,
-  PlusIcon,
-  ZapIcon,
-} from 'lucide-react'
+
 import AppLayout from '~/lib/components/layout/app_layout'
 import { Layout } from '~/lib/components/layout/custom_layout'
 import { Badge } from '~/lib/components/ui/badge'
@@ -29,11 +23,11 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
   const getStatusIcon = (status: any) => {
     switch (status) {
       case 'ongoing':
-        return <ClockIcon className="w-4 h-4" />
+        return <Icons.clock className="w-4 h-4" />
       case 'completed':
-        return <CheckCircleIcon className="w-4 h-4" />
+        return <Icons.checkCircle className="w-4 h-4" />
       default:
-        return <AlertCircleIcon className="w-4 h-4" />
+        return <Icons.alertCircle className="w-4 h-4" />
     }
   }
 
@@ -52,7 +46,7 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
         <div className="px-4 py-8 w-full max-w-6xl  md:px-6 rounded-md">
           <div className="flex justify-between items-center mb-6">
             <h1 className="flex items-center text-lg font-bold whitespace-nowrap md:text-3xl">
-              <BookOpenIcon className="mr-2 w-6 h-6 md:h-8 md:w-8" />
+              <Icons.bookOpen className="mr-2 w-6 h-6 md:h-8 md:w-8" />
               Your Courses
             </h1>
             <div className="relative">
@@ -63,7 +57,7 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
                 }}
                 disabled={isOngoing}
               >
-                <PlusIcon className="mr-2 w-5 h-5" />
+                <Icons.plus className="mr-2 w-5 h-5" />
                 <span className="hidden md:block">New Course</span>
               </Button>
             </div>
@@ -94,7 +88,7 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
                       />
                       <div className="flex items-center justify-between">
                         <p className="flex items-center text-sm text-gray-500">
-                          <ZapIcon className="mr-1 w-4 h-4" />
+                          <Icons.zap className="mr-1 w-4 h-4" />
                           {Math.floor(calculatePercentage(course.totalModule, course.completedModule || 0))}%
                           Complete
                         </p>
@@ -121,7 +115,7 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
                   <Card className="bg-primary text-primary-foreground">
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
-                        <PlusIcon className="h-5 w-5" />
+                        <Icons.plus className="h-5 w-5" />
                         Create New Course
                       </CardTitle>
                       <CardDescription className="text-primary-foreground/80">

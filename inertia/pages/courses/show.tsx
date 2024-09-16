@@ -4,15 +4,8 @@ import { useEffect, useState } from 'react'
 
 import type CoursesController from '#controllers/courses_controller'
 import { AnimatePresence, motion } from 'framer-motion'
-import {
-  CheckCircleIcon,
-  ChevronDown,
-  ChevronRightIcon,
-  ClockIcon,
-  LoaderIcon,
-  PlayIcon,
-  ZapIcon,
-} from 'lucide-react'
+import { Icons } from '~/lib/components/icons'
+
 import AppLayout from '~/lib/components/layout/app_layout'
 import { Layout } from '~/lib/components/layout/custom_layout'
 import { Button } from '~/lib/components/ui/button'
@@ -65,7 +58,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                 <h1 className="text-lg font-bold md:text-3xl">{course.title}</h1>
                 {!course.isModulesCreated && (
                   <p className="flex gap-2 items-center px-3 py-1 text-sm font-medium rounded-full text-muted-foreground bg-muted">
-                    <LoaderIcon className="w-4 h-4 animate-spin" />
+                    <Icons.loader className="w-4 h-4 animate-spin" />
                     <span className="hidden md:inline"> Creating modules...</span>
                   </p>
                 )}
@@ -93,7 +86,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                     className="flex-grow"
                   />
                   <p className="flex items-center text-sm text-gray-500">
-                    <ClockIcon className="mr-1 w-4 h-4" />
+                    <Icons.clock className="mr-1 w-4 h-4" />
                     <span>
                       {course.completedModule} / {course.totalModule} Modules
                     </span>
@@ -121,7 +114,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                     >
                       <div className="flex flex-col gap-2 justify-between md:flex-row md:items-center">
                         <div className="flex items-center space-x-3">
-                          <ZapIcon className="w-6 h-6" />
+                          <Icons.zap className="w-6 h-6" />
                           <h2 className="text-lg font-semibold">{module.title}</h2>
                         </div>
                         <div className="flex items-center space-x-3">
@@ -135,7 +128,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                           <span className="flex gap-2 text-sm text-gray-600">
                             {!course.isModulesCreated && (
                               <span className="flex gap-2 items-center px-3 py-1 text-sm font-medium rounded-full text-muted-foreground bg-muted">
-                                <LoaderIcon className="w-4 h-4 animate-spin" />
+                                <Icons.loader className="w-4 h-4 animate-spin" />
                               </span>
                             )}{' '}
                             {calculatePercentage(
@@ -144,11 +137,19 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                             )}
                             %
                           </span>
+                          {course.isModulesCreated && <Button
+                            onClick={() => router.visit(`/resources/${module.id}`)}
+                            size="sm"
+                            variant={module.isCompleted ? 'outline' : 'default'}
+                          >
+                            <span className="hidden md:inline">{module.isCompleted ? 'Review' : 'Start'}</span>
+                            <Icons.play className="md:ml-2 w-4 h-4" />
+                          </Button>}
                           <motion.div
                             animate={{ rotate: expandedModule === index ? 180 : 0 }}
                             transition={{ duration: 0.3 }}
                           >
-                            <ChevronDown className="w-5 h-5" />
+                            <Icons.chevronDown className="w-5 h-5" />
                           </motion.div>
                         </div>
                       </div>
@@ -162,7 +163,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.3 }}
                         >
-                          <CardContent className="px-4 pb-4 space-y-2">
+                          <CardContent className="p-0 py-4 md:px-4 pb-4 space-y-2">
                             {module.submodules.map((submodule: any, subIndex: number) => (
                               <motion.div
                                 key={subIndex}
@@ -173,7 +174,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                               >
                                 <div className="flex items-center space-x-3">
                                   {submodule.isCompleted ? (
-                                    <CheckCircleIcon className="w-5 h-5" />
+                                    <Icons.checkCircle className="w-5 h-5" />
                                   ) : (
                                     <div className="w-5 h-5 rounded-full border-2 border-gray-300" />
                                   )}
@@ -182,14 +183,14 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                                     <p className="text-sm text-gray-600">{submodule.description}</p>
                                   </div>
                                 </div>
-                                <Button
+                                {course.isModulesCreated && <Button
                                   onClick={() => router.visit(`/resources/${submodule.id}`)}
                                   size="sm"
                                   variant={submodule.isCompleted ? 'outline' : 'default'}
                                 >
-                                  {submodule.isCompleted ? 'Review' : 'Start'}
-                                  <PlayIcon className="ml-2 w-4 h-4" />
-                                </Button>
+                                  <span className="hidden md:inline">{submodule.isCompleted ? 'Review' : 'Start'}</span>
+                                  <Icons.play className="md:ml-2 w-4 h-4" />
+                                </Button>}
                               </motion.div>
                             ))}
                           </CardContent>
@@ -211,7 +212,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
               <CardContent>
                 <Button onClick={() => router.visit(`${course.id}/onboarding`)} className="w-full">
                   Start Onboarding
-                  <ChevronRightIcon className="ml-2 w-4 h-4" />
+                  <Icons.chevronRight className="ml-2 w-4 h-4" />
                 </Button>
               </CardContent>
             </Card>

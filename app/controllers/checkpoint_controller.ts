@@ -22,7 +22,6 @@ export default class CheckpointController {
 
     const module = { ...new CheckPointDto(checkpoint).toJSON(), children, next: next?.id }
 
-    // todo)) only pass required data
     return inertia.render('resources/show', {
       user: new UserDto(user).toJSON(),
       course: new CourseDto(course!).toJSON(),

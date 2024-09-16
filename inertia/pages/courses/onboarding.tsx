@@ -3,10 +3,9 @@ import { router } from '@inertiajs/react'
 import axios from 'axios'
 import { format } from 'date-fns'
 import { FormEvent, useEffect, useState } from 'react'
-
+import { Icons } from '~/lib/components/icons'
 import CoursesController from '#controllers/courses_controller'
 
-import { ArrowRightIcon, BookOpenIcon, CalendarIcon, LoaderIcon } from 'lucide-react'
 import AppLayout from '~/lib/components/layout/app_layout'
 import { Layout } from '~/lib/components/layout/custom_layout'
 import { Button } from '~/lib/components/ui/button'
@@ -103,7 +102,7 @@ export default function CourseOnboardingPage(
                   !date && 'text-muted-foreground'
                 )}
               >
-                <CalendarIcon className="mr-2 w-4 h-4" />
+                <Icons.calendarIcon className="mr-2 w-4 h-4" />
                 {date ? format(date, 'PPP') : <span>Pick a date</span>}
               </Button>
             </PopoverTrigger>
@@ -166,7 +165,7 @@ export default function CourseOnboardingPage(
         <Card className="max-w-2xl mx-auto">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <BookOpenIcon className="w-6 h-6" />
+              <Icons.bookOpen className="w-6 h-6" />
               <h1 className="text-2xl font-bold">{course.title} Onboarding</h1>
             </CardTitle>
           </CardHeader>
@@ -191,9 +190,9 @@ export default function CourseOnboardingPage(
                 className="w-full"
               >
                 {isLoading ? (
-                  <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />
+                  <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
-                  <ArrowRightIcon className="mr-2 h-4 w-4" />
+                  <Icons.arrowRight className="mr-2 h-4 w-4" />
                 )}
                 {isLoading ? 'Submitting...' : 'Next'}
               </Button>

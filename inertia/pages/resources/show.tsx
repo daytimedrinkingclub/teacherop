@@ -1,21 +1,62 @@
 import type CheckpointController from '#controllers/checkpoint_controller'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { InferPageProps } from '@adonisjs/inertia/types'
-import { BookOpen, LayersIcon } from 'lucide-react'
-import ReactMarkdown from 'react-markdown'
+import { router } from '@inertiajs/react'
+import { useEffect, useState, useCallback } from 'react'
+import { Icons } from '~/lib/components/icons'
 
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import AppLayout from '~/lib/components/layout/app_layout'
 import { Layout } from '~/lib/components/layout/custom_layout'
+import { Button } from '~/lib/components/ui/button'
 import { Separator } from '~/lib/components/ui/separator'
 import { UserNav } from '~/lib/components/user_nav'
+import Markdown from '~/lib/components/markdown'
 
 export default function CheckpointShow({
   course,
   module,
 }: InferPageProps<CheckpointController, 'show'>) {
-  console.log(module)
+
+  const [timeSpent, setTimeSpent] = useState(0)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeSpent((prevTime) => prevTime + 1)
+    }, 1000)
+
+    // Add event listener for page unload
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault()
+      e.returnValue = ''
+    }
+
+    window.addEventListener('beforeunload', handleBeforeUnload)
+
+    return () => {
+      clearInterval(timer)
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+    }
+  }, [])
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60)
+    const remainingSeconds = seconds % 60
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`
+  }
+
+  const toggleFullscreen = useCallback(() => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen()
+      setIsFullscreen(true)
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen()
+        setIsFullscreen(false)
+      }
+    }
+  }, [])
+
   return (
     <AppLayout>
       <Layout.Header>
@@ -31,57 +72,72 @@ export default function CheckpointShow({
         <div className="p-4 min-h-screen bg-background md:px-8">
           <Card className="mx-auto shadow-lg">
             <CardHeader className="space-y-1">
-              <CardTitle className="flex items-center text-2xl font-bold">
-                <BookOpen className="mr-2 w-6 h-6" />
-                {course.title}
+              <CardTitle className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:justify-between text-2xl font-bold">
+                <div className="flex items-center">
+                  <Icons.bookOpen className="mr-2 w-6 h-6 flex-shrink-0" />
+                  <span className="break-words">{course.title}</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="p-2 rounded-md flex items-center bg-foreground text-white">
+                    <Icons.clockIcon className="w-5 h-5 mr-1 flex-shrink-0" />
+                    <span className="text-base font-medium">{formatTime(timeSpent)}</span>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={toggleFullscreen}
+                    className="p-2"
+                  >
+                    {isFullscreen ? (
+                      <Icons.minimize2 className="h-4 w-4" />
+                    ) : (
+                      <Icons.maximize2 className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
               </CardTitle>
-              <p className="text-muted-foreground">{course.description}</p>
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
                 <div>
                   <h2 className="flex items-center mb-2 text-xl font-semibold">
-                    <LayersIcon className="mr-2 w-6 h-6" />
+                    <Icons.layersIcon className="mr-2 w-6 h-6" />
                     {module.title}
                   </h2>
                   <p className="text-muted-foreground">{module.description}</p>
                 </div>
-                {/* <Separator />
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">{checkpoint.title}</h3>
-                </div> */}
                 <Separator />
-                <Card className="mt-6">
+                <Card className="mt-6 bg-muted text-foreground">
                   <CardContent className="p-6">
-                    <h4 className="mb-4 text-lg font-semibold">{module.title}</h4>
-                    <p>{module.description}</p>
-                    <div className="max-w-none prose">
-                      <ReactMarkdown
-                        components={{
-                          //@ts-ignore
-                          code({ node, inline, className, children, ...props }) {
-                            const match = /language-(\w+)/.exec(className || '')
-                            return !inline && match ? (
-                              //@ts-ignore
-                              <SyntaxHighlighter
-                                {...props}
-                                style={atomDark}
-                                language={match[1]}
-                                PreTag="div"
-                              >
-                                {String(children).replace(/\n$/, '')}
-                              </SyntaxHighlighter>
-                            ) : (
-                              <code {...props} className={className}>
-                                {children}
-                              </code>
-                            )
-                          },
-                        }}
-                      >
-                        {module.content}
-                      </ReactMarkdown>
-                    </div>
+                    {module.children == null && module.content && <>
+                      <div className="prose prose-lg dark:prose-invert max-w-none">
+                        <Markdown content={module.content} />
+                      </div>
+                    </>}
+                    {module.children == null && <div className="flex justify-between">
+                      <Button className="mt-4" onClick={() => router.visit(`/courses/${course.id}`)}>
+                        Back to course
+                      </Button>
+                      <Button className="mt-4" onClick={() => router.visit(`/resources/${module.next}`)}>
+                        Next
+                      </Button>
+                    </div>}
+                    {module.children && module.children.length > 0 ? <>
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-semibold">Submodules</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {module.children.filter((submodule) => submodule != null).map((submodule, index) => (
+                            <Card key={index} className="bg-background cursor-pointer hover:bg-muted/80 transition-colors"
+                              onClick={() => router.visit(`/resources/${submodule?.id}`)}
+                            >
+                              <CardContent className="flex items-center p-4">
+                                <span>{submodule.title}</span>
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
+                      </div>
+                    </> : ""}
                   </CardContent>
                 </Card>
               </div>
