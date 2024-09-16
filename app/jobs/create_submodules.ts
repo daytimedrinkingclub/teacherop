@@ -157,13 +157,13 @@ export default class CreateSubmodulesJob extends BaseJob {
               const checkpoint = await Checkpoint.firstOrCreate(
                 {
                   type: CheckpointTypeEnum['SUBMODULE'],
-                  title,
                   order,
                   userId: planSummary.userId,
                   parentId: module.id,
                   courseId: planSummary.courseId,
                 },
                 {
+                  title,
                   estimatedDuration: estimated_duration,
                   aiResponse,
                   content,
@@ -184,13 +184,13 @@ export default class CreateSubmodulesJob extends BaseJob {
           const checkpoint = await Checkpoint.firstOrCreate(
             {
               type: CheckpointTypeEnum['SUBMODULE'],
-              title,
               order,
               userId: planSummary.userId,
               parentId: module.id,
               courseId: planSummary.courseId,
             },
             {
+              title,
               estimatedDuration: estimated_duration,
               aiResponse,
               content,
