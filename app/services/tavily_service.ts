@@ -14,7 +14,6 @@ export default class TavilyService {
         query,
         api_key: this.apiKey,
         include_answer: true,
-        include_raw_content: true,
         max_results: 10,
       })
       return response.data

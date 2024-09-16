@@ -76,38 +76,22 @@ export default class Checkpoint extends BaseModel {
   declare user: BelongsTo<typeof User>
 
   async getNextCheckpoint() {
-    const checkpoints = await Checkpoint.query()
+    const modules = await Checkpoint.query()
       .where('courseId', this.courseId)
-      .orderBy('parentId', 'asc')
-      .where('type', 'submodule')
+      .andWhere('type', 'module')
       .orderBy('order', 'asc')
+      .preload('children', (q) => {
+        q.orderBy('order', 'asc')
+      })
 
-    const currentIndex = checkpoints.findIndex((cp) => cp.id === this.id)
+    const flatCheckpoints = modules.flatMap((module) => [module, ...module.children])
 
-    if (currentIndex === -1 || currentIndex === checkpoints.length - 1) {
+    const currentIndex = flatCheckpoints.findIndex((cp) => cp.id === this.id)
+
+    if (currentIndex === -1 || currentIndex === flatCheckpoints.length - 1) {
       return null // Current checkpoint not found or is the last one
     }
 
-    const nextCheckpoint = checkpoints[currentIndex + 1]
-
-    if (this.parentId === null) {
-      // Current checkpoint is a module
-      if (nextCheckpoint.parentId === this.id) {
-        // Next checkpoint is the first submodule of the current module
-        return nextCheckpoint
-      } else {
-        // Next checkpoint is the next module
-        return nextCheckpoint
-      }
-    } else {
-      // Current checkpoint is a submodule
-      if (nextCheckpoint.parentId === this.parentId) {
-        // Next checkpoint is the next submodule in the same module
-        return nextCheckpoint
-      } else {
-        // Next checkpoint is the next module
-        return nextCheckpoint
-      }
-    }
+    return flatCheckpoints[currentIndex + 1]
   }
 }
