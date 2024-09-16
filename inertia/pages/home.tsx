@@ -4,12 +4,6 @@ import { useEffect, useState } from 'react'
 import { Icons } from '~/lib/components/icons'
 import LandingPage from '~/lib/components/landing_page'
 import { buttonVariants } from '~/lib/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '~/lib/components/ui/dropdown-menu'
 import { cn } from '~/lib/lib/utils'
 
 const placeholders = [
@@ -63,7 +57,7 @@ export default function Home() {
         <header
           className={`sticky top-0 flex items-center justify-between px-4 bg-background lg:px-16 h-14`}
         >
-          <Link href="#" className="flex items-center justify-center">
+          <Link href="#" className="flex justify-center items-center">
             <Icons.logo className="w-8 h-8" />
           </Link>
 
@@ -90,7 +84,7 @@ export default function Home() {
               Contact
             </Link>
           </nav> */}
-          <div className="flex items-center justify-center">
+          <div className="flex justify-center items-center">
             <Link
               href="/login"
               className={cn(buttonVariants({ variant: 'outline' }), 'text-sm font-medium ml-4')}
@@ -106,9 +100,9 @@ export default function Home() {
           </div>
         </header>
         <LandingPage />
-        {/* 
-        <main className="flex flex-col items-center justify-center flex-1">
-          <div className="container flex flex-col items-center justify-center h-full px-4 mx-auto sm:px-6 lg:px-8">
+        {/*
+        <main className="flex flex-col flex-1 justify-center items-center">
+          <div className="container flex flex-col justify-center items-center px-4 mx-auto h-full sm:px-6 lg:px-8">
             <h1 className="mb-8 text-3xl font-bold text-center sm:text-4xl lg:text-5xl text-primary">
               TeacherOP
             </h1>
@@ -117,7 +111,7 @@ export default function Home() {
                 <div className="relative">
                   <input
                     type="text"
-                    className="w-full px-4 py-3 pr-12 text-lg transition duration-300 ease-in-out border border-gray-300 rounded-md sm:py-4 focus:outline-none focus:ring-2 focus:ring-accent sm:text-xl"
+                    className="px-4 py-3 pr-12 w-full text-lg rounded-md border border-gray-300 transition duration-300 ease-in-out sm:py-4 focus:outline-none focus:ring-2 focus:ring-accent sm:text-xl"
                     placeholder={displayText}
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}

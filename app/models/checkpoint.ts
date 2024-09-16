@@ -44,6 +44,9 @@ export default class Checkpoint extends BaseModel {
   declare order: number
 
   @column()
+  declare children_created: boolean
+
+  @column()
   declare userId: string
 
   @column()
