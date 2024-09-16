@@ -1,22 +1,21 @@
 import type CheckpointController from '#controllers/checkpoint_controller'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { InferPageProps } from '@adonisjs/inertia/types'
-import { router } from '@inertiajs/react'
-import { useEffect, useState, useCallback } from 'react'
+import { Link, router } from '@inertiajs/react'
+import { useCallback, useEffect, useState } from 'react'
 import { Icons } from '~/lib/components/icons'
 
 import AppLayout from '~/lib/components/layout/app_layout'
 import { Layout } from '~/lib/components/layout/custom_layout'
+import Markdown from '~/lib/components/markdown'
 import { Button } from '~/lib/components/ui/button'
 import { Separator } from '~/lib/components/ui/separator'
 import { UserNav } from '~/lib/components/user_nav'
-import Markdown from '~/lib/components/markdown'
 
 export default function CheckpointShow({
   course,
   module,
 }: InferPageProps<CheckpointController, 'show'>) {
-
   const [timeSpent, setTimeSpent] = useState(0)
   const [isFullscreen, setIsFullscreen] = useState(false)
 
@@ -72,26 +71,21 @@ export default function CheckpointShow({
         <div className="p-4 min-h-screen bg-background md:px-8">
           <Card className="mx-auto shadow-lg">
             <CardHeader className="space-y-1">
-              <CardTitle className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:justify-between text-2xl font-bold">
+              <CardTitle className="flex flex-col space-y-2 text-2xl font-bold sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center">
-                  <Icons.bookOpen className="mr-2 w-6 h-6 flex-shrink-0" />
+                  <Icons.bookOpen className="flex-shrink-0 mr-2 w-6 h-6" />
                   <span className="break-words">{course.title}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <div className="p-2 rounded-md flex items-center bg-foreground text-white">
-                    <Icons.clockIcon className="w-5 h-5 mr-1 flex-shrink-0" />
+                  <div className="flex items-center p-2 text-white rounded-md bg-foreground">
+                    <Icons.clockIcon className="flex-shrink-0 mr-1 w-5 h-5" />
                     <span className="text-base font-medium">{formatTime(timeSpent)}</span>
                   </div>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={toggleFullscreen}
-                    className="p-2"
-                  >
+                  <Button variant="outline" size="icon" onClick={toggleFullscreen} className="p-2">
                     {isFullscreen ? (
-                      <Icons.minimize2 className="h-4 w-4" />
+                      <Icons.minimize2 className="w-4 h-4" />
                     ) : (
-                      <Icons.maximize2 className="h-4 w-4" />
+                      <Icons.maximize2 className="w-4 h-4" />
                     )}
                   </Button>
                 </div>
@@ -109,35 +103,47 @@ export default function CheckpointShow({
                 <Separator />
                 <Card className="mt-6 bg-muted text-foreground">
                   <CardContent className="p-6">
-                    {module.children == null && module.content && <>
-                      <div className="prose prose-lg dark:prose-invert max-w-none">
-                        <Markdown content={module.content} />
+                    {!module.children && module.content && (
+                      <>
+                        <div className="max-w-none prose prose-lg dark:prose-invert">
+                          <Markdown content={module.content} />
+                        </div>
+                      </>
+                    )}
+                    {!module.children && (
+                      <div className="flex justify-between">
+                        <Button
+                          className="mt-4"
+                          onClick={() => router.visit(`/courses/${course.id}`)}
+                        >
+                          Back to course
+                        </Button>
+                        <Button
+                          className="mt-4"
+                          onClick={() => router.visit(`/resources/${module.next}`)}
+                        >
+                          Next
+                        </Button>
                       </div>
-                    </>}
-                    {module.children == null && <div className="flex justify-between">
-                      <Button className="mt-4" onClick={() => router.visit(`/courses/${course.id}`)}>
-                        Back to course
-                      </Button>
-                      <Button className="mt-4" onClick={() => router.visit(`/resources/${module.next}`)}>
-                        Next
-                      </Button>
-                    </div>}
-                    {module.children && module.children.length > 0 ? <>
+                    )}
+                    {Array.isArray(module.children) && (
                       <div className="space-y-4">
                         <h3 className="text-lg font-semibold">Submodules</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          {module.children.filter((submodule) => submodule != null).map((submodule, index) => (
-                            <Card key={index} className="bg-background cursor-pointer hover:bg-muted/80 transition-colors"
-                              onClick={() => router.visit(`/resources/${submodule?.id}`)}
-                            >
-                              <CardContent className="flex items-center p-4">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                          {module.children
+                            .filter((submodule) => submodule !== null)
+                            .map((submodule) => (
+                              <Link
+                                href={`/resources/${submodule?.id}`}
+                                key={submodule.id}
+                                className="p-4 rounded-lg border transition-colors cursor-pointer bg-background hover:bg-muted-foreground/10"
+                              >
                                 <span>{submodule.title}</span>
-                              </CardContent>
-                            </Card>
-                          ))}
+                              </Link>
+                            ))}
                         </div>
                       </div>
-                    </> : ""}
+                    )}
                   </CardContent>
                 </Card>
               </div>
