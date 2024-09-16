@@ -6,7 +6,7 @@ import { QuestionTypeEnum } from '#enums/question'
 import Course from '#models/course'
 import env from '#start/env'
 
-import CheckPointJob from '#jobs/check_point'
+import CreateModulesJob from '#jobs/create_modules'
 import { onboardingPlanSummaryTools } from '#tools'
 
 interface OnboardCourseJobProps {
@@ -180,7 +180,7 @@ export default class OnboardCourseJob extends BaseJob {
             }
           }
 
-          await CheckPointJob.enqueue({
+          await CreateModulesJob.enqueue({
             planSummaryId: planSummary.id,
           })
         }

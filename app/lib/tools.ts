@@ -172,7 +172,8 @@ export const createSubmoduleTool: Anthropic.Messages.Tool[] = [
         },
         content: {
           type: 'string',
-          description: 'The detailed content of the submodule',
+          description:
+            'The detailed content of the submodule using content and resources from tavily API in MD format.',
         },
         order: {
           type: 'integer',
@@ -181,21 +182,23 @@ export const createSubmoduleTool: Anthropic.Messages.Tool[] = [
         estimated_duration: {
           type: 'number',
           description: 'Estimated time to complete the submodule in minutes',
-          // properties: {
-          //   duration: {
-          //     type: 'number',
-          //     description: 'Estimated duration in minutes/hours/days',
-          //   },
-          //   unit: {
-          //     type: 'string',
-          //     enum: ['minutes', 'hours', 'days'],
-          //     description: 'Unit of time for the duration',
-          //   },
-          // },
-          // required: ['duration', 'unit'],
         },
       },
-      required: ['title', 'description', 'content', 'estimated_duration'],
+      required: ['title', 'description', 'content', 'estimated_duration', 'order'],
+    },
+  },
+  {
+    name: 'search_content_and_resources',
+    description: 'Searches tavily API to generate content and resources.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        query: {
+          type: 'string',
+          description: 'The search query to search in tavily API',
+        },
+      },
+      required: ['query'],
     },
   },
 ]

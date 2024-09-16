@@ -45,6 +45,7 @@ export default defineConfig({
     () => import('adonis-resque/providers/resque_provider'),
     () => import('@adonisjs/redis/redis_provider'),
     () => import('./providers/ai_provider.js'),
+    () => import('./providers/tavily_provider.js'),
   ],
 
   /*

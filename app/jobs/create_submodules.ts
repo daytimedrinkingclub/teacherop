@@ -49,7 +49,7 @@ export default class CreateSubmodulesJob extends BaseJob {
     const messages = [
       {
         role: 'user',
-        content: `Hey I want to learn something and got a plan, a course summary and module, can you help me create checkpoints/submodules for the course?`,
+        content: `Hey I want to learn something and got a plan, a course summary and module, create checkpoints/submodules for the course using tavily API using 'search_content_and_resources' tool. Tavily may give old/out-dated/legacy information, Please refrain from using old data. Also try to incorporate external reference link in the content.`,
       },
       {
         role: 'assistant',
@@ -95,38 +95,108 @@ export default class CreateSubmodulesJob extends BaseJob {
       tools: createSubmoduleTool,
     })
 
-    console.log('<!---------->')
-    console.log('AI response submodule:', JSON.stringify(response, null, 2))
-    console.log('<!---------->')
-
     if (response.stop_reason === 'tool_use') {
       const toolsToUse = response.content.filter((tool) => tool.type === 'tool_use')
       const toolsText = response.content.filter((tool) => tool.type === 'text')
 
       for (let tool of toolsToUse) {
         const toolName = tool.name
-        const toolInput = tool.input as {
-          title: string
-          description: string
-          content: string
-          estimated_duration: BigInt
-          order: number
-        }
-        const aiResponse = { ...response, content: [...toolsText, tool] }
+        console.log('using tool: ', toolName)
 
-        if (toolName === 'generate_course_submodule') {
-          const checkpoint = await Checkpoint.create({
-            type: CheckpointTypeEnum['SUBMODULE'],
-            title: toolInput.title,
-            description: toolInput.description,
-            content: toolInput.content,
-            userId: planSummary.userId,
-            estimatedDuration: toolInput.estimated_duration,
-            order: toolInput.order,
-            aiResponse,
-            courseId: planSummary.courseId,
-            parentId: module.id,
+        const aiResponse = {
+          ...response,
+          content: [...toolsText, tool],
+        }
+
+        if (toolName === 'search_content_and_resources') {
+          const { query } = tool.input as { query: string }
+
+          console.log('<!---------->')
+          console.log('AI response content search submodule:', JSON.stringify(response, null, 2))
+          console.log('<!---------->')
+
+          const tavily = await app.container.make('tavily')
+          const tavilyResponse = await tavily.search(query)
+
+          const aiTavResponse = await ai.ask({
+            model: env.get('LLM_MODEL', 'claude-3-5-sonnet-20240620'),
+            messages: [
+              ...messages,
+              { role: 'assistant', content: aiResponse.content },
+              {
+                role: 'user',
+                content: [
+                  {
+                    type: 'tool_result',
+                    tool_use_id: tool.id,
+                    content: JSON.stringify(tavilyResponse),
+                  },
+                ],
+              },
+            ],
+            max_tokens: 8000,
+            temperature: 0,
+            tools: createSubmoduleTool,
           })
+
+          console.log('<!---------->')
+          console.log('AI response submodule:', JSON.stringify(aiTavResponse, null, 2))
+          console.log('<!---------->')
+
+          if (aiTavResponse.stop_reason === 'tool_use') {
+            const tool = aiTavResponse.content[aiTavResponse.content.length - 1]
+
+            if (tool.type == 'tool_use') {
+              const { title, description, content, estimated_duration, order } = tool.input as {
+                title: string
+                description: string
+                content: string
+                estimated_duration: BigInt
+                order: number
+              }
+              const checkpoint = await Checkpoint.firstOrCreate(
+                {
+                  type: CheckpointTypeEnum['SUBMODULE'],
+                  title,
+                  order,
+                  userId: planSummary.userId,
+                  parentId: module.id,
+                  courseId: planSummary.courseId,
+                },
+                {
+                  estimatedDuration: estimated_duration,
+                  aiResponse,
+                  content,
+                  description,
+                }
+              )
+              await checkpoint.save()
+            }
+          }
+        } else if (toolName === 'generate_course_submodule') {
+          const { title, description, content, estimated_duration, order } = tool.input as {
+            title: string
+            description: string
+            content: string
+            estimated_duration: BigInt
+            order: number
+          }
+          const checkpoint = await Checkpoint.firstOrCreate(
+            {
+              type: CheckpointTypeEnum['SUBMODULE'],
+              title,
+              order,
+              userId: planSummary.userId,
+              parentId: module.id,
+              courseId: planSummary.courseId,
+            },
+            {
+              estimatedDuration: estimated_duration,
+              aiResponse,
+              content,
+              description,
+            }
+          )
           await checkpoint.save()
         }
       }

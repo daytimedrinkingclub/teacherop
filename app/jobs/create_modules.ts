@@ -10,14 +10,13 @@ import env from '#start/env'
 import { createModuleTool } from '#tools'
 import CreateSubmodulesJob from './create_submodules.js'
 
-interface CheckPointJobArgs {
+interface CreateModulesJobArgs {
   planSummaryId: string
 }
 
-export default class CheckPointJob extends BaseJob {
-  public async perform({ planSummaryId }: CheckPointJobArgs) {
+export default class CreateModulesJob extends BaseJob {
+  public async perform({ planSummaryId }: CreateModulesJobArgs) {
     await this.createModules(planSummaryId)
-    // await this.createSubmodules(planSummaryId)
   }
 
   private async createModules(planSummaryId: string) {
