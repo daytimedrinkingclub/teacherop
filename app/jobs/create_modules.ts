@@ -8,7 +8,6 @@ import Course from '#models/course'
 import PlanSummary from '#models/plan_summary'
 import env from '#start/env'
 import { createModuleTool } from '#tools'
-import CreateSubmodulesJob from './create_submodules.js'
 
 interface CreateModulesJobArgs {
   planSummaryId: string
@@ -53,10 +52,6 @@ export default class CreateModulesJob extends BaseJob {
         .where('course_id', course.id)
         .andWhere('type', CheckpointTypeEnum['MODULE'])
       const oldCheckpointsSerialized = oldCheckpoints.map((checkpoint) => checkpoint.serialize())
-      // const moduleCount = oldCheckpoints.filter((checkpoint) => checkpoint.parentId === null).length
-      // const submoduleCount = oldCheckpoints.filter(
-      //   (checkpoint) => checkpoint.parentId !== null
-      // ).length
 
       for (let checkpoint of oldCheckpointsSerialized) {
         const toolUse = checkpoint.aiResponse?.content[checkpoint.aiResponse?.content.length - 1]
@@ -122,6 +117,9 @@ export default class CreateModulesJob extends BaseJob {
             })
 
             await checkpoint.save()
+
+            // todo)) fix submodule creation
+            // await CreateSubmodulesJob.enqueue({ moduleId: checkpoint.id })
           }
         }
       } else if (response.stop_reason === 'end_turn') {
@@ -129,6 +127,7 @@ export default class CreateModulesJob extends BaseJob {
       }
     }
 
-    await CreateSubmodulesJob.enqueue({ courseId: course.id })
+    course.isModulesCreated = true
+    await course.save()
   }
 }

@@ -69,6 +69,7 @@ export const onboardingPlanSummaryTools: Anthropic.Messages.Tool[] = [
         'answer_values',
       ],
     },
+    // cache_control: { type: 'ephemeral' },
   },
   {
     name: 'generate_plan_summary',
@@ -187,6 +188,9 @@ export const createSubmoduleTool: Anthropic.Messages.Tool[] = [
       required: ['title', 'description', 'content', 'estimated_duration', 'order'],
     },
   },
+]
+
+export const searchTavilyTool: Anthropic.Messages.Tool[] = [
   {
     name: 'search_content_and_resources',
     description: 'Searches tavily API to generate content and resources.',
