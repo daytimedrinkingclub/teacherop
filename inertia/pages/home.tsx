@@ -13,7 +13,8 @@ const Header = () => (
       <Link href="/login">Login</Link>
     </div>
     <div>
-      <img src="/public/images/logo.png" alt="Logo" className="h-20 w-20 md:h-24 md:w-24" width={80} height={80} />
+      {/* <img src="/public/images/logo.png" alt="Logo" className="h-20 w-20 md:h-24 md:w-24" width={80} height={80} /> */}
+      <img src="https://res.cloudinary.com/ajitpatil/image/upload/v1726496203/teacherop/vc171uq8cpcdqq8m2cka.png" alt="Logo" className="h-20 w-20 md:h-24 md:w-24" width={80} height={80} />
     </div>
   </header>
 )
@@ -28,8 +29,15 @@ const Hero = () => (
       </div>
     </div>
     <div className='flex items-center py-8 md:px-44 md:py-0 md:-translate-y-10 md:translate-x-20'>
-      <img
+      {/* <img
         src="/public/images/hero.png"
+        alt="Hero Image"
+        className="h-[300px] md:h-[400px] w-auto"
+        width={1024}
+        height={576}
+      /> */}
+      <img
+        src="https://res.cloudinary.com/ajitpatil/image/upload/v1726496189/teacherop/e7hcmuhuvwjcuoleiwso.png"
         alt="Hero Image"
         className="h-[300px] md:h-[400px] w-auto"
         width={1024}
@@ -81,8 +89,15 @@ const HowItWorks = ({ steps }: { steps: string[] }) => (
 const LearnAnything = () => (
   <section className='container mx-auto flex flex-col md:flex-row items-center p-4 md:p-16 md:px-24'>
     <div className='mb-8 md:mb-0'>
-      <img
+      {/* <img
         src="/public/images/img1.png"
+        alt="Skills inspiration"
+        className="h-[300px] md:h-[400px] w-full md:w-auto object-cover rounded-lg shadow-lg"
+        width={1024}
+        height={576}
+      /> */}
+      <img
+        src="https://res.cloudinary.com/ajitpatil/image/upload/v1726496189/teacherop/e7hcmuhuvwjcuoleiwso.png"
         alt="Skills inspiration"
         className="h-[300px] md:h-[400px] w-full md:w-auto object-cover rounded-lg shadow-lg"
         width={1024}
