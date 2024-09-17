@@ -46,7 +46,7 @@ export default function SignupForm({ className, ...props }: SignUpAuthFormProps)
   const errors = useError()
 
   return (
-    <div className="flex flex-col min-h-screen bg-white text-black p-4">
+    <div className="container mx-auto flex flex-col min-h-screen bg-white text-black p-4">
       <header className="flex justify-between items-center mb-8">
         <Link href="/" className="text-black hover:bg-transparent hover:text-black">
           <Button variant="ghost" className="text-black hover:bg-transparent hover:text-black">
@@ -57,19 +57,19 @@ export default function SignupForm({ className, ...props }: SignUpAuthFormProps)
 
         <div className="flex items-center gap-2">
           <div className="text-xl font-semibold">TeacherOP</div>
-          <Icons.logo className="w-10 h-10 stroke-black" />
+          <Icons.logo className="w-20 h-20 stroke-black" />
         </div>
       </header>
-      <main className="container m-auto flex-grow flex flex-col">
-        <div className={cn('w-full max-w-2xl space-y-6', className)} {...props}>
+      <main className="container mx-auto flex-grow flex flex-col items-center">
+        <div className={cn('w-full max-w-6xl space-y-6', className)} {...props}>
           <h1 className="text-4xl md:text-7xl font-bold mb-2">Join us.</h1>
           <p className="text-lg mb-6 font-semibold">
             Learners earned loads of rewards this week for their hard work.
             <br />
             You're just 2 steps away from unlocking your first reward!
           </p>
-          <form onSubmit={handleSignup} className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2">
+          <form onSubmit={handleSignup} className="space-y-4 max-w-4xl">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               <div className="grid gap-1">
                 <Label htmlFor="fullName">Full Name:</Label>
                 <Input
@@ -162,13 +162,13 @@ export default function SignupForm({ className, ...props }: SignUpAuthFormProps)
                 )}
               </div>
             </div>
-            <Button className="w-full bg-black text-white hover:bg-gray-800" disabled={form.processing}>
+            <Button className="col-span-1 rounded-full w-full sm:w-auto md:w-[20%]" disabled={form.processing}>
               {form.processing && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
               Let's go
             </Button>
             {errors?.auth && <p className="px-1 text-xs text-red-600">{errors.auth}</p>}
           </form>
-          <p className="text-xs text-center">
+          <p className="text-lg text-center">
             By clicking continue, you agree to our Terms of Service and Privacy Policy.
           </p>
         </div>

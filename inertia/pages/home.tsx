@@ -241,15 +241,15 @@ const Footer = () => (
         <div>
           <p className="mb-2">Email:</p>
           <p className="text-sm mb-4">Sign up and we'll let you know first when we do anything.</p>
-          <div className="flex gap-4">
+          <div className="flex gap-4 border-2 border-white rounded-full">
             <Input
               type="email"
               placeholder="Email Address"
               className="mr-2v bg-black"
             />
-            <Button variant="outline">
-              <Icons.arrowRight className='h-6 w-6 text-black' />
-            </Button>
+            <button className='px-2'>
+              <Icons.RoundedArrowRight className='h-8 w-8' />
+            </button>
           </div>
         </div>
         <div>
