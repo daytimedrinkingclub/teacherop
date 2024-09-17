@@ -34,18 +34,18 @@ export default function LoginForm({ className, ...props }: LoginFormProps) {
 
                 <div className="flex items-center gap-2">
                     <div className="text-xl font-semibold">TeacherOP</div>
-                    <Icons.logo className="w-10 h-10 stroke-black" />
+                    <Icons.logo className="w-20 h-20 stroke-black" />
                 </div>
             </header>
-            <main className="flex-grow flex flex-col">
-                <div className={cn('w-full max-w-2xl space-y-6', className)} {...props}>
-                    <h1 className="text-4xl md:text-7xl font-bold mb-2">Welcome back.</h1>
-                    <p className="text-lg md:text-xl mb-6 font-semibold">
+            <main className="mx-auto items-center flex-grow flex md:mt-12 flex-col">
+                <div className={cn('w-full max-w-7xl space-y-6', className)} {...props}>
+                    <h1 className="text-4xl md:text-9xl font-bold mb-2 w-full">Welcome back.</h1>
+                    <p className="text-lg px-4 md:text-xl mb-6 font-semibold">
                         It's always good to see you back :)
                         <br />
                         Happy Learning
                     </p>
-                    <form onSubmit={handleSignup} className="space-y-4 max-w-md">
+                    <form onSubmit={handleSignup} className="space-y-4 px-4  max-w-md">
                         <div className="grid gap-1">
                             <Label htmlFor="email" className="sr-only">
                                 Email
@@ -59,7 +59,7 @@ export default function LoginForm({ className, ...props }: LoginFormProps) {
                                 autoCorrect="off"
                                 value={form.data.email}
                                 onChange={(e) => form.setData('email', e.target.value)}
-                                className="w-full border-gray-300 rounded-lg"
+                                className="w-ful"
                             />
                             {errors?.email && <p className="px-1 text-xs text-red-600">{errors.email}</p>}
                         </div>
@@ -74,12 +74,12 @@ export default function LoginForm({ className, ...props }: LoginFormProps) {
                                 autoCapitalize="none"
                                 value={form.data.password}
                                 onChange={(e) => form.setData('password', e.target.value)}
-                                className="w-full border-gray-300"
+                                className="w-full"
                             />
                             {errors?.password && <p className="px-1 text-xs text-red-600">{errors.password}</p>}
                         </div>
                         <Button
-                            className="w-full bg-black text-white hover:bg-gray-800"
+                            className="w-full rounded-full"
                             disabled={form.processing}
                         >
                             {form.processing && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
@@ -87,7 +87,7 @@ export default function LoginForm({ className, ...props }: LoginFormProps) {
                         </Button>
                         {errors?.auth && <p className="px-1 text-xs text-red-600">{errors.auth}</p>}
                     </form>
-                    <p className="text-sm">
+                    <p className="text-sm px-4 ">
                         Don't have an account?{" "}
                         <Link href="/signup" className="text-blue-600 hover:underline">
                             Create one now

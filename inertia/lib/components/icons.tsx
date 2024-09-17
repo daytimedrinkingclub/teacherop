@@ -32,6 +32,8 @@ import {
         Facebook,
         Instagram,
         Twitter,
+        Search,
+        ArrowRightCircleIcon,
 } from 'lucide-react'
 
 export const Icons = {
@@ -39,7 +41,7 @@ export const Icons = {
         spinner: Loader2,
         close: X,
         user: User,
-
+        search: Search,
         dashboard: LayoutDashboard,
         chevronDown: ChevronDown,
         chevronsLeft: ChevronsLeft,
@@ -75,6 +77,7 @@ export const Icons = {
         twitter: Twitter,
         ChevronLeft: ChevronLeft,
         ChevronRight: ChevronRightIcon,
+        RoundedArrowRight: ArrowRightCircleIcon,
         logo: ({ ...props }: LucideProps) => (
                 <svg version="1.0"
                         xmlns="http://www.w3.org/2000/svg"
