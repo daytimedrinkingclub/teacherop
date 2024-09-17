@@ -30,9 +30,9 @@ const Markdown = ({ content }: { content: string }) => {
                                 onClick={handleCopy}
                                 variant="ghost"
                                 size="icon"
-                                className="absolute top-2 right-2 text-background hover:bg-transparent hover:text-background"
+                                className={`absolute top-2 ${copied ? 'right-6' : 'right-4'} text-background hover:bg-transparent hover:text-background`}
                             >
-                                {copied ? <Icons.check className="w-4 h-4 " /> : <Icons.copy className="w-4 h-4" />}
+                                {!copied ? <Icons.copy className="w-4 h-4 " /> : <span className="flex items-center gap-1">copied <Icons.check className="w-4 h-4" /></span>}
                             </Button>
                             {/* @ts-ignore */}
                             <SyntaxHighlighter
