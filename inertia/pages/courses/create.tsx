@@ -24,8 +24,8 @@ const placeholders = [
   'I want to learn training a dog...',
 ]
 
-export default function CoursesCreatePage({ user }: InferPageProps<CoursesController, 'create'>) {
-
+export default function CoursesCreatePage(props: InferPageProps<CoursesController, 'create'>) {
+  const { user } = props as any
   const [displayText, setDisplayText] = useState('')
   const [placeholderIndex, setPlaceholderIndex] = useState(0)
   const [isFocused, setIsFocused] = useState(false)
@@ -71,7 +71,12 @@ export default function CoursesCreatePage({ user }: InferPageProps<CoursesContro
       </Layout.Header>
       <Layout.Body>
         <div className="container flex flex-col max-w-md text-center items-center justify-center md:mx-72 md:my-20">
-          <h1 className="text-4xl md:text-8xl font-bold mb-2 px-2">Hi {user.fullName}</h1>
+          <h1 className="text-4xl md:text-6xl font-bold mb-2 px-2 break-words">
+            Hi{' '}
+            <span className={`${user.fullName.length > 10 ? 'block mt-2' : 'inline'}`}>
+              {user.fullName}!
+            </span>
+          </h1>
           <p className="text-xl mb-6 font-semibold">What would you like to learn today?</p>
           <form onSubmit={handleSubmit} className="relative w-full max-w-md">
             <Input
