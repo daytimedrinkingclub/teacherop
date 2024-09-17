@@ -14,7 +14,8 @@ const Header = () => (
     </div>
     <div>
       {/* <img src="/public/images/logo.png" alt="Logo" className="h-20 w-20 md:h-24 md:w-24" width={80} height={80} /> */}
-      <img src="https://res.cloudinary.com/ajitpatil/image/upload/v1726496203/teacherop/vc171uq8cpcdqq8m2cka.png" alt="Logo" className="h-20 w-20 md:h-24 md:w-24" width={80} height={80} />
+      {/* <img src="https://res.cloudinary.com/ajitpatil/image/upload/v1726496203/teacherop/vc171uq8cpcdqq8m2cka.png" alt="Logo" className="h-20 w-20 md:h-24 md:w-24" width={80} height={80} /> */}
+      {Icons.logo && <Icons.logo className="h-20 w-20 md:h-24 md:w-24" />}
     </div>
   </header>
 )
@@ -28,7 +29,7 @@ const Hero = () => (
         <Button className='px-10 py-6 rounded-lg'>Get Started</Button>
       </div>
     </div>
-    <div className='flex items-center py-8 md:px-44 md:py-0 md:-translate-y-10 md:translate-x-20'>
+    <div className='flex items-center py-8 md:px-44 md:py-0 md:-translate-y-10 md:translate-x-20 h-[300px] md:h-[400px] '>
       {/* <img
         src="/public/images/hero.png"
         alt="Hero Image"
@@ -36,13 +37,8 @@ const Hero = () => (
         width={1024}
         height={576}
       /> */}
-      <img
-        src="https://res.cloudinary.com/ajitpatil/image/upload/v1726496189/teacherop/e7hcmuhuvwjcuoleiwso.png"
-        alt="Hero Image"
-        className="h-[300px] md:h-[400px] w-auto"
-        width={1024}
-        height={576}
-      />
+
+      {Icons.heroImg}
     </div>
   </section>
 )
@@ -97,7 +93,7 @@ const LearnAnything = () => (
         height={576}
       /> */}
       <img
-        src="https://res.cloudinary.com/ajitpatil/image/upload/v1726496189/teacherop/e7hcmuhuvwjcuoleiwso.png"
+        src="https://res.cloudinary.com/ajitpatil/image/upload/v1726496174/teacherop/x5he8lanymfmj2fqlpgr.png"
         alt="Skills inspiration"
         className="h-[300px] md:h-[400px] w-full md:w-auto object-cover rounded-lg shadow-lg"
         width={1024}
