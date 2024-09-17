@@ -38,8 +38,10 @@ export default class Submodule extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
   @belongsTo(() => Module)
   declare module: BelongsTo<typeof Module>
+
   @hasOne(() => Content)
   declare content: HasOne<typeof Content>
 

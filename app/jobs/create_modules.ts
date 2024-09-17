@@ -114,5 +114,7 @@ export default class CreateModulesJob extends BaseJob {
       } else if (response.stop_reason === 'end_turn') {
       }
     }
+    course.isModulesCreated = true
+    await course.save()
   }
 }
