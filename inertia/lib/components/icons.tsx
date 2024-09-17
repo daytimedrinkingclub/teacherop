@@ -31,7 +31,7 @@ import {
         ChevronRightIcon,
         Facebook,
         Instagram,
-        Twitter
+        Twitter,
 } from 'lucide-react'
 
 export const Icons = {
@@ -73,11 +73,18 @@ export const Icons = {
         facebook: Facebook,
         instagram: Instagram,
         twitter: Twitter,
-        logo: ({ }: LucideProps) => (
-                <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
-                        width="1081.000000pt" height="1080.000000pt" viewBox="0 0 1081.000000 1080.000000"
-                        preserveAspectRatio="xMidYMid meet" className="h-20 w-20 md:h-24 md:w-24" >
-
+        ChevronLeft: ChevronLeft,
+        ChevronRight: ChevronRightIcon,
+        logo: ({ ...props }: LucideProps) => (
+                <svg version="1.0"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="1081.000000pt"
+                        height="1080.000000pt"
+                        viewBox="0 0 1081.000000 1080.000000"
+                        preserveAspectRatio="xMidYMid meet"
+                        className="h-20 w-20 md:h-24 md:w-24"
+                        {...props}
+                >
                         <g transform="translate(0.000000,1080.000000) scale(0.100000,-0.100000)"
                                 fill="#000000" stroke="none">
                                 <path d="M5180 8189 c-866 -98 -1387 -748 -1539 -1921 -59 -453 -63 -995 -11
@@ -1362,10 +1369,15 @@ c-3 -17 -6 -43 -6 -56 0 -20 -4 -24 -22 -21 -19 2 -24 10 -26 41 -4 43 11 67
                         </g>
                 </svg>
         ),
-        heroImg: (
-                <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
-                        width="1080.000000pt" height="1080.000000pt" viewBox="0 0 1080.000000 1080.000000"
-                        preserveAspectRatio="xMidYMid meet" className="h-[300px] md:h-[400px] w-auto">
+        heroImg: ({ ...props }: LucideProps) => (
+                <svg version="1.0"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="1080.000000pt"
+                        height="1080.000000pt"
+                        viewBox="0 0 1080.000000 1080.000000"
+                        preserveAspectRatio="xMidYMid meet"
+                        {...props}
+                >
 
                         <g transform="translate(0.000000,1080.000000) scale(0.100000,-0.100000)"
                                 fill="#000000" stroke="none">
@@ -2086,6 +2098,5 @@ m328 -193 c83 -41 159 -81 168 -89 9 -9 50 -33 91 -54 171 -89 256 -135 264
 235 37 296 37 14 0 18 6 15 28 l-3 27 -105 2 c-58 1 -132 -4 -165 -11z"/>
                         </g>
                 </svg>
-
         ),
 }
