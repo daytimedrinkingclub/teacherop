@@ -1,7 +1,7 @@
 import SubmodulesController from '#controllers/submodules_controller'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { InferPageProps } from '@adonisjs/inertia/types'
-import { Link, router } from '@inertiajs/react'
+import { router } from '@inertiajs/react'
 import { useCallback, useEffect, useState } from 'react'
 import { Icons } from '~/lib/components/icons'
 
@@ -19,6 +19,7 @@ export default function CheckpointShow({
 }: InferPageProps<SubmodulesController, 'show'>) {
   const [timeSpent, setTimeSpent] = useState(0)
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const { next } = submodule
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -119,12 +120,18 @@ export default function CheckpointShow({
                       >
                         Back to course
                       </Button>
-                      {/* <Button
+                      <Button
                         className="mt-4"
-                        onClick={() => router.visit(`/resources/${module.next}`)}
+                        onClick={() => {
+                          const url =
+                            next &&
+                            (next.type === 'module' ? `/modules/${next.id}` : `/lessons/${next.id}`)
+                          url && router.visit(url)
+                        }}
+                        disabled={!next}
                       >
                         Next
-                      </Button> */}
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>

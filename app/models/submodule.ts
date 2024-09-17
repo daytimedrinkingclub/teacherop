@@ -49,4 +49,24 @@ export default class Submodule extends BaseModel {
   static beforeCreateHook(submodule: Submodule) {
     submodule.id = submodule.id || uuid()
   }
+
+  async getNext() {
+    const possibleNextSubmodule = await Submodule.query()
+      .where('order', this.order + 1)
+      .andWhere('moduleId', this.moduleId)
+      .first()
+    if (possibleNextSubmodule) return { type: 'submodule', id: possibleNextSubmodule.id }
+
+    // have to check for next module
+    const currentModule = await Module.find(this.moduleId)
+    if (!currentModule) return null
+    const possibleNextModule = await Module.query()
+      .where('order', currentModule.order + 1)
+      .andWhere('courseId', currentModule.courseId)
+      .first()
+
+    if (!possibleNextModule) return null
+
+    return { type: 'module', id: possibleNextModule.id }
+  }
 }
