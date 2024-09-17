@@ -6,12 +6,10 @@ import { type HasMany } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
 import { v4 as uuid } from 'uuid'
 
-import Checkpoint from '#models/checkpoint'
+import { GenderEnum } from '#enums/gender'
 import Course from '#models/course'
 import PlanSummary from '#models/plan_summary'
 import Question from '#models/question'
-import { GenderEnum } from '#enums/gender'
-import { QualificationEnum } from '#enums/qualification'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -40,7 +38,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare gender: GenderEnum
 
   @column()
-  declare qualification: QualificationEnum
+  declare qualification: string
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -61,7 +59,4 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @hasMany(() => PlanSummary)
   declare planSummaries: HasMany<typeof PlanSummary>
-
-  @hasMany(() => Checkpoint)
-  declare checkpoints: HasMany<typeof Checkpoint>
 }

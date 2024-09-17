@@ -1,9 +1,8 @@
-import bindCheckpoint from '#decorators/bind_checkpoint'
 import CheckPointDto from '#dtos/checkpoint_dto'
 import CourseDto from '#dtos/course_dto'
 import UserDto from '#dtos/user_dto'
-import Checkpoint from '#models/checkpoint'
 import type { HttpContext } from '@adonisjs/core/http'
+import bindCheckpoint from '#decorators/bind_module'
 
 export default class CheckpointController {
   @bindCheckpoint()

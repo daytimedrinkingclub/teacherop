@@ -2,6 +2,8 @@ import { BaseSchema } from '@adonisjs/lucid/schema'
 
 import { QuestionTypeEnum } from '#enums/question'
 
+// note)) this is onboarding questions
+
 export default class extends BaseSchema {
   protected tableName = 'questions'
 

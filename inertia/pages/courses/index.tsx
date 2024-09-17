@@ -20,6 +20,8 @@ import { Separator } from '~/lib/components/ui/separator'
 export default function CoursesPage({ courses }: InferPageProps<CoursesController, 'index'>) {
   const isOngoing = courses.some((course) => course.status === 'ongoing')
 
+  console.log(courses)
+
   const getStatusIcon = (status: any) => {
     switch (status) {
       case 'ongoing':
@@ -89,8 +91,10 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
                       <div className="flex items-center justify-between">
                         <p className="flex items-center text-sm text-gray-500">
                           <Icons.zap className="mr-1 w-4 h-4" />
-                          {Math.floor(calculatePercentage(course.totalModule, course.completedModule || 0))}%
-                          Complete
+                          {Math.floor(
+                            calculatePercentage(course.totalModule, course.completedModule || 0)
+                          )}
+                          % Complete
                         </p>
                         <Badge
                           variant={course.status === 'ongoing' ? 'outline' : 'default'}
