@@ -20,24 +20,24 @@ export default function ModulesShow({
   const [timeSpent, setTimeSpent] = useState(0)
   const [isFullscreen, setIsFullscreen] = useState(false)
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeSpent((prevTime) => prevTime + 1)
-    }, 1000)
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setTimeSpent((prevTime) => prevTime + 1)
+  //   }, 1000)
 
-    // Add event listener for page unload
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      e.preventDefault()
-      e.returnValue = ''
-    }
+  //   // Add event listener for page unload
+  //   const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+  //     e.preventDefault()
+  //     e.returnValue = ''
+  //   }
 
-    window.addEventListener('beforeunload', handleBeforeUnload)
+  //   window.addEventListener('beforeunload', handleBeforeUnload)
 
-    return () => {
-      clearInterval(timer)
-      window.removeEventListener('beforeunload', handleBeforeUnload)
-    }
-  }, [])
+  //   return () => {
+  //     clearInterval(timer)
+  //     window.removeEventListener('beforeunload', handleBeforeUnload)
+  //   }
+  // }, [])
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60)
