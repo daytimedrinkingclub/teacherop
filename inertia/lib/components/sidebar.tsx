@@ -47,12 +47,7 @@ export default function Sidebar({ className, isCollapsed, setIsCollapsed }: Side
           className="z-50 flex justify-between px-4 py-3 overflow-hidden shadow-sm md:px-4"
         >
           <div className={`flex items-center ${!isCollapsed ? 'gap-2' : ''}`}>
-            <Icons.logo className="w-8 h-8 stroke-blue-600" />
-            <div
-              className={`flex flex-col justify-end ${isCollapsed ? 'invisible w-0' : 'visible w-auto'}`}
-            >
-              <span className="font-medium text-lg md:text-2xl text-blue-600">TeacherOP</span>
-            </div>
+            <Icons.logo className="w-20 h-20" />
           </div>
 
           {/* Toggle Button in mobile */}

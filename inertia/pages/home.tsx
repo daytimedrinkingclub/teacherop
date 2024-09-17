@@ -1,10 +1,11 @@
 import { Head, Link } from '@inertiajs/react'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Button } from '~/lib/components/ui/button'
 import { motion } from 'framer-motion'
 import { Card, CardContent } from '@/components/ui/card'
 import { Icons } from '~/lib/components/icons'
 import { Input } from '~/lib/components/ui/input'
+import { TypeAnimation } from 'react-type-animation';
 
 const Header = () => (
   <header className='container mx-auto fixed bg-white z-50 top-0 left-0 right-0 flex justify-between items-center'>
@@ -14,7 +15,8 @@ const Header = () => (
     </div>
     <div>
       {/* <img src="/public/images/logo.png" alt="Logo" className="h-20 w-20 md:h-24 md:w-24" width={80} height={80} /> */}
-      <img src="https://res.cloudinary.com/ajitpatil/image/upload/v1726496203/teacherop/vc171uq8cpcdqq8m2cka.png" alt="Logo" className="h-20 w-20 md:h-24 md:w-24" width={80} height={80} />
+      {/* <img src="https://res.cloudinary.com/ajitpatil/image/upload/v1726496203/teacherop/vc171uq8cpcdqq8m2cka.png" alt="Logo" className="h-20 w-20 md:h-24 md:w-24" width={80} height={80} /> */}
+      {Icons.logo && <Icons.logo className="h-20 w-20 md:h-24 md:w-24" />}
     </div>
   </header>
 )
@@ -23,12 +25,23 @@ const Hero = () => (
   <section className='container mx-auto px-6 py-4 my-[30px] relative '>
     <div className='flex flex-col gap-2 z-10'>
       <h1 className='font-albert-sans text-5xl md:text-8xl font-bold'>TeacherOP.</h1>
-      <p className='text-xl px-2 md:px-5'>Your course. Your pace. Your payday.</p>
+      <TypeAnimation
+        sequence={[
+          'Your course. Your pace. Your payday.',
+          1000,
+          '',
+          100,
+        ]}
+        wrapper="p"
+        speed={50}
+        style={{ fontSize: '1.25rem', lineHeight: '1.75rem', padding: '0 0.5rem', marginBottom: '0.5rem' }}
+        repeat={Infinity}
+      />
       <div className='p-2 md:px-4 md:py-6'>
         <Button className='px-10 py-6 rounded-lg'>Get Started</Button>
       </div>
     </div>
-    <div className='flex items-center py-8 md:px-44 md:py-0 md:-translate-y-10 md:translate-x-20'>
+    <div className='flex items-center justify-center py-8 md:px-44 md:py-0 md:-translate-y-10 md:translate-x-20 h-[300px] md:h-[400px] '>
       {/* <img
         src="/public/images/hero.png"
         alt="Hero Image"
@@ -36,13 +49,8 @@ const Hero = () => (
         width={1024}
         height={576}
       /> */}
-      <img
-        src="https://res.cloudinary.com/ajitpatil/image/upload/v1726496189/teacherop/e7hcmuhuvwjcuoleiwso.png"
-        alt="Hero Image"
-        className="h-[300px] md:h-[400px] w-auto"
-        width={1024}
-        height={576}
-      />
+
+      {Icons.heroImg && <Icons.heroImg className="h-[300px] md:h-[400px] w-auto" />}
     </div>
   </section>
 )
@@ -86,36 +94,107 @@ const HowItWorks = ({ steps }: { steps: string[] }) => (
   </section>
 )
 
-const LearnAnything = () => (
-  <section className='container mx-auto flex flex-col md:flex-row items-center p-4 md:p-16 md:px-24'>
-    <div className='mb-8 md:mb-0'>
-      {/* <img
+const LearnAnything = () => {
+  const images = [
+    "https://res.cloudinary.com/ajitpatil/image/upload/v1726496174/teacherop/x5he8lanymfmj2fqlpgr.png",
+    "https://res.cloudinary.com/ajitpatil/image/upload/v1726554491/teacherop/Property_1_Variant4_u5sstx.png",
+    "https://res.cloudinary.com/ajitpatil/image/upload/v1726554472/teacherop/Property_1_41206225-young-woman-dancing-street-dance_1_yho439.svg"
+  ]
+  const [currentIndex, setCurrentIndex] = useAutoScroll(images.length, 1800)
+  const [isTransitioning, setIsTransitioning] = useState(false)
+
+  const goToSlide = useCallback((index: number) => {
+    if (!isTransitioning) {
+      setIsTransitioning(true)
+      setCurrentIndex(index)
+      setTimeout(() => setIsTransitioning(false), 1000)
+    }
+  }, [isTransitioning, setCurrentIndex])
+
+  const goToPrevious = () => {
+    goToSlide((currentIndex - 1 + images.length) % images.length)
+  }
+
+  const goToNext = () => {
+    goToSlide((currentIndex + 1) % images.length)
+  }
+
+  return (
+    <section className='container mx-auto flex flex-col md:flex-row items-center p-4 md:p-16 md:px-24'>
+      <div className='mb-8 md:mb-0'>
+        {/* <img
         src="/public/images/img1.png"
         alt="Skills inspiration"
         className="h-[300px] md:h-[400px] w-full md:w-auto object-cover rounded-lg shadow-lg"
         width={1024}
         height={576}
       /> */}
-      <img
-        src="https://res.cloudinary.com/ajitpatil/image/upload/v1726496189/teacherop/e7hcmuhuvwjcuoleiwso.png"
-        alt="Skills inspiration"
-        className="h-[300px] md:h-[400px] w-full md:w-auto object-cover rounded-lg shadow-lg"
-        width={1024}
-        height={576}
-      />
-    </div>
-    <div className='text-center p-4 md:p-0 md:text-left md:pl-24'>
-      <h2 className='text-4xl md:text-5xl font-bold mb-4'>
-        <span className='whitespace-nowrap'>Learn anything,</span>
-        <br className='md:hidden' />
-        Anytime,
-        <br />
-        <span className='whitespace-nowrap'>In any Language.</span>
-      </h2>
-      <p className='text-lg text-gray-600'>(These are just random stock images for skills inspiration.)</p>
-    </div>
-  </section>
-)
+        <div className="relative w-full max-w-2xl mx-auto overflow-hidden">
+          <div
+            className="flex transition-transform duration-1000 ease-out"
+            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+          >
+            {images.map((src, index) => (
+              <img key={index} src={src}
+                alt={`Slide ${index + 1}`}
+                className="w-full h-auto flex-shrink-0"
+              />
+            ))}
+          </div>
+          <button
+            onClick={goToPrevious}
+            className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full"
+            aria-label="Previous slide"
+          >
+            <Icons.ChevronLeft className="w-6 h-6" />
+          </button>
+          <button
+            onClick={goToNext}
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full"
+            aria-label="Next slide"
+          >
+            <Icons.ChevronRight className="w-6 h-6" />
+          </button>
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+            {images.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`w-3 h-3 rounded-full transition-colors duration-300 ${index === currentIndex ? "bg-white" : "bg-gray-400"
+                  }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className='text-center p-4 md:p-0 md:text-left md:pl-24'>
+        <h2 className='text-4xl md:text-5xl font-bold mb-4'>
+          <span className='whitespace-nowrap'>Learn anything,</span>
+          <br className='md:hidden' />
+          Anytime,
+          <br />
+          <span className='whitespace-nowrap'>In any Language.</span>
+        </h2>
+        <p className='text-lg text-gray-600'>(These are just random stock images for skills inspiration.)</p>
+      </div>
+    </section>
+  )
+}
+
+const useAutoScroll = (length: number, interval: number) => {
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prevIndex) => (prevIndex + 1) % length)
+    }, interval)
+
+    return () => clearInterval(timer)
+  }, [length, interval])
+
+  return [index, setIndex] as const
+}
 
 const Reviews = ({ reviews, reviewsRef, setIsScrolling }: { reviews: any[], reviewsRef: React.RefObject<HTMLDivElement>, setIsScrolling: (isScrolling: boolean) => void }) => (
   <section id="reviews" className="py-20">
@@ -162,15 +241,15 @@ const Footer = () => (
         <div>
           <p className="mb-2">Email:</p>
           <p className="text-sm mb-4">Sign up and we'll let you know first when we do anything.</p>
-          <div className="flex gap-4">
+          <div className="flex gap-4 border-2 border-white rounded-full">
             <Input
               type="email"
               placeholder="Email Address"
               className="mr-2v bg-black"
             />
-            <Button variant="outline">
-              <Icons.arrowRight className='h-6 w-6 text-black' />
-            </Button>
+            <button className='px-2'>
+              <Icons.RoundedArrowRight className='h-8 w-8' />
+            </button>
           </div>
         </div>
         <div>
