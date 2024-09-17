@@ -126,25 +126,29 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                             className="w-24"
                           />
                           <span className="flex gap-2 text-sm text-gray-600">
-                            {!course.isModulesCreated && (
+                            {!module.submodulesCreated && !course.isModulesCreated && (
                               <span className="flex gap-2 items-center px-3 py-1 text-sm font-medium rounded-full text-muted-foreground bg-muted">
                                 <Icons.loader className="w-4 h-4 animate-spin" />
                               </span>
-                            )}{' '}
+                            )}
                             {calculatePercentage(
                               module.totalSubmodule,
                               module.completedSubmodule || 0
                             )}
                             %
                           </span>
-                          {course.isModulesCreated && <Button
-                            onClick={() => router.visit(`/resources/${module.id}`)}
-                            size="sm"
-                            variant={module.isCompleted ? 'outline' : 'default'}
-                          >
-                            <span className="hidden md:inline">{module.isCompleted ? 'Review' : 'Start'}</span>
-                            <Icons.play className="md:ml-2 w-4 h-4" />
-                          </Button>}
+                          {module.submodulesCreated && (
+                            <Button
+                              onClick={() => router.visit(`/modules/${module.id}`)}
+                              size="sm"
+                              variant={module.isCompleted ? 'outline' : 'default'}
+                            >
+                              <span className="hidden md:inline">
+                                {module.isCompleted ? 'Review' : 'Start'}
+                              </span>
+                              <Icons.play className="md:ml-2 w-4 h-4" />
+                            </Button>
+                          )}
                           <motion.div
                             animate={{ rotate: expandedModule === index ? 180 : 0 }}
                             transition={{ duration: 0.3 }}
@@ -183,14 +187,20 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                                     <p className="text-sm text-gray-600">{submodule.description}</p>
                                   </div>
                                 </div>
-                                {course.isModulesCreated && <Button
-                                  onClick={() => router.visit(`/resources/${submodule.id}`)}
-                                  size="sm"
-                                  variant={submodule.isCompleted ? 'outline' : 'default'}
-                                >
-                                  <span className="hidden md:inline">{submodule.isCompleted ? 'Review' : 'Start'}</span>
-                                  <Icons.play className="md:ml-2 w-4 h-4" />
-                                </Button>}
+                                {module.submodulesCreated && submodule.contentCreated ? (
+                                  <Button
+                                    onClick={() => router.visit(`/lessons/${submodule.id}`)}
+                                    size="sm"
+                                    variant={submodule.isCompleted ? 'outline' : 'default'}
+                                  >
+                                    <span className="hidden md:inline">
+                                      {submodule.isCompleted ? 'Review' : 'Start'}
+                                    </span>
+                                    <Icons.play className="md:ml-2 w-4 h-4" />
+                                  </Button>
+                                ) : <p className="flex gap-2 items-center px-3 py-1 text-sm font-medium rounded-full text-muted-foreground bg-muted">
+                                  <Icons.loader className="w-4 h-4 animate-spin" />
+                                </p>}
                               </motion.div>
                             ))}
                           </CardContent>

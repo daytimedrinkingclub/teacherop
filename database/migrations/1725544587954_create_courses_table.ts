@@ -11,7 +11,6 @@ export default class extends BaseSchema {
       table.string('query').notNullable()
       table.string('title').nullable()
       table.text('description').nullable()
-      table.text('content').nullable()
       table
         .enum('status', Object.values(CourseStatusEnum), {
           enumName: 'course_status_enum',

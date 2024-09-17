@@ -1,42 +1,43 @@
-import type CheckpointController from '#controllers/checkpoint_controller'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { InferPageProps } from '@adonisjs/inertia/types'
-import { Link, router } from '@inertiajs/react'
-import { useCallback, useEffect, useState } from 'react'
+import ModulesController from '#controllers/modules_controller'
+import { Layout } from '@/components/layout/custom_layout'
+import { UserNav } from '@/components/user_nav'
+import AppLayout from '@/components/layout/app_layout'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Icons } from '~/lib/components/icons'
-
-import AppLayout from '~/lib/components/layout/app_layout'
-import { Layout } from '~/lib/components/layout/custom_layout'
-import Markdown from '~/lib/components/markdown'
+import { useCallback, useEffect, useState } from 'react'
 import { Button } from '~/lib/components/ui/button'
 import { Separator } from '~/lib/components/ui/separator'
-import { UserNav } from '~/lib/components/user_nav'
+import { Link } from '@inertiajs/react'
 
-export default function CheckpointShow({
+export default function ModulesShow({
   course,
   module,
-}: InferPageProps<CheckpointController, 'show'>) {
+  submodules,
+}: InferPageProps<ModulesController, 'show'>) {
+  console.log(module, submodules)
+
   const [timeSpent, setTimeSpent] = useState(0)
   const [isFullscreen, setIsFullscreen] = useState(false)
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeSpent((prevTime) => prevTime + 1)
-    }, 1000)
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setTimeSpent((prevTime) => prevTime + 1)
+  //   }, 1000)
 
-    // Add event listener for page unload
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      e.preventDefault()
-      e.returnValue = ''
-    }
+  //   // Add event listener for page unload
+  //   const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+  //     e.preventDefault()
+  //     e.returnValue = ''
+  //   }
 
-    window.addEventListener('beforeunload', handleBeforeUnload)
+  //   window.addEventListener('beforeunload', handleBeforeUnload)
 
-    return () => {
-      clearInterval(timer)
-      window.removeEventListener('beforeunload', handleBeforeUnload)
-    }
-  }, [])
+  //   return () => {
+  //     clearInterval(timer)
+  //     window.removeEventListener('beforeunload', handleBeforeUnload)
+  //   }
+  // }, [])
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60)
@@ -55,7 +56,6 @@ export default function CheckpointShow({
       }
     }
   }, [])
-
   return (
     <AppLayout>
       <Layout.Header>
@@ -103,38 +103,14 @@ export default function CheckpointShow({
                 <Separator />
                 <Card className="mt-6 bg-muted text-foreground">
                   <CardContent className="p-6">
-                    {!module.children && module.content && (
-                      <>
-                        <div className="max-w-none prose prose-lg dark:prose-invert">
-                          <Markdown content={module.content} />
-                        </div>
-                      </>
-                    )}
-                    {!module.children && (
-                      <div className="flex justify-between">
-                        <Button
-                          className="mt-4"
-                          onClick={() => router.visit(`/courses/${course.id}`)}
-                        >
-                          Back to course
-                        </Button>
-                        <Button
-                          className="mt-4"
-                          onClick={() => router.visit(`/resources/${module.next}`)}
-                        >
-                          Next
-                        </Button>
-                      </div>
-                    )}
-                    {Array.isArray(module.children) && (
+                    {Array.isArray(submodules) && (
                       <div className="space-y-4">
                         <h3 className="text-lg font-semibold">Submodules</h3>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                          {module.children
-                            .filter((submodule) => submodule !== null)
+                          {submodules
                             .map((submodule) => (
                               <Link
-                                href={`/resources/${submodule?.id}`}
+                                href={`/lessons/${submodule.id}`}
                                 key={submodule.id}
                                 className="p-4 rounded-lg border transition-colors cursor-pointer bg-background hover:bg-muted-foreground/10"
                               >

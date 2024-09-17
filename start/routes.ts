@@ -17,10 +17,10 @@ const healthChecksController = () => import('#controllers/health_checks_controll
 
 const authController = () => import('#controllers/auth_controller')
 const courseController = () => import('#controllers/courses_controller')
-const checkpointController = () => import('#controllers/checkpoint_controller')
 const dashboardController = () => import('#controllers/dashboard_controller')
 const questionController = () => import('#controllers/questions_controller')
-
+const modulesController = () => import('#controllers/modules_controller')
+const submodulesController = () => import('#controllers/submodules_controller')
 router.on('/').renderInertia('home')
 
 router.get('/health', [healthChecksController]).use(({ request, response }, next) => {
@@ -51,8 +51,8 @@ router
   .get('/courses/:courseId/onboarding', [courseController, 'onboardCourse'])
   .use([middleware.auth()])
 
-router.get('/resources/:checkpointId', [checkpointController, 'show']).use([middleware.auth()])
+router.get('/modules/:moduleId', [modulesController, 'show']).use([middleware.auth()])
+router.get('/lessons/:lessonId', [submodulesController, 'show']).use([middleware.auth()])
 
-// router.post('/questions', [questionController, 'store']).use([middleware.auth()])
 router.get('/questions/current', [questionController, 'current']).use([middleware.auth()])
 router.put('/questions/:id', [questionController, 'update']).use([middleware.auth()])

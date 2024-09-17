@@ -22,9 +22,6 @@ export default class PlanSummary extends BaseModel {
   declare modules: string
 
   @column()
-  declare subModules: string
-
-  @column()
   declare aiResponse: Record<string, any>
 
   @column()

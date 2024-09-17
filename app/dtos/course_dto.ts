@@ -9,7 +9,6 @@ export default class CourseDto {
       query: this.course.query,
       title: this.course.title,
       description: this.course.description,
-      content: this.course.content,
       status: this.course.status,
       isOnboardingComplete: this.course.isOnboardingComplete,
       isStudying: this.course.isStudying,

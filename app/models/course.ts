@@ -1,10 +1,10 @@
-import { BaseModel, beforeCreate, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
-import { type BelongsTo, type HasMany } from '@adonisjs/lucid/types/relations'
+import { BaseModel, beforeCreate, belongsTo, column, hasMany, hasOne } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany, HasOne } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
 import { v4 as uuid } from 'uuid'
 
 import { CourseStatusEnum } from '#enums/course'
-import Checkpoint from '#models/checkpoint'
+import Module from '#models/module'
 import PlanSummary from '#models/plan_summary'
 import Question from '#models/question'
 import User from '#models/user'
@@ -23,9 +23,6 @@ export default class Course extends BaseModel {
 
   @column()
   declare description: string | null
-
-  @column()
-  declare content: string | null
 
   @column()
   declare status: CourseStatusEnum
@@ -50,21 +47,17 @@ export default class Course extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+  @belongsTo(() => User)
+  declare user: BelongsTo<typeof User>
+  @hasMany(() => Question)
+  declare questions: HasMany<typeof Question>
+  @hasOne(() => PlanSummary)
+  declare planSummary: HasOne<typeof PlanSummary>
+  @hasMany(() => Module)
+  declare modules: HasMany<typeof Module>
 
   @beforeCreate()
   static async beforeCreateHook(course: Course) {
     course.id = course.id || uuid()
   }
-
-  @belongsTo(() => User)
-  declare user: BelongsTo<typeof User>
-
-  @hasMany(() => Question)
-  declare questions: HasMany<typeof Question>
-
-  @hasMany(() => PlanSummary)
-  declare planSummaries: HasMany<typeof PlanSummary>
-
-  @hasMany(() => Checkpoint)
-  declare checkpoints: HasMany<typeof Checkpoint>
 }

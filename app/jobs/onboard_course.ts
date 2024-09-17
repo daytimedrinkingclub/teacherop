@@ -14,7 +14,7 @@ interface OnboardCourseJobProps {
 }
 
 export default class OnboardCourseJob extends BaseJob {
-  public async perform({ id }: OnboardCourseJobProps) {
+  async perform({ id }: OnboardCourseJobProps) {
     const course = await Course.find(id)
     if (!course) {
       console.log('Course not found, id:', id)
@@ -59,7 +59,7 @@ export default class OnboardCourseJob extends BaseJob {
       model: env.get('LLM_MODEL', 'claude-3-5-sonnet-20240620'),
       messages,
       tools: onboardingPlanSummaryTools,
-      max_tokens: 4000,
+      max_tokens: 2000,
       temperature: 0,
     })
 
@@ -104,22 +104,22 @@ export default class OnboardCourseJob extends BaseJob {
             plan_overview: planOverview,
             learning_goal: learningGoal,
             module_names: moduleNames,
-            submodule_name: submoduleNames,
+            course_title: courseTitle,
+            course_description: courseDescription,
           } = toolInput as unknown as {
             plan_overview: string
             learning_goal: string
             module_names: string[]
-            submodule_name: string[]
+            course_title: string
+            course_description: string
           }
 
           console.log('modules', moduleNames)
-          console.log('submodules', submoduleNames)
 
-          const planSummary = await course.related('planSummaries').create({
+          const planSummary = await course.related('planSummary').create({
             planOverview,
             learningGoal,
             modules: JSON.stringify(moduleNames),
-            subModules: JSON.stringify(submoduleNames),
             aiResponse: response,
             userId: course.userId,
             courseId: course.id,
@@ -127,58 +127,9 @@ export default class OnboardCourseJob extends BaseJob {
 
           // make the onboarding complete
           course.isOnboardingComplete = true
+          course.title = courseTitle
+          course.description = courseDescription
           await course.save()
-
-          // create title and description
-          const nextResponse = await ai.ask({
-            model: env.get('LLM_MODEL', 'claude-3-5-sonnet-20240620'),
-            messages: [
-              {
-                role: 'user',
-                content: `Create a title and description for this course: ${JSON.stringify(course.serialize())}`,
-              },
-            ],
-            max_tokens: 4000,
-            temperature: 0,
-            tools: [
-              {
-                name: 'generate_course_title_and_description',
-                description:
-                  "Create a title and description for the course. Please respect the user's input language and always use the language the user uses it can be English, Hindi, Spanish etc. or a mix of languages link Hinglish which is a mix of Hindi and English.",
-                input_schema: {
-                  type: 'object',
-                  properties: {
-                    title: { type: 'string', description: 'The title of the course' },
-                    description: { type: 'string', description: 'The description of the course' },
-                  },
-                  required: ['title', 'description'],
-                },
-              },
-            ],
-          })
-
-          if (nextResponse.stop_reason === 'tool_use') {
-            const toolUse = nextResponse.content[nextResponse.content.length - 1]
-            if (toolUse.type === 'tool_use') {
-              const toolName = toolUse.name
-              const toolInput = toolUse.input
-              if (toolName === 'generate_course_title_and_description') {
-                const { title, description } = toolInput as unknown as {
-                  title: string
-                  description: string
-                }
-
-                console.log('<!--------->')
-                console.log('courseId', course.id)
-                console.log('Created course with \ntitle:', title, '\ndescription:', description)
-                console.log('<!--------->')
-
-                course.title = title
-                course.description = description
-                await course.save()
-              }
-            }
-          }
 
           await CreateModulesJob.enqueue({
             planSummaryId: planSummary.id,
@@ -187,7 +138,6 @@ export default class OnboardCourseJob extends BaseJob {
       }
     } else if (response.stop_reason === 'end_turn') {
       if (response.content[0].type === 'text') {
-        course.content = response.content[0].text
       }
 
       await course.save()

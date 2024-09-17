@@ -4,6 +4,8 @@ import { v4 as uuid } from 'uuid'
 
 import { QuestionTypeEnum } from '#enums/question'
 
+// note)) this is onboarding questions
+
 export default class Question extends BaseModel {
   static selfAssignPrimaryKey = true
 

@@ -1,13 +1,12 @@
 import type { HttpContext } from '@adonisjs/core/http'
 
 import bindCourse from '#decorators/bind_course'
-import CheckPointDto from '#dtos/checkpoint_dto'
 import CourseDto from '#dtos/course_dto'
+import ModuleDto from '#dtos/module_dto'
 import QuestionDto from '#dtos/question_dto'
+import submoduleDto from '#dtos/submodule_dto'
 import UserDto from '#dtos/user_dto'
-import { CheckpointTypeEnum } from '#enums/checkpoint'
 import OnboardCourseJob from '#jobs/onboard_course'
-import Checkpoint from '#models/checkpoint'
 import Course from '#models/course'
 
 export default class CoursesController {
@@ -15,16 +14,19 @@ export default class CoursesController {
     const user = auth.user!
 
     const courses = await user.related('courses').query()
+    for (const course of courses) {
+      await course.load('modules')
+    }
 
-    const totalModules = await Checkpoint.query().where('type', CheckpointTypeEnum.MODULE)
-    const completedModules = await Checkpoint.query()
-      .where('type', CheckpointTypeEnum.MODULE)
-      .andWhere('is_completed', true)
+    // const totalModules = await Module.query()
+    // const completedModules = await Module.query()
+    //   .where('type', CheckpointTypeEnum.MODULE)
+    //   .andWhere('is_completed', true)
 
     const data = courses.map((c) => ({
       ...new CourseDto(c).toJSON(),
-      totalModule: totalModules.length,
-      completedModule: completedModules.length,
+      totalModule: c.modules.length,
+      completedModule: c.modules.filter((m) => m.isCompleted).length,
     }))
 
     return inertia.render('courses/index', { courses: data, user: new UserDto(user).toJSON() })
@@ -32,9 +34,12 @@ export default class CoursesController {
 
   async create({ response, inertia, auth }: HttpContext) {
     const user = auth.user!
-    const isOngoing = await user.related('courses').query().where('status', 'ongoing').first()
+    // const isOngoing = await user.related('courses').query().where('status', 'ongoing').first()
+    // if (isOngoing) return response.redirect('/courses')
+    const courses = await user.related('courses').query()
+    const canCreateContent = courses.length <= 5
 
-    if (isOngoing) return response.redirect('/courses')
+    if (!canCreateContent) return response.redirect('/courses')
 
     return inertia.render('courses/create', { user })
   }
@@ -42,9 +47,13 @@ export default class CoursesController {
   async store({ request, response, auth }: HttpContext) {
     const user = auth.user!
 
-    const isOngoing = await user.related('courses').query().where('status', 'ongoing').first()
+    const courses = await user.related('courses').query()
+    const canCreateContent = courses.length <= 5
 
-    if (isOngoing) return response.redirect('/courses')
+    if (!canCreateContent) return response.redirect('/courses')
+
+    // const isOngoing = await user.related('courses').query().where('status', 'ongoing').first()
+    // if (isOngoing) return response.redirect('/courses')
 
     const { query } = request.body()
 
@@ -59,24 +68,16 @@ export default class CoursesController {
   async show({ inertia, auth }: HttpContext, course: Course) {
     const user = auth.user!
 
-    const modules = await course
-      .related('checkpoints')
-      .query()
-      .where('type', 'module')
-      .orderBy('order', 'asc')
+    const modules = await course.related('modules').query().orderBy('order', 'asc')
     const modulesWithSubmodules = []
 
     for (const module of modules!) {
-      const submodules = await module
-        .related('children')
-        .query()
-        .where('type', 'submodule')
-        .orderBy('order', 'asc')
+      const submodules = await module.related('submodulesData').query().orderBy('order', 'asc')
       modulesWithSubmodules.push({
-        ...new CheckPointDto(module).toJSON(),
+        ...new ModuleDto(module).toJSON(),
         totalSubmodule: submodules.length,
         completedSubmodule: submodules.filter((s) => s.isCompleted).length,
-        submodules: submodules.map((s) => new CheckPointDto(s).toJSON()),
+        submodules: submodules.map((s) => new submoduleDto(s).toJSON()),
       })
     }
 

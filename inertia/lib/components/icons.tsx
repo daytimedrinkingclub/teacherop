@@ -34,6 +34,8 @@ import {
         Twitter,
         Search,
         ArrowRightCircleIcon,
+        Check,
+        Copy,
 } from 'lucide-react'
 
 export const Icons = {
@@ -78,6 +80,8 @@ export const Icons = {
         ChevronLeft: ChevronLeft,
         ChevronRight: ChevronRightIcon,
         RoundedArrowRight: ArrowRightCircleIcon,
+        check: Check,
+        copy: Copy,
         logo: ({ ...props }: LucideProps) => (
                 <svg version="1.0"
                         xmlns="http://www.w3.org/2000/svg"
