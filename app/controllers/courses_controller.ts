@@ -2,12 +2,12 @@ import type { HttpContext } from '@adonisjs/core/http'
 
 import bindCourse from '#decorators/bind_course'
 import CourseDto from '#dtos/course_dto'
+import ModuleDto from '#dtos/module_dto'
 import QuestionDto from '#dtos/question_dto'
+import submoduleDto from '#dtos/submodule_dto'
 import UserDto from '#dtos/user_dto'
 import OnboardCourseJob from '#jobs/onboard_course'
 import Course from '#models/course'
-import ModuleDto from '#dtos/module_dto'
-import submoduleDto from '#dtos/submodule_dto'
 
 export default class CoursesController {
   async index({ inertia, auth }: HttpContext) {
@@ -34,9 +34,12 @@ export default class CoursesController {
 
   async create({ response, inertia, auth }: HttpContext) {
     const user = auth.user!
-    const isOngoing = await user.related('courses').query().where('status', 'ongoing').first()
+    // const isOngoing = await user.related('courses').query().where('status', 'ongoing').first()
+    // if (isOngoing) return response.redirect('/courses')
+    const courses = await user.related('courses').query()
+    const canCreateContent = courses.length <= 5
 
-    if (isOngoing) return response.redirect('/courses')
+    if (!canCreateContent) return response.redirect('/courses')
 
     return inertia.render('courses/create', { user })
   }
@@ -44,9 +47,13 @@ export default class CoursesController {
   async store({ request, response, auth }: HttpContext) {
     const user = auth.user!
 
-    const isOngoing = await user.related('courses').query().where('status', 'ongoing').first()
+    const courses = await user.related('courses').query()
+    const canCreateContent = courses.length <= 5
 
-    if (isOngoing) return response.redirect('/courses')
+    if (!canCreateContent) return response.redirect('/courses')
+
+    // const isOngoing = await user.related('courses').query().where('status', 'ongoing').first()
+    // if (isOngoing) return response.redirect('/courses')
 
     const { query } = request.body()
 

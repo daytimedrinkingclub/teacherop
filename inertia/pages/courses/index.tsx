@@ -12,13 +12,14 @@ import { Layout } from '~/lib/components/layout/custom_layout'
 import { Badge } from '~/lib/components/ui/badge'
 import { Button } from '~/lib/components/ui/button'
 import { Progress } from '~/lib/components/ui/progress'
+import { Separator } from '~/lib/components/ui/separator'
 import { UserNav } from '~/lib/components/user_nav'
 import WorkflowComponent from '~/lib/components/workflow'
 import { calculatePercentage } from '~/lib/lib/utils'
-import { Separator } from '~/lib/components/ui/separator'
 
 export default function CoursesPage({ courses }: InferPageProps<CoursesController, 'index'>) {
-  const isOngoing = courses.some((course) => course.status === 'ongoing')
+  // const isOngoing = courses.some((course) => course.status === 'ongoing')
+  const canCreateContent = courses.length <= 5
 
   console.log(courses)
 
@@ -45,7 +46,7 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
         </div>
       </Layout.Header>
       <Layout.Body>
-        <div className="px-4 py-8 w-full max-w-6xl  md:px-6 rounded-md">
+        <div className="px-4 py-8 w-full max-w-6xl rounded-md md:px-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="flex items-center text-lg font-bold whitespace-nowrap md:text-3xl">
               <Icons.bookOpen className="mr-2 w-6 h-6 md:h-8 md:w-8" />
@@ -57,7 +58,7 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
                 onClick={() => {
                   router.visit('/courses/create')
                 }}
-                disabled={isOngoing}
+                disabled={!canCreateContent}
               >
                 <Icons.plus className="mr-2 w-5 h-5" />
                 <span className="hidden md:block">New Course</span>
@@ -73,7 +74,7 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
                 transition={{ duration: 0.3 }}
               >
                 <Link href={`/courses/${course.id}`} className="block">
-                  <Card className="overflow-hidden border-l-4  transition-shadow hover:shadow-lg">
+                  <Card className="overflow-hidden border-l-4 transition-shadow hover:shadow-lg">
                     <CardHeader>
                       <CardTitle className="flex items-center">
                         <span>{course.title}</span>
@@ -88,7 +89,7 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
                         value={calculatePercentage(course.totalModule, course.completedModule || 0)}
                         className="mb-2"
                       />
-                      <div className="flex items-center justify-between">
+                      <div className="flex justify-between items-center">
                         <p className="flex items-center text-sm text-gray-500">
                           <Icons.zap className="mr-1 w-4 h-4" />
                           {Math.floor(
@@ -118,8 +119,8 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
                 <Link href="/courses/create">
                   <Card className="bg-primary text-primary-foreground">
                     <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <Icons.plus className="h-5 w-5" />
+                      <CardTitle className="flex gap-2 items-center">
+                        <Icons.plus className="w-5 h-5" />
                         Create New Course
                       </CardTitle>
                       <CardDescription className="text-primary-foreground/80">
