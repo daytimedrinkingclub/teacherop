@@ -126,20 +126,20 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                             className="w-24"
                           />
                           <span className="flex gap-2 text-sm text-gray-600">
-                            {!module.childrenCreated && (
+                            {!module.submodulesCreated && !course.isModulesCreated && (
                               <span className="flex gap-2 items-center px-3 py-1 text-sm font-medium rounded-full text-muted-foreground bg-muted">
                                 <Icons.loader className="w-4 h-4 animate-spin" />
                               </span>
-                            )}{' '}
+                            )}
                             {calculatePercentage(
                               module.totalSubmodule,
                               module.completedSubmodule || 0
                             )}
                             %
                           </span>
-                          {module.childrenCreated && (
+                          {module.submodulesCreated && (
                             <Button
-                              onClick={() => router.visit(`/resources/${module.id}`)}
+                              onClick={() => router.visit(`/modules/${module.id}`)}
                               size="sm"
                               variant={module.isCompleted ? 'outline' : 'default'}
                             >
@@ -187,9 +187,9 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                                     <p className="text-sm text-gray-600">{submodule.description}</p>
                                   </div>
                                 </div>
-                                {module.childrenCreated && (
+                                {module.submodulesCreated && submodule.contentCreated ? (
                                   <Button
-                                    onClick={() => router.visit(`/resources/${submodule.id}`)}
+                                    onClick={() => router.visit(`/lessons/${submodule.id}`)}
                                     size="sm"
                                     variant={submodule.isCompleted ? 'outline' : 'default'}
                                   >
@@ -198,7 +198,9 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                                     </span>
                                     <Icons.play className="md:ml-2 w-4 h-4" />
                                   </Button>
-                                )}
+                                ) : <p className="flex gap-2 items-center px-3 py-1 text-sm font-medium rounded-full text-muted-foreground bg-muted">
+                                  <Icons.loader className="w-4 h-4 animate-spin" />
+                                </p>}
                               </motion.div>
                             ))}
                           </CardContent>

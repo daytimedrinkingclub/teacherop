@@ -52,7 +52,7 @@ router
   .use([middleware.auth()])
 
 router.get('/modules/:moduleId', [modulesController, 'show']).use([middleware.auth()])
-router.get('/lessons/:lessonId', [submodulesController, 'show'])
+router.get('/lessons/:lessonId', [submodulesController, 'show']).use([middleware.auth()])
 
 router.get('/questions/current', [questionController, 'current']).use([middleware.auth()])
 router.put('/questions/:id', [questionController, 'update']).use([middleware.auth()])

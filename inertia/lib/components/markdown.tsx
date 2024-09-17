@@ -5,32 +5,53 @@ import remarkGfm from "remark-gfm";
 
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { useState } from 'react';
+import { Button } from './ui/button';
+import { Icons } from './icons';
 
 const Markdown = ({ content }: { content: string }) => {
     return (
         <ReactMarkdown
             components={{
-                //  @ts-ignore
+                // @ts-ignore
                 code({ node, inline, className, children, ...props }) {
                     const match = /language-(\w+)/.exec(className || '')
+                    const [copied, setCopied] = useState(false);
+
+                    const handleCopy = () => {
+                        navigator.clipboard.writeText(String(children));
+                        setCopied(true);
+                        setTimeout(() => setCopied(false), 2000);
+                    };
+
                     return !inline && match ? (
-                        //@ts-ignore
-                        <SyntaxHighlighter
-                            {...props}
-                            remarkPlugins={[remarkGfm]}
-                            rehypePlugins={[
-                                rehypeSanitize,
-                                [
-                                    rehypeExternalLinks,
-                                    { target: "_blank", rel: ["nofollow", "noopener", "noreferrer"] },
-                                ],
-                            ]}
-                            style={atomDark}
-                            language={match[1]}
-                            PreTag="div"
-                        >
-                            {String(children).replace(/\n$/, '')}
-                        </SyntaxHighlighter>
+                        <div className="relative">
+                            <Button
+                                onClick={handleCopy}
+                                variant="ghost"
+                                size="icon"
+                                className="absolute top-2 right-2 text-background hover:bg-transparent hover:text-background"
+                            >
+                                {copied ? <Icons.check className="w-4 h-4 " /> : <Icons.copy className="w-4 h-4" />}
+                            </Button>
+                            {/* @ts-ignore */}
+                            <SyntaxHighlighter
+                                {...props}
+                                remarkPlugins={[remarkGfm]}
+                                rehypePlugins={[
+                                    rehypeSanitize,
+                                    [
+                                        rehypeExternalLinks,
+                                        { target: "_blank", rel: ["nofollow", "noopener", "noreferrer"] },
+                                    ],
+                                ]}
+                                style={atomDark}
+                                language={match[1]}
+                                PreTag="div"
+                            >
+                                {String(children).replace(/\n$/, '')}
+                            </SyntaxHighlighter>
+                        </div>
                     ) : (
                         <code {...props} className={className}>
                             {children}

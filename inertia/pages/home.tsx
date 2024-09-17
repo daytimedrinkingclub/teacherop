@@ -1,11 +1,12 @@
 import { Head, Link } from '@inertiajs/react'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Button } from '~/lib/components/ui/button'
+import { buttonVariants } from '~/lib/components/ui/button'
 import { motion } from 'framer-motion'
 import { Card, CardContent } from '@/components/ui/card'
 import { Icons } from '~/lib/components/icons'
 import { Input } from '~/lib/components/ui/input'
 import { TypeAnimation } from 'react-type-animation';
+import { cn } from '~/lib/lib/utils'
 
 const Header = () => (
   <header className='container mx-auto fixed bg-white z-50 top-0 left-0 right-0 flex justify-between items-center'>
@@ -38,7 +39,7 @@ const Hero = () => (
         repeat={Infinity}
       />
       <div className='p-2 md:px-4 md:py-6'>
-        <Button className='px-10 py-6 rounded-lg'>Get Started</Button>
+        <Link href="/courses/create" className={cn("px-10 py-6 rounded-lg", buttonVariants({ variant: 'default' }))}> Get Started</Link>
       </div>
     </div>
     <div className='flex items-center justify-center py-8 md:px-44 md:py-0 md:-translate-y-10 md:translate-x-20 h-[300px] md:h-[400px] '>

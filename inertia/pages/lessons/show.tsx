@@ -1,4 +1,4 @@
-import type CheckpointController from '#controllers/checkpoint_controller'
+import SubmodulesController from '#controllers/submodules_controller'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { InferPageProps } from '@adonisjs/inertia/types'
 import { Link, router } from '@inertiajs/react'
@@ -15,7 +15,8 @@ import { UserNav } from '~/lib/components/user_nav'
 export default function CheckpointShow({
   course,
   module,
-}: InferPageProps<CheckpointController, 'show'>) {
+  submodule,
+}: InferPageProps<SubmodulesController, 'show'>) {
   const [timeSpent, setTimeSpent] = useState(0)
   const [isFullscreen, setIsFullscreen] = useState(false)
 
@@ -103,47 +104,28 @@ export default function CheckpointShow({
                 <Separator />
                 <Card className="mt-6 bg-muted text-foreground">
                   <CardContent className="p-6">
-                    {!module.children && module.content && (
+                    {submodule.content && (
                       <>
                         <div className="max-w-none prose prose-lg dark:prose-invert">
-                          <Markdown content={module.content} />
+                          <Markdown content={submodule.content.value} />
                         </div>
                       </>
                     )}
-                    {!module.children && (
-                      <div className="flex justify-between">
-                        <Button
-                          className="mt-4"
-                          onClick={() => router.visit(`/courses/${course.id}`)}
-                        >
-                          Back to course
-                        </Button>
-                        <Button
-                          className="mt-4"
-                          onClick={() => router.visit(`/resources/${module.next}`)}
-                        >
-                          Next
-                        </Button>
-                      </div>
-                    )}
-                    {Array.isArray(module.children) && (
-                      <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">Submodules</h3>
-                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                          {module.children
-                            .filter((submodule) => submodule !== null)
-                            .map((submodule) => (
-                              <Link
-                                href={`/resources/${submodule?.id}`}
-                                key={submodule.id}
-                                className="p-4 rounded-lg border transition-colors cursor-pointer bg-background hover:bg-muted-foreground/10"
-                              >
-                                <span>{submodule.title}</span>
-                              </Link>
-                            ))}
-                        </div>
-                      </div>
-                    )}
+
+                    <div className="flex justify-between">
+                      <Button
+                        className="mt-4"
+                        onClick={() => router.visit(`/courses/${course.id}`)}
+                      >
+                        Back to course
+                      </Button>
+                      {/* <Button
+                        className="mt-4"
+                        onClick={() => router.visit(`/resources/${module.next}`)}
+                      >
+                        Next
+                      </Button> */}
+                    </div>
                   </CardContent>
                 </Card>
               </div>
