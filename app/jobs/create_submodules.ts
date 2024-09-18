@@ -8,6 +8,7 @@ import { createSubmoduleTool } from '#tools'
 import Module from '#models/module'
 import Submodule from '#models/submodule'
 import CreateContentJob from '#jobs/create_content'
+import UserDto from '#dtos/user_dto'
 
 interface CreateSubmodulesJobArgs {
   moduleId: string
@@ -34,12 +35,14 @@ export default class CreateSubmodulesJob extends BaseJob {
     const { aiResponse: moduleAiResponse, ...moduleWithoutAiResponse } = module.serialize()
     const submodules = JSON.parse(module.submodules) as string[]
 
+    const user = await module.related('user').query().first()
+
     for (const submoduleTitle of submodules) {
       console.log('creating submodule: ', submoduleTitle)
       const messages: Anthropic.Messages.MessageParam[] = [
         {
           role: 'user',
-          content: `Hey I want to learn something and got a plan, a course summary and module summary, help me create a submodule named '${submoduleTitle}' for the course?`,
+          content: `Hey I want to learn something and got a plan, a course summary and module summary, help me create a submodule named '${submoduleTitle}' for the course? About myself ${JSON.stringify(new UserDto(user!).toJSON())}`,
         },
         {
           role: 'assistant',
