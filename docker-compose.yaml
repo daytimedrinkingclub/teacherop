@@ -98,11 +98,11 @@ services:
     networks:
       - teacherop-network
     restart: on-failure
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:5678" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:5678" ]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 5
 
 volumes:
   server_data:
