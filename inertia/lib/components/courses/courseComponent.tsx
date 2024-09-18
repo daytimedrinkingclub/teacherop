@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Icons } from '~/lib/components/icons';
 import { Card, } from '~/lib/components/ui/card';
 import { buttonVariants } from '~/lib/components/ui/button';
 import { Progress } from '~/lib/components/ui/progress';
 import { calculatePercentage, cn } from '~/lib/lib/utils';
 import ModuleComponent from './moduleComponent';
-import { Link, router } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import BreadcrumbNav from '../bedcrumLinks';
-import axios from 'axios';
+import useModuleCreationPolling from '../../hooks/use_course_polling';
 
 interface CourseComponentProps {
     course: any;
@@ -26,27 +26,16 @@ const CourseComponent: React.FC<CourseComponentProps> = ({ course, modules }) =>
         setShowFullDescription(!showFullDescription);
     };
 
-
-    useEffect(() => {
-        const checkModulesCreated = async () => {
-            const response = await axios.get(`/api/courses/${course.id}/status`);
-            if (response.data.modulesCreated && response.data.submodulesCreated) {
-                router.reload();
-            }
-        };
-        if (!course.isModulesCreated) {
-            const interval = setInterval(() => {
-                checkModulesCreated()
-            }, 5000);
-            return () => clearInterval(interval);
-        }
-    }, [course.isModulesCreated]);
+    if (!course.isModulesCreated) {
+        const endpoint = `/api/courses/${course.id}/status`;
+        useModuleCreationPolling(endpoint);
+    }
 
 
     return (
         <>
             <div className="container p-2 mx-auto space-y-6 rounded-lg md:p-4">
-                <BreadcrumbNav links={breadcrumbLinks} />
+                {breadcrumbLinks.length && <BreadcrumbNav links={breadcrumbLinks} />}
                 <div className="flex gap-4 items-center mb-6">
                     <h1 className="text-lg font-bold md:text-3xl">{course.title}</h1>
                     {!course.isModulesCreated && (
@@ -77,7 +66,7 @@ const CourseComponent: React.FC<CourseComponentProps> = ({ course, modules }) =>
 
                     <div className="flex items-center space-x-4 whitespace-nowrap">
                         <Progress
-                            value={(course.completedModule / course.totalModule) * 100}
+                            value={calculatePercentage(course.totalModule, course.completedModule || 0)}
                             className="flex-grow"
                         />
                         <p className="flex items-center text-sm text-gray-500">
@@ -100,9 +89,9 @@ const CourseComponent: React.FC<CourseComponentProps> = ({ course, modules }) =>
                     </div>
                 </Card>
 
-                {modules.map((module, index) => (
-                    <ModuleComponent key={module.id} module={module} index={index} />
-                ))}
+                {modules.length ? modules.map((module, index) => (
+                    <ModuleComponent key={module.id || index} module={module} index={index} />
+                )) : ""}
             </div>
         </>
     );

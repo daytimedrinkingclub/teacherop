@@ -84,7 +84,7 @@ export default function CoursesCreatePage(props: InferPageProps<CoursesControlle
               Our AI will generate a personalized course for you. Learn anything in any language at
               your own pace!
             </p>
-            <p>{isLoading ? <div className="flex flex-col items-center justify-center min-h-screen bg-background">
+            <p>{isLoading ? <div className="flex flex-col bg-background">
               <div className="text-center">
                 <Icons.spinner className="w-16 h-16 mb-4 text-primary animate-spin mx-auto" />
                 <h2 className="text-2xl font-bold mb-2">Creating Your Course</h2>

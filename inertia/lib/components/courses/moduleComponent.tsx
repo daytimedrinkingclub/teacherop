@@ -66,7 +66,7 @@ const ModuleComponent: React.FC<ModuleComponentProps> = ({ module, index }) => {
                         >
                             <CardContent className="p-0 py-4 md:px-4 pb-4 space-y-2">
                                 {module.submodules.map((submodule: any, subIndex: number) => (
-                                    <SubModuleComponent key={subIndex} submodule={submodule} subIndex={subIndex} />
+                                    <SubModuleComponent key={submodule.id || subIndex} submodule={submodule} subIndex={subIndex} />
                                 ))}
                             </CardContent>
                         </motion.div>
