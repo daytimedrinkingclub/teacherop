@@ -13,6 +13,7 @@ export default class extends BaseSchema {
       table.integer('order').notNullable()
       table.boolean('content_created').defaultTo(false).notNullable()
       table.uuid('module_id').references('modules.id').onDelete('CASCADE').notNullable()
+      table.uuid('user_id').references('users.id').onDelete('CASCADE').notNullable()
 
       table.timestamp('created_at')
       table.timestamp('updated_at')

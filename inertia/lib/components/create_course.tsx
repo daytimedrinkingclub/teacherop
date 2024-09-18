@@ -20,7 +20,6 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Slider } from '@/components/ui/slider'
 import { cn } from '@/lib/utils'
 
-
 let stopListening: () => void
 
 export default function CreateCourseModal({

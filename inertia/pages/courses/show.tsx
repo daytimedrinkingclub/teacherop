@@ -198,9 +198,11 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                                     </span>
                                     <Icons.play className="md:ml-2 w-4 h-4" />
                                   </Button>
-                                ) : <p className="flex gap-2 items-center px-3 py-1 text-sm font-medium rounded-full text-muted-foreground bg-muted">
-                                  <Icons.loader className="w-4 h-4 animate-spin" />
-                                </p>}
+                                ) : (
+                                  <p className="flex gap-2 items-center px-3 py-1 text-sm font-medium rounded-full text-muted-foreground bg-muted">
+                                    <Icons.loader className="w-4 h-4 animate-spin" />
+                                  </p>
+                                )}
                               </motion.div>
                             ))}
                           </CardContent>

@@ -5,12 +5,12 @@ import { motion } from 'framer-motion'
 import { Card, CardContent } from '@/components/ui/card'
 import { Icons } from '~/lib/components/icons'
 import { Input } from '~/lib/components/ui/input'
-import { TypeAnimation } from 'react-type-animation';
+import { TypeAnimation } from 'react-type-animation'
 import { cn } from '~/lib/lib/utils'
 
 const Header = () => (
-  <header className='container mx-auto fixed bg-white z-50 top-0 left-0 right-0 flex justify-between items-center'>
-    <div className='flex gap-10 font-semibold md:text-2xl text-xl'>
+  <header className="container mx-auto fixed bg-white z-50 top-0 left-0 right-0 flex justify-between items-center">
+    <div className="flex gap-10 font-semibold md:text-2xl text-xl">
       <Link href="/about">About</Link>
       <Link href="/login">Login</Link>
     </div>
@@ -23,26 +23,32 @@ const Header = () => (
 )
 
 const Hero = () => (
-  <section className='container mx-auto px-6 py-4 my-[30px] relative '>
-    <div className='flex flex-col gap-2 z-10'>
-      <h1 className='font-albert-sans text-5xl md:text-8xl font-bold'>TeacherOP.</h1>
+  <section className="container mx-auto px-6 py-4 my-[30px] relative ">
+    <div className="flex flex-col gap-2 z-10">
+      <h1 className="font-albert-sans text-5xl md:text-8xl font-bold">TeacherOP.</h1>
       <TypeAnimation
-        sequence={[
-          'Your course. Your pace. Your payday.',
-          1000,
-          '',
-          100,
-        ]}
+        sequence={['Your course. Your pace. Your payday.', 1000, '', 100]}
         wrapper="p"
         speed={50}
-        style={{ fontSize: '1.25rem', lineHeight: '1.75rem', padding: '0 0.5rem', marginBottom: '0.5rem' }}
+        style={{
+          fontSize: '1.25rem',
+          lineHeight: '1.75rem',
+          padding: '0 0.5rem',
+          marginBottom: '0.5rem',
+        }}
         repeat={Infinity}
       />
-      <div className='p-2 md:px-4 md:py-6'>
-        <Link href="/courses/create" className={cn("px-10 py-6 rounded-lg", buttonVariants({ variant: 'default' }))}> Get Started</Link>
+      <div className="p-2 md:px-4 md:py-6">
+        <Link
+          href="/courses/create"
+          className={cn('px-10 py-6 rounded-lg', buttonVariants({ variant: 'default' }))}
+        >
+          {' '}
+          Get Started
+        </Link>
       </div>
     </div>
-    <div className='flex items-center justify-center py-8 md:px-44 md:py-0 md:-translate-y-10 md:translate-x-20 h-[300px] md:h-[400px] '>
+    <div className="flex items-center justify-center py-8 md:px-44 md:py-0 md:-translate-y-10 md:translate-x-20 h-[300px] md:h-[400px] ">
       {/* <img
         src="/public/images/hero.png"
         alt="Hero Image"
@@ -80,14 +86,16 @@ const Hero = () => (
 // )
 
 const HowItWorks = ({ steps }: { steps: string[] }) => (
-  <section className='container mx-auto flex flex-col md:flex-row justify-center px-10 md:p-4 my-[10px] gap-8 md:gap-36'>
+  <section className="container mx-auto flex flex-col md:flex-row justify-center px-10 md:p-4 my-[10px] gap-8 md:gap-36">
     <div>
-      <p className='text-4xl md:text-6xl font-bold'>How does <br /> it work?</p>
+      <p className="text-4xl md:text-6xl font-bold">
+        How does <br /> it work?
+      </p>
     </div>
-    <div className='flex flex-col gap-4'>
+    <div className="flex flex-col gap-4">
       {steps.map((step, index) => (
-        <div key={index} className='flex flex-col gap-2'>
-          <h3 className='text-4xl font-semibold'>Step {index + 1}: </h3>
+        <div key={index} className="flex flex-col gap-2">
+          <h3 className="text-4xl font-semibold">Step {index + 1}: </h3>
           <p>{step}</p>
         </div>
       ))}
@@ -97,20 +105,23 @@ const HowItWorks = ({ steps }: { steps: string[] }) => (
 
 const LearnAnything = () => {
   const images = [
-    "https://res.cloudinary.com/ajitpatil/image/upload/v1726496174/teacherop/x5he8lanymfmj2fqlpgr.png",
-    "https://res.cloudinary.com/ajitpatil/image/upload/v1726554491/teacherop/Property_1_Variant4_u5sstx.png",
-    "https://res.cloudinary.com/ajitpatil/image/upload/v1726554472/teacherop/Property_1_41206225-young-woman-dancing-street-dance_1_yho439.svg"
+    'https://res.cloudinary.com/ajitpatil/image/upload/v1726496174/teacherop/x5he8lanymfmj2fqlpgr.png',
+    'https://res.cloudinary.com/ajitpatil/image/upload/v1726554491/teacherop/Property_1_Variant4_u5sstx.png',
+    'https://res.cloudinary.com/ajitpatil/image/upload/v1726554472/teacherop/Property_1_41206225-young-woman-dancing-street-dance_1_yho439.svg',
   ]
   const [currentIndex, setCurrentIndex] = useAutoScroll(images.length, 1800)
   const [isTransitioning, setIsTransitioning] = useState(false)
 
-  const goToSlide = useCallback((index: number) => {
-    if (!isTransitioning) {
-      setIsTransitioning(true)
-      setCurrentIndex(index)
-      setTimeout(() => setIsTransitioning(false), 1000)
-    }
-  }, [isTransitioning, setCurrentIndex])
+  const goToSlide = useCallback(
+    (index: number) => {
+      if (!isTransitioning) {
+        setIsTransitioning(true)
+        setCurrentIndex(index)
+        setTimeout(() => setIsTransitioning(false), 1000)
+      }
+    },
+    [isTransitioning, setCurrentIndex]
+  )
 
   const goToPrevious = () => {
     goToSlide((currentIndex - 1 + images.length) % images.length)
@@ -121,8 +132,8 @@ const LearnAnything = () => {
   }
 
   return (
-    <section className='container mx-auto flex flex-col md:flex-row items-center p-4 md:p-16 md:px-24'>
-      <div className='mb-8 md:mb-0'>
+    <section className="container mx-auto flex flex-col md:flex-row items-center p-4 md:p-16 md:px-24">
+      <div className="mb-8 md:mb-0">
         {/* <img
         src="/public/images/img1.png"
         alt="Skills inspiration"
@@ -136,7 +147,9 @@ const LearnAnything = () => {
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
             {images.map((src, index) => (
-              <img key={index} src={src}
+              <img
+                key={index}
+                src={src}
                 alt={`Slide ${index + 1}`}
                 className="w-full h-auto flex-shrink-0"
               />
@@ -161,23 +174,26 @@ const LearnAnything = () => {
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`w-3 h-3 rounded-full transition-colors duration-300 ${index === currentIndex ? "bg-white" : "bg-gray-400"
-                  }`}
+                className={`w-3 h-3 rounded-full transition-colors duration-300 ${
+                  index === currentIndex ? 'bg-white' : 'bg-gray-400'
+                }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
             ))}
           </div>
         </div>
       </div>
-      <div className='text-center p-4 md:p-0 md:text-left md:pl-24'>
-        <h2 className='text-4xl md:text-5xl font-bold mb-4'>
-          <span className='whitespace-nowrap'>Learn anything,</span>
-          <br className='md:hidden' />
+      <div className="text-center p-4 md:p-0 md:text-left md:pl-24">
+        <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <span className="whitespace-nowrap">Learn anything,</span>
+          <br className="md:hidden" />
           Anytime,
           <br />
-          <span className='whitespace-nowrap'>In any Language.</span>
+          <span className="whitespace-nowrap">In any Language.</span>
         </h2>
-        <p className='text-lg text-gray-600'>(These are just random stock images for skills inspiration.)</p>
+        <p className="text-lg text-gray-600">
+          (These are just random stock images for skills inspiration.)
+        </p>
       </div>
     </section>
   )
@@ -197,7 +213,15 @@ const useAutoScroll = (length: number, interval: number) => {
   return [index, setIndex] as const
 }
 
-const Reviews = ({ reviews, reviewsRef, setIsScrolling }: { reviews: any[], reviewsRef: React.RefObject<HTMLDivElement>, setIsScrolling: (isScrolling: boolean) => void }) => (
+const Reviews = ({
+  reviews,
+  reviewsRef,
+  setIsScrolling,
+}: {
+  reviews: any[]
+  reviewsRef: React.RefObject<HTMLDivElement>
+  setIsScrolling: (isScrolling: boolean) => void
+}) => (
   <section id="reviews" className="py-20">
     <div className="container mx-auto px-4">
       <h2 className="text-3xl font-bold mb-12 text-center">See What All the Buzz is About 🐝</h2>
@@ -243,13 +267,9 @@ const Footer = () => (
           <p className="mb-2">Email:</p>
           <p className="text-sm mb-4">Sign up and we'll let you know first when we do anything.</p>
           <div className="flex gap-4 border-2 border-white rounded-full">
-            <Input
-              type="email"
-              placeholder="Email Address"
-              className="mr-2v bg-black"
-            />
-            <button className='px-2'>
-              <Icons.RoundedArrowRight className='h-8 w-8' />
+            <Input type="email" placeholder="Email Address" className="mr-2v bg-black" />
+            <button className="px-2">
+              <Icons.RoundedArrowRight className="h-8 w-8" />
             </button>
           </div>
         </div>
@@ -293,15 +313,15 @@ export default function Home() {
 
   const steps = [
     "Register your details, set up your bank account, and you're ready to go.",
-    "Pick up anything—from programming to art and learn at your own pace.",
-    "Complete courses, answer questions, and get your reward right in your bank."
+    'Pick up anything—from programming to art and learn at your own pace.',
+    'Complete courses, answer questions, and get your reward right in your bank.',
   ]
 
   return (
     <>
       <Head title="Teacher OP" />
       <Header />
-      <div className='h-16'></div>
+      <div className="h-16"></div>
       <Hero />
       {/* <Hero2 /> */}
       <HowItWorks steps={steps} />

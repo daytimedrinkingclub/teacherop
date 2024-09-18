@@ -10,6 +10,8 @@ import { GenderEnum } from '#enums/gender'
 import Course from '#models/course'
 import PlanSummary from '#models/plan_summary'
 import Question from '#models/question'
+import Module from './module.js'
+import Submodule from './submodule.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -59,4 +61,10 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @hasMany(() => PlanSummary)
   declare planSummaries: HasMany<typeof PlanSummary>
+
+  @hasMany(() => Submodule)
+  declare submodules: HasMany<typeof Submodule>
+
+  @hasMany(() => Module)
+  declare modules: HasMany<typeof Module>
 }

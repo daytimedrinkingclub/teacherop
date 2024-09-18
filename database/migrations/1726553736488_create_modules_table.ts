@@ -14,6 +14,7 @@ export default class extends BaseSchema {
       table.text('submodules').notNullable()
       table.boolean('submodules_created').notNullable().defaultTo(false)
       table.uuid('course_id').references('courses.id').notNullable().onDelete('CASCADE')
+      table.uuid('user_id').references('users.id').notNullable().onDelete('CASCADE')
 
       table.timestamp('created_at')
       table.timestamp('updated_at')

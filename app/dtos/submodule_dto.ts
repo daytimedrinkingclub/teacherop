@@ -1,7 +1,7 @@
 import Submodule from '#models/submodule'
 
 export default class SubmoduleDto {
-  constructor(private submodule: Submodule) { }
+  constructor(private submodule: Submodule) {}
 
   toJSON() {
     return {

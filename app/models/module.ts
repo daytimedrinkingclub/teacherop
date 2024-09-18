@@ -5,6 +5,7 @@ import { v4 as uuid } from 'uuid'
 
 import Course from '#models/course'
 import Submodule from '#models/submodule'
+import User from './user.js'
 
 export default class Module extends BaseModel {
   static selfAssignPrimaryKey = true
@@ -36,6 +37,9 @@ export default class Module extends BaseModel {
   @column()
   declare courseId: string
 
+  @column()
+  declare userId: string
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
@@ -47,6 +51,9 @@ export default class Module extends BaseModel {
 
   @hasMany(() => Submodule)
   declare submodulesData: HasMany<typeof Submodule>
+
+  @belongsTo(() => User)
+  declare user: BelongsTo<typeof User>
 
   @beforeCreate()
   static async beforeCreateHook(module: Module) {
