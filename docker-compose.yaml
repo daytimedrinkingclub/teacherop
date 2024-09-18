@@ -22,7 +22,7 @@ services:
       - '3333:3333'
     restart: on-failure
     networks:
-      - teacherop-network
+      - default
     depends_on:
       - redis
       # - postgres
@@ -39,7 +39,7 @@ services:
   #   ports:
   #     - '5858:5432'
   #   networks:
-  #     - teacherop-network
+  #     - default
   #   restart: unless-stopped
   #   healthcheck:
   #     test: ['CMD-SHELL', 'pg_isready -U teacherop']
@@ -77,7 +77,7 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - teacherop-network
+      - default
     restart: on-failure
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
@@ -96,7 +96,7 @@ services:
     depends_on:
       - redis
     networks:
-      - teacherop-network
+      - default
     restart: on-failure
 #    healthcheck:
 #      test: [ "CMD", "curl", "-f", "http://localhost:5678" ]
@@ -110,5 +110,5 @@ volumes:
   redis_data:
 
 networks:
-  teacherop-network:
+  default:
     driver: bridge
