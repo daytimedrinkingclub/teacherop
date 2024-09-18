@@ -94,6 +94,17 @@ export default class CoursesController {
   }
 
   @bindCourse()
+  async getCourseStatus({ response }: HttpContext, course: Course) {
+    const modules = await course.related('modules').query()
+    const submodulesCreated = modules.every((module) => module.submodulesCreated)
+
+    return response.ok({
+      modulesCreate: course.isModulesCreated,
+      submodulesCreated,
+    })
+  }
+
+  @bindCourse()
   async onboardCourse({ auth, inertia }: HttpContext, course: Course) {
     const user = auth.user!
 
