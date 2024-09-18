@@ -10,8 +10,6 @@ services:
       - NODE_ENV=production
       - PORT=3333
       - HOST=0.0.0.0
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
       # - DB_HOST=postgres
       # - DB_PORT=5432
       # - DB_USER=teacherop
@@ -55,8 +53,6 @@ services:
       - .env.production.local
     environment:
       - NODE_ENV=production
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
       # - DB_HOST=postgres
       # - DB_PORT=5432
       # - DB_USER=teacherop
