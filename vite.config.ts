@@ -9,7 +9,7 @@ export default defineConfig({
     inertia({ ssr: { enabled: true, entrypoint: 'inertia/app/ssr.tsx' } }),
     react(),
     adonisjs({
-      entrypoints: ['inertia/app/app.tsx', "resources/js/app.js"],
+      entrypoints: ['inertia/app/app.tsx', 'resources/js/app.js'],
       reload: ['resources/views/**/*.edge'],
       assetsUrl: 'https://cdn.example.com/',
     }),

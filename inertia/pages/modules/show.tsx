@@ -63,16 +63,15 @@ export default function ModulesShow({
                       <div className="space-y-4">
                         <h3 className="text-lg font-semibold">Submodules</h3>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                          {submodules
-                            .map((submodule) => (
-                              <Link
-                                href={`/lessons/${submodule.id}`}
-                                key={submodule.id}
-                                className="p-4 rounded-lg border transition-colors cursor-pointer bg-background hover:bg-muted-foreground/10"
-                              >
-                                <span>{submodule.title}</span>
-                              </Link>
-                            ))}
+                          {submodules.map((submodule) => (
+                            <Link
+                              href={`/lessons/${submodule.id}`}
+                              key={submodule.id}
+                              className="p-4 rounded-lg border transition-colors cursor-pointer bg-background hover:bg-muted-foreground/10"
+                            >
+                              <span>{submodule.title}</span>
+                            </Link>
+                          ))}
                         </div>
                       </div>
                     )}

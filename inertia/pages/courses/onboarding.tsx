@@ -46,9 +46,14 @@ export default function CourseOnboardingPage(
         return (
           <RadioGroup value={answer} onValueChange={setAnswer}>
             {currentQuestion.meta?.options.map((option: string) => (
-              <div key={option} className="flex items-center space-x-2 p-2 hover:bg-secondary rounded-md">
+              <div
+                key={option}
+                className="flex items-center space-x-2 p-2 hover:bg-secondary rounded-md"
+              >
                 <RadioGroupItem value={option} id={option} />
-                <Label htmlFor={option} className="flex-grow cursor-pointer">{option}</Label>
+                <Label htmlFor={option} className="flex-grow cursor-pointer">
+                  {option}
+                </Label>
               </div>
             ))}
           </RadioGroup>
@@ -57,7 +62,10 @@ export default function CourseOnboardingPage(
         return (
           <div className="space-y-2">
             {currentQuestion.meta?.options.map((option: string) => (
-              <div key={option} className="flex items-center space-x-2 p-2 hover:bg-secondary rounded-md">
+              <div
+                key={option}
+                className="flex items-center space-x-2 p-2 hover:bg-secondary rounded-md"
+              >
                 <Checkbox
                   id={option}
                   checked={(answer || []).includes(option)}
@@ -69,7 +77,9 @@ export default function CourseOnboardingPage(
                     )
                   }}
                 />
-                <Label htmlFor={option} className="flex-grow cursor-pointer">{option}</Label>
+                <Label htmlFor={option} className="flex-grow cursor-pointer">
+                  {option}
+                </Label>
               </div>
             ))}
           </div>
@@ -123,7 +133,6 @@ export default function CourseOnboardingPage(
     }
   }
 
-
   useEffect(() => {
     if (!currentQuestion) {
       const interval = setInterval(() => {
@@ -176,11 +185,7 @@ export default function CourseOnboardingPage(
               )}
             </CardContent>
             <CardFooter>
-              <Button
-                type="submit"
-                disabled={!answer || isLoading}
-                className="w-full"
-              >
+              <Button type="submit" disabled={!answer || isLoading} className="w-full">
                 {isLoading ? (
                   <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
                 ) : (

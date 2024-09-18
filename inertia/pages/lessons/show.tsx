@@ -35,6 +35,24 @@ export default function CheckpointShow({
   ]
 
 
+  console.log(next)
+  const handleNext = async () => {
+    if (next) {
+      const { id, type } = next
+      // console.log(next)
+      //
+      // try {
+      //   if (type === 'module') await axios.put(`/modules/${module.id}/complete`)
+      //
+      //   await axios.put(`/lessons/${submodule.id}/complete`)
+      // } catch (e) {
+      //   console.log(e)
+      // }
+      const url = type === 'module' ? `/modules/${id}` : `/lessons/${id}`
+      router.visit(url)
+    }
+  }
+
   return (
     <AppLayout>
       <Layout.Header>
@@ -83,35 +101,17 @@ export default function CheckpointShow({
                       >
                         Back to course
                       </Button>
-                      <div className="flex items-center space-x-2">
-                        {next?.type === 'module' && <Button
-                          className="mt-4"
-                          onClick={() => router.visit(`/assignments/${next.id}`)}
-                        >
-                          Start assignment
-                        </Button>
-                        }
-                        <Button
-                          className="mt-4"
-                          onClick={() => {
-                            const url =
-                              next &&
-                              (next.type === 'module' ? `/modules/${next.id}` : `/lessons/${next.id}`)
-                            url && router.visit(url)
-                          }}
-                          disabled={!next}
-                        >
-                          Next
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </Layout.Body>
-    </AppLayout>
+                      <Button className="mt-4" onClick={handleNext} disabled={!next}>
+                        Next
+                      </Button>
+                    </div >
+                  </CardContent >
+                </Card >
+              </div >
+            </CardContent >
+          </Card >
+        </div >
+      </Layout.Body >
+    </AppLayout >
   )
 }

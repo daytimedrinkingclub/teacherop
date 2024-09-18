@@ -23,7 +23,7 @@ function formatTime(minutes: number) {
   return `${hours}h ${mins}m`
 }
 
-export default function DashboardPage({ }: InferPageProps<DashboardController, 'index'>) {
+export default function DashboardPage({}: InferPageProps<DashboardController, 'index'>) {
   const completionPercentage = (stats.completedCourses / stats.totalCourses) * 100
   return (
     <AppLayout>

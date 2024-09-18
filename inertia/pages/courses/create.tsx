@@ -60,8 +60,8 @@ export default function CoursesCreatePage(props: InferPageProps<CoursesControlle
             </Button>
           </form>
           <p className="mt-12 md:mt-40 text-center font-semibold max-w-md md:translate-y-full md:translate-x-full">
-            Our AI will generate a personalized course for you.
-            Learn anything in any language at your own pace!
+            Our AI will generate a personalized course for you. Learn anything in any language at
+            your own pace!
           </p>
         </div>
       </Layout.Body>

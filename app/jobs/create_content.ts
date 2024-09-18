@@ -5,6 +5,7 @@ import env from '#start/env'
 import app from '@adonisjs/core/services/app'
 import { createContentTool } from '#tools'
 import Content from '#models/content'
+import UserDto from '#dtos/user_dto'
 
 interface CreateContentJobArgs {
   submoduleId: string
@@ -14,19 +15,24 @@ export default class CreateContentJob extends BaseJob {
   async perform({ submoduleId }: CreateContentJobArgs) {
     const submodule = await Submodule.find(submoduleId)
     if (!submodule) return
+    if (submodule.contentCreated) return
+
+    const user = await submodule.related('user').query().first()
+
+    const submoduleMetadata = await submodule.getMeta()
 
     const messages: Anthropic.Messages.MessageParam[] = [
       {
         role: 'user',
-        content: `Hey I want to learn something and got a plan, a course summary , module summary and submodule summary, help me create detailed content in MD format for the submodule named ${submodule.title}.`,
+        content: `Hey I want to learn something and got a plan, a course summary , module summary and submodule summary, help me create detailed content in MD format for the submodule named ${submodule.title}. About my self ${JSON.stringify(new UserDto(user!).toJSON())}`,
       },
       {
         role: 'assistant',
-        content: `Sure, I will assist you. Share the details of the submodule and I will create the content of '${submodule.title}' submodule for you.`,
+        content: `Sure, I will assist you. Share the details of the course,module, submodule and I will create the content of '${submodule.title}' submodule for you.`,
       },
       {
         role: 'user',
-        content: JSON.stringify(submodule.serialize()),
+        content: JSON.stringify(submoduleMetadata),
       },
     ]
 

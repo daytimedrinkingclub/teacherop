@@ -7,6 +7,7 @@ import PlanSummary from '#models/plan_summary'
 import env from '#start/env'
 import { createModuleTool } from '#tools'
 import CreateSubmodulesJob from '#jobs/create_submodules'
+import UserDto from '#dtos/user_dto'
 
 interface CreateModulesJobArgs {
   planSummaryId: string
@@ -28,6 +29,8 @@ export default class CreateModulesJob extends BaseJob {
       planSummary.serialize()
 
     const course = await Course.find(planSummary.courseId)
+    const user = await course?.related('user').query().first()
+    if (!user) return
 
     if (!course) return
 
@@ -36,7 +39,7 @@ export default class CreateModulesJob extends BaseJob {
       const messages = [
         {
           role: 'user',
-          content: `Hey I want to learn something and got a plan and a course summary, can you help me create a module named '${moduleTitle}' for the course?`,
+          content: `Hey I want to learn something and got a plan and a course summary, can you help me create a module named '${moduleTitle}' for the course? About myself ${JSON.stringify(new UserDto(user).toJSON())}`,
         },
         {
           role: 'assistant',
@@ -103,6 +106,7 @@ export default class CreateModulesJob extends BaseJob {
               description: toolInput.description,
               order: toolInput.order,
               aiResponse,
+              userId: course.userId,
               submodules: JSON.stringify(toolInput.sub_modules),
               courseId: planSummary.courseId,
             })
