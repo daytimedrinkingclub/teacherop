@@ -50,6 +50,9 @@ router.get('/courses/create', [courseController, 'create']).use([middleware.auth
 router.post('/courses', [courseController, 'store']).use([middleware.auth()])
 router.get('/courses/:courseId', [courseController, 'show']).use([middleware.auth()])
 router
+  .get('/api/courses/:courseId/status', [courseController, 'getCourseStatus'])
+  .use([middleware.auth()])
+router
   .get('/courses/:courseId/onboarding', [courseController, 'onboardCourse'])
   .use([middleware.auth()])
 
@@ -66,5 +69,4 @@ router
 router.get('/questions/current', [questionController, 'current']).use([middleware.auth()])
 router.put('/questions/:id', [questionController, 'update']).use([middleware.auth()])
 
-
-router.get("/assignments/:lessonId", [assignmentsController, 'show']).use([middleware.auth()])
+router.get('/assignments/:lessonId', [assignmentsController, 'show']).use([middleware.auth()])
