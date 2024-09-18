@@ -21,6 +21,7 @@ const dashboardController = () => import('#controllers/dashboard_controller')
 const questionController = () => import('#controllers/questions_controller')
 const modulesController = () => import('#controllers/modules_controller')
 const submodulesController = () => import('#controllers/submodules_controller')
+
 router.on('/').renderInertia('home')
 
 router.get('/health', [healthChecksController]).use(({ request, response }, next) => {
@@ -52,7 +53,14 @@ router
   .use([middleware.auth()])
 
 router.get('/modules/:moduleId', [modulesController, 'show']).use([middleware.auth()])
+router
+  .put('/modules/:moduleId/complete', [modulesController, 'markAsComplete'])
+  .use([middleware.auth()])
+
 router.get('/lessons/:lessonId', [submodulesController, 'show']).use([middleware.auth()])
+router
+  .put('/lessons/:lessonId/complete', [submodulesController, 'markAsComplete'])
+  .use([middleware.auth()])
 
 router.get('/questions/current', [questionController, 'current']).use([middleware.auth()])
 router.put('/questions/:id', [questionController, 'update']).use([middleware.auth()])

@@ -103,6 +103,7 @@ export default class CreateModulesJob extends BaseJob {
               description: toolInput.description,
               order: toolInput.order,
               aiResponse,
+              userId: course.userId,
               submodules: JSON.stringify(toolInput.sub_modules),
               courseId: planSummary.courseId,
             })

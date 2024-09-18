@@ -22,4 +22,17 @@ export default class ModulesController {
       submodules: submodules.map((sub) => new submoduleDto(sub).toJSON()),
     })
   }
+
+  async markAsComplete({ auth, params, response }: HttpContext) {
+    const user = auth.user!
+    const { moduleId } = params
+
+    const module = await user.related('modules').query().where('id', moduleId).first()
+    if (!module) return response.notFound({ success: false, message: 'module not found' })
+
+    module.isCompleted = true
+    await module.save()
+
+    return response.ok({ success: true, message: 'module has been completed' })
+  }
 }

@@ -75,13 +75,16 @@ export default class CreateSubmodulesJob extends BaseJob {
             title,
             description,
             order,
+            userId: module.userId,
             aiResponse: response,
             moduleId: module.id,
           })
 
-          // todo)) create content job
           console.log('submodule created :', submodule.title)
-          await CreateContentJob.enqueue({ submoduleId: submodule.id })
+          // todo)) only create next 2 content of submodule of current
+          if (module.order === 1 && submodule.order <= 2)
+            await CreateContentJob.enqueue({ submoduleId: submodule.id })
+          // await CreateContentJob.enqueue({ submoduleId: submodule.id })
         }
       }
     }

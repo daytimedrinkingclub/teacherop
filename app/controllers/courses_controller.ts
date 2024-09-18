@@ -84,8 +84,10 @@ export default class CoursesController {
     const totalModule = modules.length
     const completedModule = modules.filter((m) => m.isCompleted).length
 
+    const currentTopic = await course.getCurrentTopic()
+
     return inertia.render('courses/show', {
-      course: { ...new CourseDto(course).toJSON(), totalModule, completedModule },
+      course: { ...new CourseDto(course).toJSON(), totalModule, completedModule, currentTopic },
       user: new UserDto(user).toJSON(),
       modules: modulesWithSubmodules,
     })

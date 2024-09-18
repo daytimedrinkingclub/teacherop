@@ -2,7 +2,7 @@ import SubmodulesController from '#controllers/submodules_controller'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { InferPageProps } from '@adonisjs/inertia/types'
 import { router } from '@inertiajs/react'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Icons } from '~/lib/components/icons'
 
 import AppLayout from '~/lib/components/layout/app_layout'
@@ -57,6 +57,24 @@ export default function CheckpointShow({
       }
     }
   }, [])
+
+  console.log(next)
+  const handleNext = async () => {
+    if (next) {
+      const { id, type } = next
+      // console.log(next)
+      //
+      // try {
+      //   if (type === 'module') await axios.put(`/modules/${module.id}/complete`)
+      //
+      //   await axios.put(`/lessons/${submodule.id}/complete`)
+      // } catch (e) {
+      //   console.log(e)
+      // }
+      const url = type === 'module' ? `/modules/${id}` : `/lessons/${id}`
+      router.visit(url)
+    }
+  }
 
   return (
     <AppLayout>
@@ -120,16 +138,7 @@ export default function CheckpointShow({
                       >
                         Back to course
                       </Button>
-                      <Button
-                        className="mt-4"
-                        onClick={() => {
-                          const url =
-                            next &&
-                            (next.type === 'module' ? `/modules/${next.id}` : `/lessons/${next.id}`)
-                          url && router.visit(url)
-                        }}
-                        disabled={!next}
-                      >
+                      <Button className="mt-4" onClick={handleNext} disabled={!next}>
                         Next
                       </Button>
                     </div>

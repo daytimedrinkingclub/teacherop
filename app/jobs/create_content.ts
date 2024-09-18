@@ -14,6 +14,9 @@ export default class CreateContentJob extends BaseJob {
   async perform({ submoduleId }: CreateContentJobArgs) {
     const submodule = await Submodule.find(submoduleId)
     if (!submodule) return
+    if (submodule.contentCreated) return
+
+    const submoduleMetadata = await submodule.getMeta()
 
     const messages: Anthropic.Messages.MessageParam[] = [
       {
@@ -22,11 +25,11 @@ export default class CreateContentJob extends BaseJob {
       },
       {
         role: 'assistant',
-        content: `Sure, I will assist you. Share the details of the submodule and I will create the content of '${submodule.title}' submodule for you.`,
+        content: `Sure, I will assist you. Share the details of the course,module, submodule and I will create the content of '${submodule.title}' submodule for you.`,
       },
       {
         role: 'user',
-        content: JSON.stringify(submodule.serialize()),
+        content: JSON.stringify(submoduleMetadata),
       },
     ]
 

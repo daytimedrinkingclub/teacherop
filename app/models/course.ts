@@ -47,17 +47,44 @@ export default class Course extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
   @belongsTo(() => User)
   declare user: BelongsTo<typeof User>
+
   @hasMany(() => Question)
   declare questions: HasMany<typeof Question>
+
   @hasOne(() => PlanSummary)
   declare planSummary: HasOne<typeof PlanSummary>
+
   @hasMany(() => Module)
   declare modules: HasMany<typeof Module>
 
   @beforeCreate()
   static async beforeCreateHook(course: Course) {
     course.id = course.id || uuid()
+  }
+
+  async getCurrentTopic() {
+    const currentModule = await Module.query()
+      .where('course_id', this.id)
+      .orderBy('order', 'asc')
+      .andWhere('is_completed', false)
+      .first()
+
+    if (!currentModule) return null
+
+    const currentSubmodule = await currentModule
+      .related('submodulesData')
+      .query()
+      .orderBy('order', 'asc')
+      .where('is_completed', false)
+      .first()
+
+    if (currentSubmodule && currentSubmodule.order !== 1) {
+      return { type: 'submodule', id: currentSubmodule.id }
+    } else {
+      return { type: 'module', id: currentModule.id }
+    }
   }
 }
