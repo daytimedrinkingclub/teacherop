@@ -1,7 +1,7 @@
 import Module from '#models/module'
 
 export default class ModuleDto {
-  constructor(private module: Module) { }
+  constructor(private module: Module) {}
 
   toJSON() {
     return {

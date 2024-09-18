@@ -41,5 +41,5 @@ export default await Env.create(new URL('../', import.meta.url), {
 
   LLM_MODEL: Env.schema.string.optional(),
 
-  TAVILY_API_KEY: Env.schema.string()
+  TAVILY_API_KEY: Env.schema.string(),
 })

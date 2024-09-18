@@ -1,10 +1,10 @@
 import React from 'react'
 import { useForm } from '@inertiajs/react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { Icons } from '@/components/icons'
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft } from 'lucide-react'
 import useError from '@/hooks/use_error'
 import { cn } from '@/lib/utils'
 import { GenderEnum } from '#enums/gender'
@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/select'
 import { Link } from '@inertiajs/react'
 
-interface SignUpAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
+interface SignUpAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 interface SignupFormData {
   fullName: string
@@ -162,7 +162,10 @@ export default function SignupForm({ className, ...props }: SignUpAuthFormProps)
                 )}
               </div>
             </div>
-            <Button className="col-span-1 rounded-full w-full sm:w-auto md:w-[20%]" disabled={form.processing}>
+            <Button
+              className="col-span-1 rounded-full w-full sm:w-auto md:w-[20%]"
+              disabled={form.processing}
+            >
               {form.processing && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
               Let's go
             </Button>
