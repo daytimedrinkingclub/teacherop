@@ -17,7 +17,6 @@ import { Popover, PopoverContent, PopoverTrigger } from '~/lib/components/ui/pop
 import { RadioGroup, RadioGroupItem } from '~/lib/components/ui/radio-group'
 import { Skeleton } from '~/lib/components/ui/skeleton'
 import { Slider } from '~/lib/components/ui/slider'
-import { UserNav } from '~/lib/components/user_nav'
 import { cn } from '~/lib/lib/utils'
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '~/lib/components/ui/card'
 
@@ -153,13 +152,6 @@ export default function CourseOnboardingPage(
   return (
     <AppLayout>
       <Layout.Header>
-        <div className="hidden justify-end items-end w-full md:flex">
-          {/* <Search /> */}
-          <div className="flex items-end space-x-4">
-            {/* <ThemeSwitch /> */}
-            <UserNav />
-          </div>
-        </div>
       </Layout.Header>
       <Layout.Body>
         <Card className="max-w-2xl mx-auto">

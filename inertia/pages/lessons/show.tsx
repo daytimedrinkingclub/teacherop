@@ -2,75 +2,47 @@ import SubmodulesController from '#controllers/submodules_controller'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { InferPageProps } from '@adonisjs/inertia/types'
 import { router } from '@inertiajs/react'
-import { useCallback, useEffect, useState } from 'react'
 import { Icons } from '~/lib/components/icons'
+// import { useFullScreen } from '~/lib/hooks/use_fullscreen'
 
 import AppLayout from '~/lib/components/layout/app_layout'
 import { Layout } from '~/lib/components/layout/custom_layout'
 import Markdown from '~/lib/components/markdown'
+import Timer from '~/lib/components/timer'
 import { Button } from '~/lib/components/ui/button'
 import { Separator } from '~/lib/components/ui/separator'
 import { UserNav } from '~/lib/components/user_nav'
+import BreadcrumbNav from '~/lib/components/bedcrumLinks'
+import FullscreenBtn from '~/lib/components/fullscreenBtn'
 
 export default function CheckpointShow({
   course,
   module,
   submodule,
 }: InferPageProps<SubmodulesController, 'show'>) {
-  const [timeSpent, setTimeSpent] = useState(0)
-  const [isFullscreen, setIsFullscreen] = useState(false)
   const { next } = submodule
+  // const { isFullScreen, enterFullScreen, toggleFullScreen } = useFullScreen()
 
   // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setTimeSpent((prevTime) => prevTime + 1)
-  //   }, 1000)
-
-  //   // Add event listener for page unload
-  //   const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-  //     e.preventDefault()
-  //     e.returnValue = ''
-  //   }
-
-  //   window.addEventListener('beforeunload', handleBeforeUnload)
-
-  //   return () => {
-  //     clearInterval(timer)
-  //     window.removeEventListener('beforeunload', handleBeforeUnload)
-  //   }
+  //   enterFullScreen()
   // }, [])
 
-  const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60)
-    const remainingSeconds = seconds % 60
-    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`
-  }
+  const breadcrumbLinks = [
+    { name: 'Home', href: '/' },
+    { name: 'Course', href: `/courses/${course.id}` },
+    { name: 'Module', href: `/modules/${module.id}` },
+    { name: 'Lesson', href: `/lessons/${submodule.id}` },
+  ]
 
-  const toggleFullscreen = useCallback(() => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen()
-      setIsFullscreen(true)
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen()
-        setIsFullscreen(false)
-      }
-    }
-  }, [])
 
   return (
     <AppLayout>
       <Layout.Header>
-        <div className="hidden justify-end items-end w-full md:flex">
-          {/* <Search /> */}
-          <div className="flex items-end space-x-4">
-            {/* <ThemeSwitch /> */}
-            <UserNav />
-          </div>
-        </div>
+
       </Layout.Header>
       <Layout.Body>
         <div className="p-4 min-h-screen bg-background md:px-8">
+          <BreadcrumbNav links={breadcrumbLinks} />
           <Card className="mx-auto shadow-lg">
             <CardHeader className="space-y-1">
               <CardTitle className="flex flex-col space-y-2 text-2xl font-bold sm:flex-row sm:items-center sm:justify-between">
@@ -79,17 +51,8 @@ export default function CheckpointShow({
                   <span className="break-words">{course.title}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <div className="flex items-center p-2 text-white rounded-md bg-foreground">
-                    <Icons.clockIcon className="flex-shrink-0 mr-1 w-5 h-5" />
-                    <span className="text-base font-medium">{formatTime(timeSpent)}</span>
-                  </div>
-                  <Button variant="outline" size="icon" onClick={toggleFullscreen} className="p-2">
-                    {isFullscreen ? (
-                      <Icons.minimize2 className="w-4 h-4" />
-                    ) : (
-                      <Icons.maximize2 className="w-4 h-4" />
-                    )}
-                  </Button>
+                  <Timer initialTime={0} />
+                  <FullscreenBtn />
                 </div>
               </CardTitle>
             </CardHeader>
@@ -120,18 +83,27 @@ export default function CheckpointShow({
                       >
                         Back to course
                       </Button>
-                      <Button
-                        className="mt-4"
-                        onClick={() => {
-                          const url =
-                            next &&
-                            (next.type === 'module' ? `/modules/${next.id}` : `/lessons/${next.id}`)
-                          url && router.visit(url)
-                        }}
-                        disabled={!next}
-                      >
-                        Next
-                      </Button>
+                      <div className="flex items-center space-x-2">
+                        {next?.type === 'module' && <Button
+                          className="mt-4"
+                          onClick={() => router.visit(`/assignments/${next.id}`)}
+                        >
+                          Start assignment
+                        </Button>
+                        }
+                        <Button
+                          className="mt-4"
+                          onClick={() => {
+                            const url =
+                              next &&
+                              (next.type === 'module' ? `/modules/${next.id}` : `/lessons/${next.id}`)
+                            url && router.visit(url)
+                          }}
+                          disabled={!next}
+                        >
+                          Next
+                        </Button>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>

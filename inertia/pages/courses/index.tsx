@@ -13,7 +13,6 @@ import { Badge } from '~/lib/components/ui/badge'
 import { Button } from '~/lib/components/ui/button'
 import { Progress } from '~/lib/components/ui/progress'
 import { Separator } from '~/lib/components/ui/separator'
-import { UserNav } from '~/lib/components/user_nav'
 import WorkflowComponent from '~/lib/components/workflow'
 import { calculatePercentage } from '~/lib/lib/utils'
 
@@ -37,13 +36,6 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
   return (
     <AppLayout>
       <Layout.Header>
-        <div className="hidden justify-end items-end w-full md:flex">
-          {/* <Search /> */}
-          <div className="flex items-end space-x-4">
-            {/* <ThemeSwitch /> */}
-            <UserNav />
-          </div>
-        </div>
       </Layout.Header>
       <Layout.Body>
         <div className="px-4 py-8 w-full max-w-6xl rounded-md md:px-6">

@@ -5,10 +5,11 @@ import { UserNav } from '@/components/user_nav'
 import AppLayout from '@/components/layout/app_layout'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Icons } from '~/lib/components/icons'
-import { useCallback, useEffect, useState } from 'react'
-import { Button } from '~/lib/components/ui/button'
 import { Separator } from '~/lib/components/ui/separator'
 import { Link } from '@inertiajs/react'
+// import { useFullScreen } from '~/lib/hooks/use_fullscreen'
+import BreadcrumbNav from '~/lib/components/bedcrumLinks'
+import FullscreenBtn from '~/lib/components/fullscreenBtn'
 
 export default function ModulesShow({
   course,
@@ -16,59 +17,26 @@ export default function ModulesShow({
   submodules,
 }: InferPageProps<ModulesController, 'show'>) {
   console.log(module, submodules)
-
-  const [timeSpent, setTimeSpent] = useState(0)
-  const [isFullscreen, setIsFullscreen] = useState(false)
+  // const { isFullScreen, enterFullScreen, toggleFullScreen } = useFullScreen()
 
   // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setTimeSpent((prevTime) => prevTime + 1)
-  //   }, 1000)
-
-  //   // Add event listener for page unload
-  //   const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-  //     e.preventDefault()
-  //     e.returnValue = ''
-  //   }
-
-  //   window.addEventListener('beforeunload', handleBeforeUnload)
-
-  //   return () => {
-  //     clearInterval(timer)
-  //     window.removeEventListener('beforeunload', handleBeforeUnload)
-  //   }
+  //   enterFullScreen()
   // }, [])
 
-  const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60)
-    const remainingSeconds = seconds % 60
-    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`
-  }
+  const breadcrumbLinks = [
+    { name: 'Home', href: '/' },
+    { name: 'Course', href: `/courses/${course.id}` },
+    { name: 'Module', href: `/modules/${module.id}` },
+  ]
 
-  const toggleFullscreen = useCallback(() => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen()
-      setIsFullscreen(true)
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen()
-        setIsFullscreen(false)
-      }
-    }
-  }, [])
   return (
     <AppLayout>
       <Layout.Header>
-        <div className="hidden justify-end items-end w-full md:flex">
-          {/* <Search /> */}
-          <div className="flex items-end space-x-4">
-            {/* <ThemeSwitch /> */}
-            <UserNav />
-          </div>
-        </div>
+
       </Layout.Header>
       <Layout.Body>
         <div className="p-4 min-h-screen bg-background md:px-8">
+          <BreadcrumbNav links={breadcrumbLinks} />
           <Card className="mx-auto shadow-lg">
             <CardHeader className="space-y-1">
               <CardTitle className="flex flex-col space-y-2 text-2xl font-bold sm:flex-row sm:items-center sm:justify-between">
@@ -76,19 +44,7 @@ export default function ModulesShow({
                   <Icons.bookOpen className="flex-shrink-0 mr-2 w-6 h-6" />
                   <span className="break-words">{course.title}</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <div className="flex items-center p-2 text-white rounded-md bg-foreground">
-                    <Icons.clockIcon className="flex-shrink-0 mr-1 w-5 h-5" />
-                    <span className="text-base font-medium">{formatTime(timeSpent)}</span>
-                  </div>
-                  <Button variant="outline" size="icon" onClick={toggleFullscreen} className="p-2">
-                    {isFullscreen ? (
-                      <Icons.minimize2 className="w-4 h-4" />
-                    ) : (
-                      <Icons.maximize2 className="w-4 h-4" />
-                    )}
-                  </Button>
-                </div>
+                <FullscreenBtn />
               </CardTitle>
             </CardHeader>
             <CardContent>

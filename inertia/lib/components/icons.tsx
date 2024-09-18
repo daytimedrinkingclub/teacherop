@@ -16,8 +16,6 @@ import {
         BookOpen,
         ClockIcon,
         LayersIcon,
-        Maximize2,
-        Minimize2,
         CalendarIcon,
         PlayIcon,
         StarIcon,
@@ -36,6 +34,10 @@ import {
         ArrowRightCircleIcon,
         Check,
         Copy,
+        PanelRightCloseIcon,
+        PanelRightOpenIcon,
+        Maximize,
+        Minimize,
 } from 'lucide-react'
 
 export const Icons = {
@@ -53,8 +55,8 @@ export const Icons = {
         bookOpen: BookOpen,
         clockIcon: ClockIcon,
         layersIcon: LayersIcon,
-        maximize2: Maximize2,
-        minimize2: Minimize2,
+        maximize: Maximize,
+        minimize: Minimize,
         circleCheck: CircleCheck,
         circleHelp: CircleHelp,
         refresh: RefreshCw,
@@ -82,6 +84,8 @@ export const Icons = {
         RoundedArrowRight: ArrowRightCircleIcon,
         check: Check,
         copy: Copy,
+        panelRightOpen: PanelRightOpenIcon,
+        panelRightClose: PanelRightCloseIcon,
         logo: ({ ...props }: LucideProps) => (
                 <svg version="1.0"
                         xmlns="http://www.w3.org/2000/svg"
