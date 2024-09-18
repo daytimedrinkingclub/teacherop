@@ -22,6 +22,7 @@ const modulesController = () => import('#controllers/modules_controller')
 const submodulesController = () => import('#controllers/submodules_controller')
 
 router.on('/').renderInertia('home')
+router.on('/about').renderInertia('about')
 
 router.get('/health', [healthChecksController]).use(({ request, response }, next) => {
   if (env.get('NODE_ENV') === 'development') return next()

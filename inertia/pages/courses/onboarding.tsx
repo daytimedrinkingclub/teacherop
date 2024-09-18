@@ -24,7 +24,6 @@ export default function CourseOnboardingPage(
   props: InferPageProps<CoursesController, 'onboardCourse'>
 ) {
   const { course, currentQuestion } = props
-  if (course.isOnboardingComplete) return router.visit(`/courses/${course.id}`)
 
   const [answer, setAnswer] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -132,6 +131,10 @@ export default function CourseOnboardingPage(
         return null
     }
   }
+
+  useEffect(() => {
+    if (course.isOnboardingComplete) return router.visit(`/courses/${course.id}`)
+  }, [course.isOnboardingComplete])
 
   useEffect(() => {
     if (!currentQuestion) {
