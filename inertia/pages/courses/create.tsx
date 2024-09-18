@@ -38,8 +38,7 @@ export default function CoursesCreatePage(props: InferPageProps<CoursesControlle
 
   return (
     <AppLayout>
-      <Layout.Header>
-      </Layout.Header>
+      <Layout.Header></Layout.Header>
       <Layout.Body>
         <div className="container flex flex-col max-w-md text-center items-center justify-center md:mx-64 md:my-16">
           <h1 className="text-4xl md:text-6xl font-bold mb-2 px-2 break-words">
@@ -50,7 +49,13 @@ export default function CoursesCreatePage(props: InferPageProps<CoursesControlle
           </h1>
           <p className="text-xl mb-6 font-semibold">What would you like to learn today?</p>
           <form onSubmit={handleSubmit} className="relative w-full max-w-md">
-            <TypewriterInput placeholders={placeholders} typingSpeed={100} delay={2000} query={query} setQuery={setQuery} />
+            <TypewriterInput
+              placeholders={placeholders}
+              typingSpeed={100}
+              delay={2000}
+              query={query}
+              setQuery={setQuery}
+            />
             <Button
               type="submit"
               className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent hover:bg-transparent"
@@ -68,4 +73,3 @@ export default function CoursesCreatePage(props: InferPageProps<CoursesControlle
     </AppLayout>
   )
 }
-

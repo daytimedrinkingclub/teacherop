@@ -31,9 +31,7 @@ export default function ModulesShow({
 
   return (
     <AppLayout>
-      <Layout.Header>
-
-      </Layout.Header>
+      <Layout.Header></Layout.Header>
       <Layout.Body>
         <div className="p-4 min-h-screen bg-background md:px-8">
           <BreadcrumbNav links={breadcrumbLinks} />

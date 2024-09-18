@@ -34,7 +34,6 @@ export default function CheckpointShow({
     { name: 'Lesson', href: `/lessons/${submodule.id}` },
   ]
 
-
   console.log(next)
   const handleNext = async () => {
     if (next) {
@@ -55,9 +54,7 @@ export default function CheckpointShow({
 
   return (
     <AppLayout>
-      <Layout.Header>
-
-      </Layout.Header>
+      <Layout.Header></Layout.Header>
       <Layout.Body>
         <div className="p-4 min-h-screen bg-background md:px-8">
           <BreadcrumbNav links={breadcrumbLinks} />
@@ -104,14 +101,14 @@ export default function CheckpointShow({
                       <Button className="mt-4" onClick={handleNext} disabled={!next}>
                         Next
                       </Button>
-                    </div >
-                  </CardContent >
-                </Card >
-              </div >
-            </CardContent >
-          </Card >
-        </div >
-      </Layout.Body >
-    </AppLayout >
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </Layout.Body>
+    </AppLayout>
   )
 }

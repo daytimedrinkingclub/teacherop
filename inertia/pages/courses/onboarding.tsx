@@ -160,8 +160,7 @@ export default function CourseOnboardingPage(
 
   return (
     <AppLayout>
-      <Layout.Header>
-      </Layout.Header>
+      <Layout.Header></Layout.Header>
       <Layout.Body>
         <Card className="max-w-2xl mx-auto">
           <CardHeader>

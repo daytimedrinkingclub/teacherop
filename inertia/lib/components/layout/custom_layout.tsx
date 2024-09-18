@@ -51,16 +51,7 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
       throw new Error(`Layout.Header must be used within ${Layout.displayName}.`)
     }
 
-    return (
-      <div
-        ref={ref}
-        data-layout="header"
-        className={cn(
-          className
-        )}
-        {...props}
-      />
-    )
+    return <div ref={ref} data-layout="header" className={cn(className)} {...props} />
   }
 )
 Header.displayName = 'Header'

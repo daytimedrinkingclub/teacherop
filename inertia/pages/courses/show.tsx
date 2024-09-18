@@ -15,9 +15,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
 
   return (
     <AppLayout>
-      <Layout.Header>
-
-      </Layout.Header>
+      <Layout.Header></Layout.Header>
       <Layout.Body>
         {course.isOnboardingComplete ? (
           <>

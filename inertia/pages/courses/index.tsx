@@ -35,8 +35,7 @@ export default function CoursesPage({ courses }: InferPageProps<CoursesControlle
 
   return (
     <AppLayout>
-      <Layout.Header>
-      </Layout.Header>
+      <Layout.Header></Layout.Header>
       <Layout.Body>
         <div className="px-4 py-8 w-full max-w-6xl rounded-md md:px-6">
           <div className="flex justify-between items-center mb-6">
