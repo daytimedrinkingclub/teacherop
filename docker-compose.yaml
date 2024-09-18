@@ -61,7 +61,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: 'node ace resque:start'
+    command: 'npm run jobs'
     volumes:
       - jobs_data:/app
     restart: on-failure
