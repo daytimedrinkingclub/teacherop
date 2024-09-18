@@ -7,6 +7,7 @@ import { calculatePercentage, cn } from '~/lib/lib/utils';
 import ModuleComponent from './moduleComponent';
 import { Link, router } from '@inertiajs/react';
 import BreadcrumbNav from '../bedcrumLinks';
+import axios from 'axios';
 
 interface CourseComponentProps {
     course: any;
@@ -26,14 +27,21 @@ const CourseComponent: React.FC<CourseComponentProps> = ({ course, modules }) =>
     };
 
 
-    // useEffect(() => {
-    //     if (!course.isModulesCreated) {
-    //         const interval = setInterval(() => {
-    //             router.reload();
-    //         }, 5000);
-    //         return () => clearInterval(interval);
-    //     }
-    // }, [course.isModulesCreated]);
+    useEffect(() => {
+        const checkModulesCreated = async () => {
+            const response = await axios.get(`/api/courses/${course.id}/status`);
+            if (response.data.modulesCreated && response.data.submodulesCreated) {
+                router.reload();
+            }
+        };
+        if (!course.isModulesCreated) {
+            const interval = setInterval(() => {
+                checkModulesCreated()
+            }, 5000);
+            return () => clearInterval(interval);
+        }
+    }, [course.isModulesCreated]);
+
 
     return (
         <>
