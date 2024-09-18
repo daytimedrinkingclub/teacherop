@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    env_file:
+      - .env.production.local
     environment:
       - NODE_ENV=production
       - PORT=3333
@@ -49,6 +51,8 @@ services:
 
   jobs:
     container_name: teacherop-jobs
+    env_file:
+      - .env.production.local
     environment:
       - NODE_ENV=production
       - REDIS_HOST=redis
