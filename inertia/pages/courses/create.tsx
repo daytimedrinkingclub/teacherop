@@ -26,14 +26,25 @@ const placeholders = [
 export default function CoursesCreatePage(props: InferPageProps<CoursesController, 'create'>) {
   const { user } = props as any
   const [query, setQuery] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
-    const { data } = await axios.post('/courses', {
-      query,
-    })
-    router.visit(`/courses/${data.course.id}/onboarding`)
+    try {
+      if (query.length < 10) {
+        alert('Please enter a valid query')
+        return
+      }
+      setIsLoading(true)
+      const { data } = await axios.post('/courses', {
+        query,
+      })
+      router.visit(`/courses/${data.course.id}/onboarding`)
+    } catch (error: any) {
+      alert('Error in creating course :' + error.message)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -41,28 +52,48 @@ export default function CoursesCreatePage(props: InferPageProps<CoursesControlle
       <Layout.Header>
       </Layout.Header>
       <Layout.Body>
-        <div className="container flex flex-col max-w-md text-center items-center justify-center md:mx-64 md:my-16">
-          <h1 className="text-4xl md:text-6xl font-bold mb-2 px-2 break-words">
-            Hi{' '}
-            <span className={`${user.fullName.length > 10 ? 'block mt-2' : 'inline'}`}>
-              {user.fullName}!
-            </span>
-          </h1>
-          <p className="text-xl mb-6 font-semibold">What would you like to learn today?</p>
-          <form onSubmit={handleSubmit} className="relative w-full max-w-md">
-            <TypewriterInput placeholders={placeholders} typingSpeed={100} delay={2000} query={query} setQuery={setQuery} />
-            <Button
-              type="submit"
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent hover:bg-transparent"
-            >
-              <Icons.search className="h-5 w-5 text-gray-500" />
-              <span className="sr-only">Search</span>
-            </Button>
-          </form>
-          <p className="mt-12 md:mt-40 text-center font-semibold max-w-md md:translate-y-full md:translate-x-full">
-            Our AI will generate a personalized course for you. Learn anything in any language at
-            your own pace!
-          </p>
+        <div className="flex items-center justify-center bg-background">
+          <div className="w-full max-w-md px-4 py-8 mx-auto text-center">
+            <h1 className="text-4xl font-bold mb-2 break-words sm:text-5xl lg:text-6xl">
+              Hi{' '}
+              <span className={`${user.fullName.length > 10 ? 'block mt-2' : 'inline'}`}>
+                {user.fullName}!
+              </span>
+            </h1>
+            <p className="text-xl mb-6 font-semibold">What would you like to learn today?</p>
+            <form onSubmit={handleSubmit} className="relative w-full mb-8">
+              <TypewriterInput
+                placeholders={placeholders}
+                typingSpeed={100}
+                delay={2000}
+                query={query}
+                setQuery={setQuery}
+              />
+              <Button
+                type="submit"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent hover:bg-transparent"
+              >
+                {isLoading ?
+                  <Icons.spinner className="h-5 w-5 text-muted-foreground animate-spin" /> :
+                  <Icons.search className="h-5 w-5 text-muted-foreground" />
+                }
+                <span className="sr-only">Search</span>
+              </Button>
+            </form>
+            <p className="text-center font-semibold">
+              Our AI will generate a personalized course for you. Learn anything in any language at
+              your own pace!
+            </p>
+            <p>{isLoading ? <div className="flex flex-col items-center justify-center min-h-screen bg-background">
+              <div className="text-center">
+                <Icons.spinner className="w-16 h-16 mb-4 text-primary animate-spin mx-auto" />
+                <h2 className="text-2xl font-bold mb-2">Creating Your Course</h2>
+                <p className="text-muted-foreground max-w-sm">
+                  Please wait while our AI generates a personalized learning experience just for you.
+                </p>
+              </div>
+            </div> : ''}</p>
+          </div>
         </div>
       </Layout.Body>
     </AppLayout>

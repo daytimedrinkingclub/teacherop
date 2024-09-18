@@ -38,9 +38,12 @@ import {
   PanelRightOpenIcon,
   Maximize,
   Minimize,
+  Home,
 } from 'lucide-react'
 
 export const Icons = {
+  home: Home,
+  book: BookOpen,
   chevronLeft: ChevronLeft,
   spinner: Loader2,
   close: X,

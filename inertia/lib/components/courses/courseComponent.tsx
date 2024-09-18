@@ -26,14 +26,14 @@ const CourseComponent: React.FC<CourseComponentProps> = ({ course, modules }) =>
     };
 
 
-    useEffect(() => {
-        if (!course.isModulesCreated) {
-            const interval = setInterval(() => {
-                router.reload();
-            }, 5000);
-            return () => clearInterval(interval);
-        }
-    }, [course.isModulesCreated]);
+    // useEffect(() => {
+    //     if (!course.isModulesCreated) {
+    //         const interval = setInterval(() => {
+    //             router.reload();
+    //         }, 5000);
+    //         return () => clearInterval(interval);
+    //     }
+    // }, [course.isModulesCreated]);
 
     return (
         <>
