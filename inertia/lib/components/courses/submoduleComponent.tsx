@@ -25,13 +25,6 @@ const SubModuleComponent: React.FC<SubModuleComponentProps> = ({ submodule, subI
                     <p className="text-sm text-gray-600">{submodule.description}</p>
                 </div>
             </div>
-            {submodule.contentCreated ? (
-                ""
-            ) : (
-                <p className="flex gap-2 items-center px-3 py-1 text-sm font-medium rounded-full text-muted-foreground bg-muted">
-                    <Icons.loader className="w-4 h-4 animate-spin" />
-                </p>
-            )}
         </motion.div>
     );
 };
