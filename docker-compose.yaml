@@ -63,7 +63,7 @@ services:
       dockerfile: Dockerfile
     command: 'npm run jobs'
     volumes:
-      - jobs_data:/app
+      - jobs_data:/app\
     restart: on-failure
     depends_on:
       - redis
