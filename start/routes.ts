@@ -11,6 +11,7 @@ import router from '@adonisjs/core/services/router'
 
 import env from './env.js'
 import { middleware } from './kernel.js'
+import assignmentsController from '#controllers/assignment_controller'
 // import CheckpointController from '#controllers/checkpoint_controller'
 
 const healthChecksController = () => import('#controllers/health_checks_controller')
@@ -64,3 +65,6 @@ router
 
 router.get('/questions/current', [questionController, 'current']).use([middleware.auth()])
 router.put('/questions/:id', [questionController, 'update']).use([middleware.auth()])
+
+
+router.get("/assignments/:lessonId", [assignmentsController, 'show']).use([middleware.auth()])

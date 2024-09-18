@@ -31,7 +31,7 @@ const Layout = ({ className, fixed = false, ...props }: LayoutProps) => {
       <div
         ref={divRef}
         data-layout="layout"
-        className={cn('h-full overflow-auto', fixed && 'flex flex-col', className)}
+        className={cn('h-full', fixed && 'flex flex-col', className)}
         {...props}
       />
     </LayoutContext.Provider>
@@ -56,10 +56,6 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
         ref={ref}
         data-layout="header"
         className={cn(
-          `z-10 flex h-[var(--header-height)] items-center gap-4 bg-background p-4 bg-gray-50`,
-          contextVal.offset > 10 && sticky ? 'shadow' : 'shadow-none',
-          contextVal.fixed && 'flex-none',
-          sticky && 'sticky top-0',
           className
         )}
         {...props}
@@ -89,7 +85,7 @@ const Body = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElemen
         {...props}
       >
         {children}
-        <div className="h-80"></div>
+        <div className="h-80 md:h-0"></div>
       </div>
     )
   }
