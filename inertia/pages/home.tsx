@@ -8,6 +8,7 @@ import { Input } from '~/lib/components/ui/input'
 import { TypeAnimation } from 'react-type-animation'
 import { cn } from '~/lib/lib/utils'
 
+
 const Header = () => (
   <header className="container mx-auto fixed bg-white z-50 top-0 left-0 right-0 flex justify-between items-center">
     <div className="flex gap-10 font-semibold md:text-2xl text-xl">
@@ -174,9 +175,8 @@ const LearnAnything = () => {
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`w-3 h-3 rounded-full transition-colors duration-300 ${
-                  index === currentIndex ? 'bg-white' : 'bg-gray-400'
-                }`}
+                className={`w-3 h-3 rounded-full transition-colors duration-300 ${index === currentIndex ? 'bg-white' : 'bg-gray-400'
+                  }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
             ))}

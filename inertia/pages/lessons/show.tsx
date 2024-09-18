@@ -11,10 +11,9 @@ import Markdown from '~/lib/components/markdown'
 import Timer from '~/lib/components/timer'
 import { Button } from '~/lib/components/ui/button'
 import { Separator } from '~/lib/components/ui/separator'
+import { UserNav } from '~/lib/components/user_nav'
 import BreadcrumbNav from '~/lib/components/bedcrumLinks'
 import FullscreenBtn from '~/lib/components/fullscreenBtn'
-import { useEffect } from 'react'
-import { useFullScreen } from '~/lib/hooks/use_fullscreen'
 
 export default function CheckpointShow({
   course,
@@ -22,11 +21,11 @@ export default function CheckpointShow({
   submodule,
 }: InferPageProps<SubmodulesController, 'show'>) {
   const { next } = submodule
-  const { enterFullScreen } = useFullScreen()
+  // const { isFullScreen, enterFullScreen, toggleFullScreen } = useFullScreen()
 
-  useEffect(() => {
-    enterFullScreen()
-  }, [])
+  // useEffect(() => {
+  //   enterFullScreen()
+  // }, [])
 
   const breadcrumbLinks = [
     { name: 'Home', href: '/' },
