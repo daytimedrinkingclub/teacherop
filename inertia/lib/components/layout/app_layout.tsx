@@ -1,6 +1,7 @@
 import { Layout } from './custom_layout'
 import Sidebar from '../sidebar'
 import { UserNav } from '../user_nav'
+import { Icons } from '../icons'
 
 interface AppLayoutProps {
   children?: React.ReactNode
@@ -11,8 +12,13 @@ const AppLayout = ({ children }: AppLayoutProps) => {
   return (
     <div className="relative h-full overflow-hidden bg-background flex justify-between">
       <div className="fixed inset-0 z-50 h-10 w-full">
-        <div className="supports-backdrop-blur:bg-background/60 flex items-center justify-between border-b p-4 backdrop-blur">
-          <div></div>
+        <div className="supports-backdrop-blur:bg-background/60 flex items-center justify-between md:justify-end border-b gap-4 md:px-4 backdrop-blur">
+          <div>
+            <h1 className="flex items-center flex-row-reverse md:flex-row">
+              <span className="text-2xl font-bold">TeacherOP.</span>
+              <Icons.logo className="w-20 h-20" />
+            </h1>
+          </div>
           <UserNav />
         </div>
       </div>
