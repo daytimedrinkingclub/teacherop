@@ -49,8 +49,9 @@ const TypewriterInput: React.FC<TypewriterInputProps> = ({
     <Input
       type="text"
       placeholder={currentPlaceholder}
-      className="transition-all"
+      className="transition-all pr-12"
       value={query}
+      autoFocus
       onChange={(e) => setQuery(e.target.value)}
     />
   )

@@ -1,15 +1,16 @@
-import { InferPageProps } from '@adonisjs/inertia/types'
 import ModulesController from '#controllers/modules_controller'
-import { Layout } from '@/components/layout/custom_layout'
-import { UserNav } from '@/components/user_nav'
 import AppLayout from '@/components/layout/app_layout'
+import { Layout } from '@/components/layout/custom_layout'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { InferPageProps } from '@adonisjs/inertia/types'
+import { Link } from '@inertiajs/react'
 import { Icons } from '~/lib/components/icons'
 import { Separator } from '~/lib/components/ui/separator'
-import { Link } from '@inertiajs/react'
 // import { useFullScreen } from '~/lib/hooks/use_fullscreen'
+import { useEffect } from 'react'
 import BreadcrumbNav from '~/lib/components/bedcrumLinks'
 import FullscreenBtn from '~/lib/components/fullscreenBtn'
+import { useFullScreen } from '~/lib/hooks/use_fullscreen'
 
 export default function ModulesShow({
   course,
@@ -17,16 +18,16 @@ export default function ModulesShow({
   submodules,
 }: InferPageProps<ModulesController, 'show'>) {
   console.log(module, submodules)
-  // const { isFullScreen, enterFullScreen, toggleFullScreen } = useFullScreen()
+  const { enterFullScreen } = useFullScreen()
 
-  // useEffect(() => {
-  //   enterFullScreen()
-  // }, [])
+  useEffect(() => {
+    enterFullScreen()
+  }, [])
 
   const breadcrumbLinks = [
     { name: 'Home', href: '/' },
     { name: 'Course', href: `/courses/${course.id}` },
-    { name: 'Module', href: `/modules/${module.id}` },
+    { name: module.title, href: `/modules/${module.id}` },
   ]
 
   return (

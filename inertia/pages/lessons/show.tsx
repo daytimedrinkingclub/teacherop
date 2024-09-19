@@ -5,15 +5,16 @@ import { router } from '@inertiajs/react'
 import { Icons } from '~/lib/components/icons'
 // import { useFullScreen } from '~/lib/hooks/use_fullscreen'
 
+import { useEffect } from 'react'
+import BreadcrumbNav from '~/lib/components/bedcrumLinks'
+import FullscreenBtn from '~/lib/components/fullscreenBtn'
 import AppLayout from '~/lib/components/layout/app_layout'
 import { Layout } from '~/lib/components/layout/custom_layout'
 import Markdown from '~/lib/components/markdown'
 import Timer from '~/lib/components/timer'
 import { Button } from '~/lib/components/ui/button'
 import { Separator } from '~/lib/components/ui/separator'
-import { UserNav } from '~/lib/components/user_nav'
-import BreadcrumbNav from '~/lib/components/bedcrumLinks'
-import FullscreenBtn from '~/lib/components/fullscreenBtn'
+import { useFullScreen } from '~/lib/hooks/use_fullscreen'
 
 export default function CheckpointShow({
   course,
@@ -21,17 +22,17 @@ export default function CheckpointShow({
   submodule,
 }: InferPageProps<SubmodulesController, 'show'>) {
   const { next } = submodule
-  // const { isFullScreen, enterFullScreen, toggleFullScreen } = useFullScreen()
+  const { enterFullScreen } = useFullScreen()
 
-  // useEffect(() => {
-  //   enterFullScreen()
-  // }, [])
+  useEffect(() => {
+    enterFullScreen()
+  }, [])
 
   const breadcrumbLinks = [
     { name: 'Home', href: '/' },
     { name: 'Course', href: `/courses/${course.id}` },
     { name: 'Module', href: `/modules/${module.id}` },
-    { name: 'Lesson', href: `/lessons/${submodule.id}` },
+    { name: submodule.title, href: `/lessons/${submodule.id}` },
   ]
 
   console.log(next)

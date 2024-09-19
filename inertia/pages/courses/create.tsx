@@ -5,11 +5,11 @@ import { useState } from 'react'
 
 import CoursesController from '#controllers/courses_controller'
 
+import { Icons } from '~/lib/components/icons'
 import AppLayout from '~/lib/components/layout/app_layout'
 import { Layout } from '~/lib/components/layout/custom_layout'
-import { Button } from '~/lib/components/ui/button'
-import { Icons } from '~/lib/components/icons'
 import TypewriterInput from '~/lib/components/typewriterInput'
+import { Button } from '~/lib/components/ui/button'
 
 const placeholders = [
   'What do you want to learn today?',
@@ -49,8 +49,7 @@ export default function CoursesCreatePage(props: InferPageProps<CoursesControlle
 
   return (
     <AppLayout>
-      <Layout.Header>
-      </Layout.Header>
+      <Layout.Header></Layout.Header>
       <Layout.Body>
         <div className="flex items-center justify-center bg-background">
           <div className="w-full max-w-md px-4 py-8 mx-auto text-center">
@@ -61,6 +60,7 @@ export default function CoursesCreatePage(props: InferPageProps<CoursesControlle
               </span>
             </h1>
             <p className="text-xl mb-6 font-semibold">What would you like to learn today?</p>
+
             <form onSubmit={handleSubmit} className="relative w-full mb-8">
               <TypewriterInput
                 placeholders={placeholders}
@@ -69,34 +69,42 @@ export default function CoursesCreatePage(props: InferPageProps<CoursesControlle
                 query={query}
                 setQuery={setQuery}
               />
+
               <Button
                 type="submit"
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent hover:bg-transparent"
+                className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
+                variant="ghost"
               >
-                {isLoading ?
-                  <Icons.spinner className="h-5 w-5 text-muted-foreground animate-spin" /> :
-                  <Icons.search className="h-5 w-5 text-muted-foreground" />
-                }
+                {isLoading ? (
+                  <Icons.spinner className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Icons.search className="h-4 w-4" />
+                )}
                 <span className="sr-only">Search</span>
               </Button>
             </form>
+
             <p className="text-center font-semibold">
               Our AI will generate a personalized course for you. Learn anything in any language at
               your own pace!
             </p>
-            <p>{isLoading ? <div className="flex flex-col bg-background">
-              <div className="text-center">
-                <Icons.spinner className="w-16 h-16 mb-4 text-primary animate-spin mx-auto" />
-                <h2 className="text-2xl font-bold mb-2">Creating Your Course</h2>
-                <p className="text-muted-foreground max-w-sm">
-                  Please wait while our AI generates a personalized learning experience just for you.
-                </p>
+
+            {/* Loading Spinner Section */}
+            {isLoading && (
+              <div className="flex flex-col bg-background">
+                <div className="text-center">
+                  <Icons.spinner className="w-16 h-16 mb-4 text-primary animate-spin mx-auto" />
+                  <h2 className="text-2xl font-bold mb-2">Creating Your Course</h2>
+                  <p className="text-muted-foreground max-w-sm mx-auto">
+                    Please wait while our AI generates a personalized learning experience just for
+                    you.
+                  </p>
+                </div>
               </div>
-            </div> : ''}</p>
+            )}
           </div>
         </div>
       </Layout.Body>
     </AppLayout>
   )
 }
-
