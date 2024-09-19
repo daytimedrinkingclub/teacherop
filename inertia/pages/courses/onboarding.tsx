@@ -1,15 +1,16 @@
+import CoursesController from '#controllers/courses_controller'
 import { InferPageProps } from '@adonisjs/inertia/types'
 import { router } from '@inertiajs/react'
 import axios from 'axios'
 import { format } from 'date-fns'
 import { FormEvent, useEffect, useState } from 'react'
 import { Icons } from '~/lib/components/icons'
-import CoursesController from '#controllers/courses_controller'
 
 import AppLayout from '~/lib/components/layout/app_layout'
 import { Layout } from '~/lib/components/layout/custom_layout'
 import { Button } from '~/lib/components/ui/button'
 import { Calendar } from '~/lib/components/ui/calendar'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '~/lib/components/ui/card'
 import { Checkbox } from '~/lib/components/ui/checkbox'
 import { Input } from '~/lib/components/ui/input'
 import { Label } from '~/lib/components/ui/label'
@@ -18,7 +19,6 @@ import { RadioGroup, RadioGroupItem } from '~/lib/components/ui/radio-group'
 import { Skeleton } from '~/lib/components/ui/skeleton'
 import { Slider } from '~/lib/components/ui/slider'
 import { cn } from '~/lib/lib/utils'
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '~/lib/components/ui/card'
 
 export default function CourseOnboardingPage(
   props: InferPageProps<CoursesController, 'onboardCourse'>
@@ -84,6 +84,7 @@ export default function CourseOnboardingPage(
           </div>
         )
       case 'scale':
+        setAnswer(1)
         return (
           <div className="space-y-4">
             <Slider
@@ -163,8 +164,7 @@ export default function CourseOnboardingPage(
 
   return (
     <AppLayout>
-      <Layout.Header>
-      </Layout.Header>
+      <Layout.Header></Layout.Header>
       <Layout.Body>
         <Card className="max-w-2xl mx-auto">
           <CardHeader>

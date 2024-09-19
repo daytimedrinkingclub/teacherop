@@ -2,13 +2,12 @@ import app from '@adonisjs/core/services/app'
 import Anthropic from '@anthropic-ai/sdk'
 import { BaseJob } from 'adonis-resque'
 
+import UserDto from '#dtos/user_dto'
+import Module from '#models/module'
 import PlanSummary from '#models/plan_summary'
+import Submodule from '#models/submodule'
 import env from '#start/env'
 import { createSubmoduleTool } from '#tools'
-import Module from '#models/module'
-import Submodule from '#models/submodule'
-import CreateContentJob from '#jobs/create_content'
-import UserDto from '#dtos/user_dto'
 
 interface CreateSubmodulesJobArgs {
   moduleId: string
@@ -85,9 +84,9 @@ export default class CreateSubmodulesJob extends BaseJob {
 
           console.log('submodule created :', submodule.title)
           // todo)) only create next 2 content of submodule of current
-          if (module.order === 1 && submodule.order <= 2)
-            await CreateContentJob.enqueue({ submoduleId: submodule.id })
-          // await CreateContentJob.enqueue({ submoduleId: submodule.id })
+          if (module.order === 1 && submodule.order <= 2) {
+            // await CreateContentJob.enqueue({ submoduleId: submodule.id })
+          }
         }
       }
     }
