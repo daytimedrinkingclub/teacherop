@@ -72,12 +72,13 @@ export default function CoursesCreatePage(props: InferPageProps<CoursesControlle
 
               <Button
                 type="submit"
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent hover:bg-transparent"
+                className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
+                variant="ghost"
               >
                 {isLoading ? (
-                  <Icons.spinner className="h-5 w-5 text-muted-foreground animate-spin" />
+                  <Icons.spinner className="h-4 w-4 animate-spin" />
                 ) : (
-                  <Icons.search className="h-5 w-5 text-muted-foreground" />
+                  <Icons.search className="h-4 w-4" />
                 )}
                 <span className="sr-only">Search</span>
               </Button>
