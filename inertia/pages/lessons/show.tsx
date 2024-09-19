@@ -22,7 +22,7 @@ export default function CheckpointShow({
   submodule,
 }: InferPageProps<SubmodulesController, 'show'>) {
   const { next } = submodule
-  const { enterFullScreen } = useFullScreen()
+  const { isFullScreen, enterFullScreen, toggleFullScreen } = useFullScreen()
 
   useEffect(() => {
     enterFullScreen()
@@ -68,7 +68,7 @@ export default function CheckpointShow({
                 </div>
                 <div className="flex items-center space-x-2">
                   <Timer initialTime={0} />
-                  <FullscreenBtn />
+                  <FullscreenBtn isFullScreen={isFullScreen} toggleFullScreen={toggleFullScreen} />
                 </div>
               </CardTitle>
             </CardHeader>
@@ -97,10 +97,12 @@ export default function CheckpointShow({
                         className="mt-4"
                         onClick={() => router.visit(`/courses/${course.id}`)}
                       >
+                        <Icons.arrowLeft className="mr-2" />
                         Back to course
                       </Button>
                       <Button className="mt-4" onClick={handleNext} disabled={!next}>
                         Next
+                        <Icons.arrowRight className="ml-2" />
                       </Button>
                     </div>
                   </CardContent>

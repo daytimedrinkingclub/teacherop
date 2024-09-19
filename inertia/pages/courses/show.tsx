@@ -13,11 +13,10 @@ import { Layout } from '~/lib/components/layout/custom_layout'
 import { Button, buttonVariants } from '~/lib/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/lib/components/ui/card'
 import { Progress } from '~/lib/components/ui/progress'
-import { UserNav } from '~/lib/components/user_nav'
 import { calculatePercentage, cn } from '~/lib/lib/utils'
 
 interface CourseStatus {
-  modulesCreated: boolean
+  modulesCreate: boolean
   submodulesCreated: boolean
 }
 
@@ -54,7 +53,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
           const response = await axios.get<CourseStatus>(`/api/courses/${course.id}/status`)
           const data = response.data
 
-          if (data.modulesCreated && data.submodulesCreated) {
+          if (data.modulesCreate && data.submodulesCreated) {
             console.log('Modules and submodules created:', data)
             clearInterval(intervalId) // Stop polling
             router.reload() // Reload the page
@@ -86,15 +85,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
 
   return (
     <AppLayout>
-      <Layout.Header>
-        <div className="hidden justify-end items-end w-full md:flex">
-          {/* <Search /> */}
-          <div className="flex items-end space-x-4">
-            {/* <ThemeSwitch /> */}
-            <UserNav />
-          </div>
-        </div>
-      </Layout.Header>
+      <Layout.Header></Layout.Header>
       <Layout.Body>
         {course.isOnboardingComplete ? (
           <>
@@ -145,12 +136,14 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
 
                 {/* Start Course Button */}
                 <div className="mt-4 flex justify-end">
-                  {modules[0]?.id && (
+                  {course.currentTopic && (
                     <Link
-                      href={`/modules/${modules[0].id}`}
+                      href={`/${course.currentTopic.type === 'module' ? 'modules' : 'lessons'}/${course.currentTopic.id}`}
                       className={cn(buttonVariants({ variant: 'default' }))}
                     >
-                      Explore Course
+                      {course.currentTopic.type === 'module' && course.currentTopic.order === 1
+                        ? 'Start'
+                        : 'Continue '}
                       <Icons.chevronRight className="ml-2 w-4 h-4" />
                     </Link>
                   )}
@@ -215,17 +208,27 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                             {module.submodules.map((submodule: any, subIndex: number) => (
                               <motion.div
                                 key={submodule.id || subIndex}
-                                className="flex flex-col justify-between items-center bg-gray-50 rounded-md md:flex-row md:p-3"
+                                className={cn(
+                                  'flex border rounded-md flex-col justify-between items-center bg-gray-50 md:flex-row md:p-3',
+                                  submodule.isCompleted ? 'cursor-not-allowed' : ''
+                                )}
                                 initial={{ x: -20, opacity: 0 }}
                                 animate={{ x: 0, opacity: 1 }}
                                 transition={{ delay: subIndex * 0.1 }}
                               >
-                                <div className="flex items-center space-x-3">
-                                  {submodule.isCompleted ? (
-                                    <Icons.checkCircle className="w-5 h-5" />
-                                  ) : (
-                                    <div className="w-5 h-5 rounded-full border-2 border-gray-300" />
+                                <div
+                                  className={cn(
+                                    'flex items-center space-x-3',
+                                    submodule.isCompleted ? 'cursor-not-allowed' : ''
                                   )}
+                                >
+                                  <div>
+                                    {submodule.isCompleted ? (
+                                      <Icons.checkCircle className="w-5 h-5" />
+                                    ) : (
+                                      <Icons.lock className="w-5 h-5" />
+                                    )}
+                                  </div>
                                   <div>
                                     <h3 className="font-medium">{submodule.title}</h3>
                                     <p className="text-sm text-gray-600">{submodule.description}</p>

@@ -1,44 +1,46 @@
 import {
+  AlertCircleIcon,
+  ArrowLeftIcon,
+  ArrowRightCircleIcon,
+  ArrowRightIcon,
+  BookOpen,
+  CalendarIcon,
+  Check,
   ChevronDown,
   ChevronLeft,
+  ChevronRightIcon,
   ChevronsLeft,
   CircleCheck,
   CircleHelp,
+  ClockIcon,
+  Copy,
+  Facebook,
+  Home,
   Info,
+  Instagram,
+  LayersIcon,
   LayoutDashboard,
   Library,
   Loader2,
-  LucideProps,
-  Menu,
-  RefreshCw,
-  User,
-  X,
-  BookOpen,
-  ClockIcon,
-  LayersIcon,
-  CalendarIcon,
-  PlayIcon,
-  StarIcon,
-  ZapIcon,
-  ArrowRightIcon,
   LoaderIcon,
-  ArrowLeftIcon,
+  LockKeyholeIcon,
+  LockKeyholeOpenIcon,
   LogInIcon,
-  PlusIcon,
-  AlertCircleIcon,
-  ChevronRightIcon,
-  Facebook,
-  Instagram,
-  Twitter,
-  Search,
-  ArrowRightCircleIcon,
-  Check,
-  Copy,
+  LucideProps,
+  Maximize,
+  Menu,
+  Minimize,
   PanelRightCloseIcon,
   PanelRightOpenIcon,
-  Maximize,
-  Minimize,
-  Home,
+  PlayIcon,
+  PlusIcon,
+  RefreshCw,
+  Search,
+  StarIcon,
+  Twitter,
+  User,
+  X,
+  ZapIcon,
 } from 'lucide-react'
 
 export const Icons = {
@@ -54,7 +56,9 @@ export const Icons = {
   chevronsLeft: ChevronsLeft,
   menu: Menu,
   library: Library,
+  lock: LockKeyholeIcon,
   info: Info,
+  unlock: LockKeyholeOpenIcon,
   bookOpen: BookOpen,
   clockIcon: ClockIcon,
   layersIcon: LayersIcon,
@@ -90,7 +94,8 @@ export const Icons = {
   panelRightOpen: PanelRightOpenIcon,
   panelRightClose: PanelRightCloseIcon,
   logo: ({ ...props }: LucideProps) => (
-    <svg version="1.0"
+    <svg
+      version="1.0"
       xmlns="http://www.w3.org/2000/svg"
       width="1081.000000pt"
       height="1080.000000pt"
@@ -99,9 +104,13 @@ export const Icons = {
       className="h-20 w-20 md:h-24 md:w-24"
       {...props}
     >
-      <g transform="translate(0.000000,1080.000000) scale(0.100000,-0.100000)"
-        fill="#000000" stroke="none">
-        <path d="M5180 8189 c-866 -98 -1387 -748 -1539 -1921 -59 -453 -63 -995 -11
+      <g
+        transform="translate(0.000000,1080.000000) scale(0.100000,-0.100000)"
+        fill="#000000"
+        stroke="none"
+      >
+        <path
+          d="M5180 8189 c-866 -98 -1387 -748 -1539 -1921 -59 -453 -63 -995 -11
 -1459 129 -1141 584 -1800 1360 -1973 329 -73 713 -56 1012 44 629 210 1016
 769 1168 1685 43 263 61 472 67 810 19 989 -155 1740 -512 2214 -309 410 -752
 615 -1318 610 -84 -1 -186 -5 -227 -10z m568 -53 c135 -25 262 -62 362 -105
