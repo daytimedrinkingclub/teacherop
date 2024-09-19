@@ -62,7 +62,6 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
           const elapsedTime = Date.now() - startTime
           if (elapsedTime >= maxPollingDuration) {
             console.log('Max polling duration reached. Stopping polling.')
-            router.reload()
             clearInterval(intervalId) // Stop polling after the max duration
           }
         } catch (error) {
@@ -71,7 +70,6 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
           const elapsedTime = Date.now() - startTime
           if (elapsedTime >= maxPollingDuration) {
             console.log('Max polling duration reached. Stopping polling.')
-            router.reload()
             clearInterval(intervalId) // Stop polling after the max duration
           }
         }
