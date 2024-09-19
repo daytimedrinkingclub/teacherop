@@ -17,7 +17,7 @@ import { UserNav } from '~/lib/components/user_nav'
 import { calculatePercentage, cn } from '~/lib/lib/utils'
 
 interface CourseStatus {
-  modulesCreated: boolean
+  modulesCreate: boolean
   submodulesCreated: boolean
 }
 
@@ -54,7 +54,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
           const response = await axios.get<CourseStatus>(`/api/courses/${course.id}/status`)
           const data = response.data
 
-          if (data.modulesCreated && data.submodulesCreated) {
+          if (data.modulesCreate && data.submodulesCreated) {
             console.log('Modules and submodules created:', data)
             clearInterval(intervalId) // Stop polling
             router.reload() // Reload the page
