@@ -82,9 +82,9 @@ export default class Course extends BaseModel {
       .first()
 
     if (currentSubmodule && currentSubmodule.order !== 1) {
-      return { type: 'submodule', id: currentSubmodule.id }
+      return { type: 'submodule', id: currentSubmodule.id, order: currentSubmodule.order }
     } else {
-      return { type: 'module', id: currentModule.id }
+      return { type: 'module', id: currentModule.id, order: currentModule.order }
     }
   }
 }
