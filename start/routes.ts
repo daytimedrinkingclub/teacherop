@@ -11,7 +11,6 @@ import router from '@adonisjs/core/services/router'
 
 import env from './env.js'
 import { middleware } from './kernel.js'
-// import CheckpointController from '#controllers/checkpoint_controller'
 
 const healthChecksController = () => import('#controllers/health_checks_controller')
 
@@ -24,6 +23,7 @@ const modulesController = () => import('#controllers/modules_controller')
 const submodulesController = () => import('#controllers/submodules_controller')
 
 router.on('/').renderInertia('home')
+router.on('/about').renderInertia('about')
 
 router.get('/health', [healthChecksController]).use(({ request, response }, next) => {
   if (env.get('NODE_ENV') === 'development') return next()
@@ -49,6 +49,9 @@ router.get('/courses', [courseController, 'index']).use([middleware.auth()])
 router.get('/courses/create', [courseController, 'create']).use([middleware.auth()])
 router.post('/courses', [courseController, 'store']).use([middleware.auth()])
 router.get('/courses/:courseId', [courseController, 'show']).use([middleware.auth()])
+router
+  .get('/api/courses/:courseId/status', [courseController, 'getCourseStatus'])
+  .use([middleware.auth()])
 router
   .get('/courses/:courseId/onboarding', [courseController, 'onboardCourse'])
   .use([middleware.auth()])

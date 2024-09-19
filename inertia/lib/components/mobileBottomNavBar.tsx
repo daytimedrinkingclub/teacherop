@@ -3,7 +3,6 @@ import { cn } from '../lib/utils'
 
 export interface NavLink {
   title: string
-  label?: string
   href: string
   icon: JSX.Element
 }

@@ -9,18 +9,29 @@ import { Layout } from '~/lib/components/layout/custom_layout'
 import { Button } from '~/lib/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/lib/components/ui/card'
 import CourseComponent from '~/lib/components/courses/courseComponent'
+import { useEffect, useState } from 'react'
+import { Skeleton } from '~/lib/components/ui/skeleton'
 
 export default function CoursesShowPage(props: InferPageProps<CoursesController, 'show'>) {
   const { course, modules } = props
 
+  const [isMounting, setIsMounting] = useState(true)
+  useEffect(() => {
+    setIsMounting(false)
+  }, [])
+
+  if (isMounting) {
+    return <Skeleton className="w-full h-full" />
+
+  }
   return (
     <AppLayout>
-      <Layout.Header></Layout.Header>
+      <Layout.Header>
+        <div></div>
+      </Layout.Header>
       <Layout.Body>
         {course.isOnboardingComplete ? (
-          <>
-            <CourseComponent course={course} modules={modules} />
-          </>
+          <CourseComponent course={course} modules={modules} />
         ) : (
           <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)]">
             <Card className="w-full max-w-md text-center">

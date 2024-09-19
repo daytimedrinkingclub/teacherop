@@ -4,12 +4,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    env_file:
+      - .env.production.local
     environment:
       - NODE_ENV=production
       - PORT=3333
       - HOST=0.0.0.0
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
       # - DB_HOST=postgres
       # - DB_PORT=5432
       # - DB_USER=teacherop
@@ -22,7 +22,7 @@ services:
       - '3333:3333'
     restart: on-failure
     networks:
-      - teacherop-network
+      - default
     depends_on:
       - redis
       # - postgres
@@ -39,7 +39,7 @@ services:
   #   ports:
   #     - '5858:5432'
   #   networks:
-  #     - teacherop-network
+  #     - default
   #   restart: unless-stopped
   #   healthcheck:
   #     test: ['CMD-SHELL', 'pg_isready -U teacherop']
@@ -49,10 +49,10 @@ services:
 
   jobs:
     container_name: teacherop-jobs
+    env_file:
+      - .env.production.local
     environment:
       - NODE_ENV=production
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
       # - DB_HOST=postgres
       # - DB_PORT=5432
       # - DB_USER=teacherop
@@ -61,9 +61,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: 'node ace resque:start'
+    command: 'npm run jobs'
     volumes:
-      - jobs_data:/app
+      - jobs_data:/app\
     restart: on-failure
     depends_on:
       - redis
@@ -77,8 +77,8 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - teacherop-network
-    restart: unless-stopped
+      - default
+    restart: on-failure
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
       interval: 30s
@@ -96,8 +96,13 @@ services:
     depends_on:
       - redis
     networks:
-      - teacherop-network
-    restart: unless-stopped
+      - default
+    restart: on-failure
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:5678" ]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 5
 
 volumes:
   server_data:
@@ -105,5 +110,5 @@ volumes:
   redis_data:
 
 networks:
-  teacherop-network:
+  default:
     driver: bridge
