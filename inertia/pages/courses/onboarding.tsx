@@ -39,6 +39,7 @@ export default function CourseOnboardingPage(
             onChange={(e) => setAnswer(e.target.value)}
             className="w-full"
             placeholder="Type your answer here..."
+            autoFocus
           />
         )
       case 'radio':
@@ -184,18 +185,21 @@ export default function CourseOnboardingPage(
                 <div className="space-y-4">
                   <Skeleton className="w-full h-8" />
                   <Skeleton className="w-full h-32" />
+                  <Skeleton className="w-full h-8" />
                 </div>
               )}
             </CardContent>
             <CardFooter>
-              <Button type="submit" disabled={!answer || isLoading} className="w-full">
-                {isLoading ? (
-                  <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <Icons.arrowRight className="mr-2 h-4 w-4" />
-                )}
-                {isLoading ? 'Submitting...' : 'Next'}
-              </Button>
+              {currentQuestion && (
+                <Button type="submit" disabled={!answer || isLoading} className="w-full">
+                  {isLoading ? (
+                    <Icons.loader className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    <Icons.arrowRight className="mr-2 h-4 w-4" />
+                  )}
+                  {isLoading ? 'Submitting...' : 'Next'}
+                </Button>
+              )}
             </CardFooter>
           </form>
         </Card>

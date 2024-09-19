@@ -47,6 +47,8 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
     if (!course.isModulesCreated) {
       const startTime = Date.now() // Track start time
 
+      let intervalId: NodeJS.Timeout // Declare intervalId outside of pollApi
+
       const pollApi = async () => {
         try {
           const response = await axios.get<CourseStatus>(`/api/courses/${course.id}/status`)
@@ -62,22 +64,20 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
           const elapsedTime = Date.now() - startTime
           if (elapsedTime >= maxPollingDuration) {
             console.log('Max polling duration reached. Stopping polling.')
-            router.reload()
             clearInterval(intervalId) // Stop polling after the max duration
           }
         } catch (error) {
           console.error('Error while polling API:', error)
-          // Handle error and continue polling until max duration
           const elapsedTime = Date.now() - startTime
+
           if (elapsedTime >= maxPollingDuration) {
             console.log('Max polling duration reached. Stopping polling.')
-            router.reload()
             clearInterval(intervalId) // Stop polling after the max duration
           }
         }
       }
 
-      const intervalId = setInterval(pollApi, pollingInterval) // Set up polling every 5 seconds
+      intervalId = setInterval(pollApi, pollingInterval) // Set up polling every 5 seconds
 
       // Cleanup interval on component unmount
       return () => clearInterval(intervalId)
