@@ -253,7 +253,10 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
                 <CardDescription>Complete the onboarding to get started</CardDescription>
               </CardHeader>
               <CardContent>
-                <Button onClick={() => router.visit(`${course.id}/onboarding`)} className="w-full">
+                <Button
+                  onClick={() => router.visit(`/courses/${course.id}/onboarding`)}
+                  className="w-full"
+                >
                   Start Onboarding
                   <Icons.chevronRight className="ml-2 w-4 h-4" />
                 </Button>
