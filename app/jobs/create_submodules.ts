@@ -8,6 +8,7 @@ import PlanSummary from '#models/plan_summary'
 import Submodule from '#models/submodule'
 import env from '#start/env'
 import { createSubmoduleTool } from '#tools'
+import CreateContentJob from '#jobs/create_content'
 
 interface CreateSubmodulesJobArgs {
   moduleId: string
@@ -85,7 +86,7 @@ export default class CreateSubmodulesJob extends BaseJob {
           console.log('submodule created :', submodule.title)
           // todo)) only create next 2 content of submodule of current
           if (module.order === 1 && submodule.order <= 2) {
-            // await CreateContentJob.enqueue({ submoduleId: submodule.id })
+            await CreateContentJob.enqueue({ submoduleId: submodule.id })
           }
         }
       }

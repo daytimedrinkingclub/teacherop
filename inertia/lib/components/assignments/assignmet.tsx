@@ -1,11 +1,3 @@
-import { useEffect, useState, useMemo } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Progress } from '@/components/ui/progress'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,6 +7,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Label } from '@/components/ui/label'
+import { Progress } from '@/components/ui/progress'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Textarea } from '@/components/ui/textarea'
+import { useEffect, useMemo, useState } from 'react'
 import { useFullScreen } from '~/lib/hooks/use_fullscreen'
 import FullscreenBtn from '../fullscreenBtn'
 import { Icons } from '../icons'
@@ -49,7 +49,7 @@ export default function Assessment({
 
   const answeredCount = useMemo(() => Object.keys(answers).length, [answers])
 
-  const { isFullScreen, enterFullScreen } = useFullScreen()
+  const { isFullScreen, enterFullScreen, toggleFullScreen } = useFullScreen()
 
   useEffect(() => {
     enterFullScreen()
@@ -130,7 +130,7 @@ export default function Assessment({
                       <Icons.panelRightOpen className="h-4 w-4" />
                     )}
                   </Button>
-                  <FullscreenBtn />
+                  <FullscreenBtn isFullScreen={isFullScreen} toggleFullScreen={toggleFullScreen} />
                 </div>
               </div>
               <p className="text-sm text-muted-foreground">

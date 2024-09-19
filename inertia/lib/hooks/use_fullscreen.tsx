@@ -1,7 +1,7 @@
-import { useState, useCallback } from 'react'
+import { useCallback, useState } from 'react'
 
-export const useFullScreen = () => {
-  const [isFullScreen, setIsFullScreen] = useState<boolean>(false)
+export const useFullScreen = (v: boolean = false) => {
+  const [isFullScreen, setIsFullScreen] = useState<boolean>(v)
 
   const enterFullScreen = useCallback(() => {
     const element = document.documentElement // Full screen for the whole page

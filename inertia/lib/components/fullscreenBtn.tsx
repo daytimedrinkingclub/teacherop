@@ -1,10 +1,13 @@
-import { Button } from './ui/button'
 import { Icons } from './icons'
-import { useFullScreen } from '../hooks/use_fullscreen'
+import { Button } from './ui/button'
 
-const FullscreenBtn = () => {
-  const { isFullScreen, toggleFullScreen } = useFullScreen()
-
+const FullscreenBtn = ({
+  isFullScreen,
+  toggleFullScreen,
+}: {
+  isFullScreen: boolean
+  toggleFullScreen: () => void
+}) => {
   return (
     <Button variant="ghost" size="icon" onClick={() => toggleFullScreen()} className="p-2">
       {isFullScreen ? (
