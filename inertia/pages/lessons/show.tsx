@@ -4,7 +4,6 @@ import { InferPageProps } from '@adonisjs/inertia/types'
 import { router } from '@inertiajs/react'
 import { Icons } from '~/lib/components/icons'
 // import { useFullScreen } from '~/lib/hooks/use_fullscreen'
-
 import { useEffect } from 'react'
 import BreadcrumbNav from '~/lib/components/bedcrumLinks'
 import FullscreenBtn from '~/lib/components/fullscreenBtn'
@@ -22,6 +21,7 @@ export default function CheckpointShow({
   submodule,
 }: InferPageProps<SubmodulesController, 'show'>) {
   const { next } = submodule
+  console.log(next)
   const { isFullScreen, enterFullScreen, toggleFullScreen } = useFullScreen()
 
   useEffect(() => {
@@ -100,7 +100,11 @@ export default function CheckpointShow({
                         <Icons.arrowLeft className="mr-2" />
                         Back to course
                       </Button>
-                      <Button className="mt-4" onClick={handleNext} disabled={!next}>
+                      <Button
+                        className="mt-4"
+                        onClick={handleNext}
+                        disabled={!next || !next.contentCreated}
+                      >
                         Next
                         <Icons.arrowRight className="ml-2" />
                       </Button>

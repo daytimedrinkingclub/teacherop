@@ -10,7 +10,7 @@ const bindSubmodule = () => (_target: any, _key: any, descriptor: PropertyDescri
   const originalMethod = descriptor.value
 
   descriptor.value = async function (this: any, ctx: HttpContext) {
-    const { params, request, inertia, auth, response } = ctx
+    const { params, request, inertia, auth } = ctx
     const user = auth.user!
 
     const submoduleId = params.lessonId || request.input('lessonId') || request.all().lessonId
@@ -33,20 +33,20 @@ const bindSubmodule = () => (_target: any, _key: any, descriptor: PropertyDescri
       if (!course) return inertia.render('errors/not_found')
       if (course.userId !== user.id) return inertia.render('errors/not_found')
 
-      const currentTopic = await course.getCurrentTopic()
-      if (!currentTopic) return inertia.render('errors/not_found')
-      if (currentTopic.type === 'module' && currentTopic.id !== module.id && !submodule.isCompleted)
-        return response.redirect().toPath(`/modules/${currentTopic.id}`)
-      if (
-        currentTopic.type === 'submodule' &&
-        submodule.id !== currentTopic.id &&
-        !submodule.isCompleted
-      )
-        return response.redirect().toPath(`/lessons/${currentTopic.id}`)
-      if (currentTopic.type === 'module' && submodule.order !== 1 && !submodule.isCompleted) {
-        const nextLesson = await module.related('submodulesData').query().where('order', 1).first()
-        return response.redirect().toPath(`/lessons/${nextLesson?.id}`)
-      }
+      // const currentTopic = await course.getCurrentTopic()
+      // if (!currentTopic) return inertia.render('errors/not_found')
+      // if (currentTopic.type === 'module' && currentTopic.id !== module.id && !submodule.isCompleted)
+      //   return response.redirect().toPath(`/modules/${currentTopic.id}`)
+      // if (
+      //   currentTopic.type === 'submodule' &&
+      //   submodule.id !== currentTopic.id &&
+      //   !submodule.isCompleted
+      // )
+      //   return response.redirect().toPath(`/lessons/${currentTopic.id}`)
+      // if (currentTopic.type === 'module' && submodule.order !== 1 && !submodule.isCompleted) {
+      //   const nextLesson = await module.related('submodulesData').query().where('order', 1).first()
+      //   return response.redirect().toPath(`/lessons/${nextLesson?.id}`)
+      // }
 
       return await originalMethod.call(this, ctx, submodule)
     } catch (error) {

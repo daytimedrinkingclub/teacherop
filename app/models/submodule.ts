@@ -63,7 +63,12 @@ export default class Submodule extends BaseModel {
       .where('order', this.order + 1)
       .andWhere('moduleId', this.moduleId)
       .first()
-    if (possibleNextSubmodule) return { type: 'submodule', id: possibleNextSubmodule.id }
+    if (possibleNextSubmodule)
+      return {
+        type: 'submodule',
+        id: possibleNextSubmodule.id,
+        contentCreated: possibleNextSubmodule.contentCreated,
+      }
 
     // Check for next module
     const currentModule = await Module.find(this.moduleId)
@@ -75,7 +80,17 @@ export default class Submodule extends BaseModel {
 
     if (!possibleNextModule) return null
 
-    return { type: 'module', id: possibleNextModule.id }
+    const nextModuleFirstSubmodule = await possibleNextModule
+      .related('submodulesData')
+      .query()
+      .where('order', 1)
+      .first()
+
+    return {
+      type: 'module',
+      id: possibleNextModule.id,
+      contentCreated: nextModuleFirstSubmodule?.contentCreated,
+    }
 
     // // Return the first submodule of the next module
     // const firstSubmoduleOfNextModule = await Submodule.query()
