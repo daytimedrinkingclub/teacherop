@@ -92,7 +92,7 @@ export default function CourseOnboardingPage(
               min={currentQuestion.meta?.min}
               max={currentQuestion.meta?.max}
               step={1}
-              value={[answer || currentQuestion.meta?.min]}
+              value={[currentQuestion.meta?.min]}
               onValueChange={(value: any) => setAnswer(value[0])}
             />
             <div className="flex justify-between text-sm text-muted-foreground">
