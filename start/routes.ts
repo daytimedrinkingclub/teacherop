@@ -15,7 +15,7 @@ import { middleware } from './kernel.js'
 const healthChecksController = () => import('#controllers/health_checks_controller')
 
 const authController = () => import('#controllers/auth_controller')
-const assignmentsController = () => import('#controllers/assessment_controller')
+const assessmentController = () => import('#controllers/assessment_controller')
 const courseController = () => import('#controllers/courses_controller')
 const dashboardController = () => import('#controllers/dashboard_controller')
 const questionController = () => import('#controllers/questions_controller')
@@ -69,4 +69,9 @@ router
 router.get('/questions/current', [questionController, 'current']).use([middleware.auth()])
 router.put('/questions/:id', [questionController, 'update']).use([middleware.auth()])
 
-router.get('/assessment/:lessonId', [assignmentsController, 'show']).use([middleware.auth()])
+router
+  .get('/lessons/:lessonId/assessments', [assessmentController, 'show'])
+  .use([middleware.auth()])
+router
+  .post('/lessons/:lessonId/assessments', [assessmentController, 'answer'])
+  .use([middleware.auth()])

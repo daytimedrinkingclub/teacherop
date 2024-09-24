@@ -6,6 +6,7 @@ import app from '@adonisjs/core/services/app'
 import { createContentTool } from '#tools'
 import Content from '#models/content'
 import UserDto from '#dtos/user_dto'
+import CreateAssessmentJob from '#jobs/create_assessment'
 
 interface CreateContentJobArgs {
   submoduleId: string
@@ -65,7 +66,11 @@ export default class CreateContentJob extends BaseJob {
         })
         submodule.contentCreated = true
         await submodule.save()
+
         console.log('content created for submodule: ', submodule.title)
+
+        // create assessment
+        await CreateAssessmentJob.enqueue({ submoduleId: submodule.id })
       }
     }
   }

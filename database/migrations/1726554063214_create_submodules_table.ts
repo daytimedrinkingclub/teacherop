@@ -12,6 +12,7 @@ export default class extends BaseSchema {
       table.json('ai_response').notNullable()
       table.integer('order').notNullable()
       table.boolean('content_created').defaultTo(false).notNullable()
+      table.boolean('assessments_created').notNullable().defaultTo(false)
       table.uuid('module_id').references('modules.id').onDelete('CASCADE').notNullable()
       table.uuid('user_id').references('users.id').onDelete('CASCADE').notNullable()
 

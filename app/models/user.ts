@@ -10,8 +10,10 @@ import { GenderEnum } from '#enums/gender'
 import Course from '#models/course'
 import PlanSummary from '#models/plan_summary'
 import Question from '#models/question'
-import Module from './module.js'
-import Submodule from './submodule.js'
+import Submodule from '#models/submodule'
+import Module from '#models/module'
+import Assessment from '#models/assessment'
+import AssessmentEvaluation from '#models/assessment_evaluation'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -48,11 +50,6 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 
-  @beforeCreate()
-  static async beforeCreateHook(user: User) {
-    user.id = user.id || uuid()
-  }
-
   @hasMany(() => Course)
   declare courses: HasMany<typeof Course>
 
@@ -67,4 +64,15 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @hasMany(() => Module)
   declare modules: HasMany<typeof Module>
+
+  @hasMany(() => Assessment)
+  declare assessments: HasMany<typeof Assessment>
+
+  @hasMany(() => AssessmentEvaluation)
+  declare assessmentEvaluations: HasMany<typeof AssessmentEvaluation>
+
+  @beforeCreate()
+  static async beforeCreateHook(user: User) {
+    user.id = user.id || uuid()
+  }
 }

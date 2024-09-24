@@ -11,7 +11,6 @@ export default defineConfig({
     adonisjs({
       entrypoints: ['inertia/app/app.tsx', 'resources/js/app.js'],
       reload: ['resources/views/**/*.edge'],
-      assetsUrl: 'https://cdn.example.com/',
     }),
   ],
 

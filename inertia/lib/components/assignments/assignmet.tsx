@@ -1,3 +1,9 @@
+import { useEffect, useMemo, useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Progress } from '@/components/ui/progress'
+import { Textarea } from '@/components/ui/textarea'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -7,23 +13,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Label } from '@/components/ui/label'
-import { Progress } from '@/components/ui/progress'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Textarea } from '@/components/ui/textarea'
-import { useEffect, useMemo, useState } from 'react'
 import { useFullScreen } from '~/lib/hooks/use_fullscreen'
 import FullscreenBtn from '../fullscreenBtn'
 import { Icons } from '../icons'
 
 interface Question {
-  id: number
-  text: string
-  type: 'mcq' | 'subjective'
-  options?: string[]
+  id: string
+  question: string
+  userAnswer: string | null
+  // options?: string[]
 }
 
 interface AssessmentProps {
@@ -151,28 +149,15 @@ export default function Assessment({
               />
             </CardHeader>
             <CardContent>
-              <h3 className="text-lg font-medium mb-4">{currentQuestion.text}</h3>
-              {currentQuestion.type === 'mcq' ? (
-                <RadioGroup
-                  onValueChange={handleAnswerChange}
-                  value={answers[currentQuestion.id] || ''}
-                >
-                  {currentQuestion.options?.map((option, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <RadioGroupItem value={option} id={`option-${index}`} />
-                      <Label htmlFor={`option-${index}`}>{option}</Label>
-                    </div>
-                  ))}
-                </RadioGroup>
-              ) : (
-                <Textarea
-                  placeholder="Type your answer here..."
-                  value={answers[currentQuestion.id] || ''}
-                  onChange={(e) => handleAnswerChange(e.target.value)}
-                  rows={4}
-                  className="w-full"
-                />
-              )}
+              <h3 className="text-lg font-medium mb-4">{currentQuestion.question}</h3>
+
+              <Textarea
+                placeholder="Type your answer here..."
+                value={currentQuestion.userAnswer || ''}
+                onChange={(e) => handleAnswerChange(e.target.value)}
+                rows={4}
+                className="w-full"
+              />
             </CardContent>
             <CardFooter className="flex justify-between">
               <Button
@@ -219,7 +204,7 @@ export default function Assessment({
                     <Button
                       key={q.id}
                       variant={currentQuestionIndex === index ? 'default' : 'outline'}
-                      className={`w-10 h-10 ${answers[q.id] ? 'bg-green-500 hover:bg-green-400 text-white' : ''}`}
+                      className={`w-10 h-10 ${currentQuestion.userAnswer ? 'bg-green-500 hover:bg-green-400 text-white' : ''}`}
                       onClick={() => setCurrentQuestionIndex(index)}
                     >
                       {index + 1}

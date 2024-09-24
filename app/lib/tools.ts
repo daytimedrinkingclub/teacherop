@@ -220,3 +220,62 @@ export const searchTavilyTool: Anthropic.Messages.Tool[] = [
     },
   },
 ]
+
+export const createAssessmentTool: Anthropic.Messages.Tool[] = [
+  {
+    name: 'generate_assessment',
+    description: 'Generates two to three assessment questions depending on the submodule context',
+    input_schema: {
+      type: 'object',
+      properties: {
+        question_one: {
+          type: 'string',
+          description: 'First question of the assessment to ask the user',
+        },
+        question_one_answer: {
+          type: 'string',
+          description: 'Possible answer of the first question of the assessment',
+        },
+        question_two: {
+          type: 'string',
+          description: 'Second question of the assessment to ask the user.',
+        },
+        question_two_answer: {
+          type: 'string',
+          description: 'Possible answer of the Second question of the assessment.',
+        },
+        question_three: {
+          type: 'string',
+          description: 'Third question of the assessment to ask the user.',
+        },
+        question_three_answer: {
+          type: 'string',
+          description: 'Possible answer of the third question of the assessment',
+        },
+      },
+      required: ['question_one', 'question_two', 'question_one_answer', 'question_two_answer'],
+    },
+  },
+]
+
+export const evaluateAssessmentTool: Anthropic.Messages.Tool[] = [
+  {
+    name: 'evaluate_assessment',
+    description: 'Evaluates question answer and determine if the answer is acceptable.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        acceptable: {
+          type: 'boolean',
+          description: 'The answer is acceptable or not.',
+        },
+        remark: {
+          type: 'string',
+          description:
+            'Remark of the evaluation if the answer is not acceptable. Mandatory if answer is not acceptable.',
+        },
+      },
+      required: ['acceptable'],
+    },
+  },
+]

@@ -112,3 +112,5 @@ volumes:
 networks:
   default:
     driver: bridge
+
+#docker compose up --build --no-deps -d

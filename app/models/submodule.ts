@@ -1,11 +1,12 @@
-import { BaseModel, beforeCreate, belongsTo, column, hasOne } from '@adonisjs/lucid/orm'
-import type { BelongsTo, HasOne } from '@adonisjs/lucid/types/relations'
+import { BaseModel, beforeCreate, belongsTo, column, hasMany, hasOne } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany, HasOne } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
 import { v4 as uuid } from 'uuid'
 
 import Content from '#models/content'
 import Module from '#models/module'
 import User from './user.js'
+import Assessment from '#models/assessment'
 
 export default class Submodule extends BaseModel {
   static selfAssignPrimaryKey = true
@@ -27,6 +28,9 @@ export default class Submodule extends BaseModel {
 
   @column()
   declare contentCreated: boolean
+
+  @column()
+  declare assessmentsCreated: boolean
 
   @column()
   declare aiResponse: Record<string, any>
@@ -51,6 +55,9 @@ export default class Submodule extends BaseModel {
 
   @belongsTo(() => User)
   declare user: BelongsTo<typeof User>
+
+  @hasMany(() => Assessment)
+  declare assessments: HasMany<typeof Assessment>
 
   @beforeCreate()
   static beforeCreateHook(submodule: Submodule) {
@@ -95,6 +102,9 @@ export default class Submodule extends BaseModel {
     const course = await module.related('course').query().first()
     if (!course) return null
 
+    const user = await course.related('user').query().first()
+    if (!user) return null
+
     const questions = await course.related('questions').query().orderBy('createdAt', 'asc')
     return {
       modulesData: {
@@ -104,12 +114,20 @@ export default class Submodule extends BaseModel {
       courseData: {
         title: course.title,
         description: course.description,
+        userQuery: course.query,
       },
       submoduleData: {
         title: this.title,
         description: this.description,
       },
       userPreferences: questions.map((q) => ({ question: q.content, answer: q.answer })),
+      userDetails: {
+        name: user.fullName,
+        email: user.email,
+        age: user.age,
+        gender: user.gender,
+        qualification: user.qualification,
+      },
     }
   }
 
