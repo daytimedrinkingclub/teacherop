@@ -1,0 +1,57 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - TZ=${TZ}
+      - PORT=${PORT}
+      - HOST=${HOST}
+      - LOG_LEVEL=${LOG_LEVEL}
+      - APP_KEY=${APP_KEY}
+      - NODE_ENV=${NODE_ENV}
+      - SESSION_DRIVER=${SESSION_DRIVER}
+      - DATABASE_URL=postgres://postgres:${DB_PASSWORD}@postgres:5432/teacherop_new
+      - REDIS_HOST=redis
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - LLM_MODEL=${LLM_MODEL}
+      - TAVILY_API_KEY=${TAVILY_API_KEY}
+      - DB_POOL_MIN=${DB_POOL_MIN}
+      - DB_POOL_MAX=${DB_POOL_MAX}
+      - DB_POOL_ACQUIRE=${DB_POOL_ACQUIRE}
+      - DB_POOL_IDLE=${DB_POOL_IDLE}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: sh -c "cd /app && npm run jobs & cd /app/build && node ace migration:run --force && npm run start"
+
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_DB: teacherop_new
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:alpine
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+  redis_data:
