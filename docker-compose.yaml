@@ -15,7 +15,7 @@ services:
       - APP_KEY=${APP_KEY}
       - NODE_ENV=${NODE_ENV}
       - SESSION_DRIVER=${SESSION_DRIVER}
-      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_URL=postgres://postgres:${DB_PASSWORD}@postgres:5432/teacherop_new
       - REDIS_HOST=redis
       - REDIS_PORT=${REDIS_PORT}
       - REDIS_PASSWORD=${REDIS_PASSWORD}
@@ -27,13 +27,19 @@ services:
       - DB_POOL_ACQUIRE=${DB_POOL_ACQUIRE}
       - DB_POOL_IDLE=${DB_POOL_IDLE}
     depends_on:
+      - postgres
       - redis
-    command: sh -c "cd /app && npm run jobs & cd /app/build && npm run start"
-    healthcheck:
-      test: ["CMD", "node", "ace", "db:ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+  command: sh -c "cd /app && npm run jobs & cd /app/build && node ace migration:run --force && npm run start"
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_DB: teacherop_new
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
 
   redis:
     image: redis:alpine
@@ -42,4 +48,5 @@ services:
     command: redis-server --requirepass ${REDIS_PASSWORD}
 
 volumes:
+  postgres_data:
   redis_data:
