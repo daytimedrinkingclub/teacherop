@@ -24,7 +24,6 @@ services:
       - DB_POOL_IDLE=${DB_POOL_IDLE}
     ports:
       - "${PORT}:${PORT}"
-      - "80:3333"
     depends_on:
       postgres:
         condition: service_healthy
