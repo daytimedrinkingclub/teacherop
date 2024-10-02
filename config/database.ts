@@ -8,6 +8,8 @@ const dbConfig = defineConfig({
       pool: {
         min: 2,
         max: 10,
+        acquireTimeoutMillis: 30000,
+        idleTimeoutMillis: 10000,
       },
       client: 'pg',
       connection: env.get('DATABASE_URL'),
