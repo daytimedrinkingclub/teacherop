@@ -28,7 +28,7 @@ services:
       - DB_POOL_IDLE=${DB_POOL_IDLE}
     depends_on:
       - redis
-    command: sh -c "cd /app && npm run jobs & cd /app/build && node ace migration:run --force && npm run start"
+    command: sh -c "cd /app && npm run jobs & cd /app/build && npm run start"
     healthcheck:
       test: ["CMD", "node", "ace", "db:ping"]
       interval: 10s
