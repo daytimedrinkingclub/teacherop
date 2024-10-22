@@ -29,7 +29,7 @@ export default function CheckpointShow({
   }, [])
 
   const breadcrumbLinks = [
-    { name: 'Home', href: '/' },
+    { name: 'Home', href: '/courses' },
     { name: 'Course', href: `/courses/${course.id}` },
     { name: 'Module', href: `/modules/${module.id}` },
     { name: submodule.title, href: `/lessons/${submodule.id}` },

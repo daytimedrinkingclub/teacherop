@@ -25,7 +25,7 @@ export default function ModulesShow({
   }, [])
 
   const breadcrumbLinks = [
-    { name: 'Home', href: '/' },
+    { name: 'Home', href: '/courses' },
     { name: 'Course', href: `/courses/${course.id}` },
     { name: module.title, href: `/modules/${module.id}` },
   ]

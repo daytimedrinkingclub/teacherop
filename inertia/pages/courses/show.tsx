@@ -27,7 +27,7 @@ export default function CoursesShowPage(props: InferPageProps<CoursesController,
   const [showFullDescription, setShowFullDescription] = useState(false)
 
   const breadcrumbLinks = [
-    { name: 'Home', href: '/' },
+    { name: 'Home', href: '/courses' },
     { name: course.title || '', href: `/courses/${course.id}` },
   ]
 
